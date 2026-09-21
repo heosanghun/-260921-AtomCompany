@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.4a6b42c6.css",
-    "main.js": "./static/js/main.7a0f1df4.js",
+    "main.js": "./static/js/main.26c5f293.js",
     "static/js/453.402a8faf.chunk.js": "./static/js/453.402a8faf.chunk.js",
     "static/media/artificial-intelligence-11761.gif": "./static/media/artificial-intelligence-11761.e2cf0a14ea4a90e85741.gif",
     "static/media/img03.jpg": "./static/media/img03.59a6c642fc9f8d44fc5a.jpg",
@@ -12,11 +12,14 @@
     "static/media/fa-light-300.ttf": "./static/media/fa-light-300.8b18a77be77619201f1a.ttf",
     "static/media/fa-regular-400.ttf": "./static/media/fa-regular-400.1fb710c67dcecf785a61.ttf",
     "static/media/pricing-bg.png": "./static/media/pricing-bg.4ed86c8f7195a706b6f4.png",
+    "static/media/img05.jpg": "./static/media/img05.111fea1d12e307e012b9.jpg",
     "static/media/animated-gif03.gif": "./static/media/animated-gif03.a74127844a59b264bbd8.gif",
     "static/media/fa-solid-900.ttf": "./static/media/fa-solid-900.866bbb7a13a33d21b363.ttf",
-    "static/media/img01.jpg": "./static/media/img01.131f53ac28257724ff36.jpg",
+    "static/media/img06.jpg": "./static/media/img06.ec2ba1984152e936d20e.jpg",
+    "static/media/img01.jpg": "./static/media/img01.0a9d270c4c8dfc8bc0ec.jpg",
     "static/media/project-img03.jpg": "./static/media/project-img03.abaa6913a85fb81af510.jpg",
     "static/media/hero-bg03_1.jpg": "./static/media/hero-bg03_1.cca70d65171a6a9056f0.jpg",
+    "static/media/img04.jpg": "./static/media/img04.756752829e6ea55a3e16.jpg",
     "static/media/img-2.jpg": "./static/media/img-2.9b86c48c34813ddfe063.jpg",
     "static/media/gif": "./static/media/0deec720000b2066289b.fd590cae090807d5ef65.gif",
     "static/media/img-3.jpg": "./static/media/img-3.159a64e43bd853bdcd26.jpg",
@@ -48,7 +51,6 @@
     "static/media/service-bg.png": "./static/media/service-bg.f50756a88965b509c7dd.png",
     "static/media/about-bg.png": "./static/media/about-bg.6393621229b185956c33.png",
     "static/media/contact-bg02.png": "./static/media/contact-bg02.ded7cccdb1e09731b1c5.png",
-    "static/media/img04.jpg": "./static/media/img04.756752829e6ea55a3e16.jpg",
     "static/media/blog-bg.png": "./static/media/blog-bg.894bdb37d693035b4281.png",
     "static/media/service-gradient-bg.png": "./static/media/service-gradient-bg.8d0bb70ba14a4cf29721.png",
     "static/media/feature-img01.png": "./static/media/feature-img01.50dabfd3c090bf29e406.png",
@@ -170,11 +172,11 @@
     "static/media/user-balck-icon.svg": "./static/media/user-balck-icon.502f7a9f42531f390f25cec82665f705.svg",
     "static/media/down-white-icon.svg": "./static/media/down-white-icon.39641759fc268ff2b9910442521d1f15.svg",
     "main.4a6b42c6.css.map": "./static/css/main.4a6b42c6.css.map",
-    "main.7a0f1df4.js.map": "./static/js/main.7a0f1df4.js.map",
+    "main.26c5f293.js.map": "./static/js/main.26c5f293.js.map",
     "453.402a8faf.chunk.js.map": "./static/js/453.402a8faf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4a6b42c6.css",
-    "static/js/main.7a0f1df4.js"
+    "static/js/main.26c5f293.js"
   ]
 }
