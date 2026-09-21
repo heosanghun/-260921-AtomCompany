@@ -68,9 +68,12 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def do_HEAD(self):
-        self.send_response(200)
-        self.send_header("Content-Type", "text/html; charset=utf-8")
-        self.end_headers()
+        if self.path == "/" or self.path == "/index.html":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            return
+        return super().do_HEAD()
 
     def do_POST(self):
         content_length = int(self.headers.get('Content-Length', 0))
@@ -79,6 +82,11 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
             payload = json.loads(body) if body else {}
         except Exception:
             payload = {}
+
+        if self.path == "/api/debug":
+            print(f"\n🔥🔥🔥 [BROWSER DEBUG] {json.dumps(payload, indent=2)}\n", flush=True)
+            self.send_json({"ok": True})
+            return
 
         if self.path == "/api/run_test":
             res = self.execute_unit_tests()
