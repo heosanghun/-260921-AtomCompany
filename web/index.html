@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATOM COMPANY // Autonomous 2-Agent Enterprise Dashboard</title>
+  <style>
+    :root {
+      --bg-base: #07090e;
+      --bg-surface: #0e121a;
+      --bg-surface-elevated: #151b26;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(59, 130, 246, 0.4);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-blue: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --glow-blue: rgba(56, 189, 248, 0.15);
+      --glow-purple: rgba(168, 85, 247, 0.15);
+      --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Roboto, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Menlo, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.06) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.06) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Navigation */
+    header {
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(14, 18, 26, 0.7);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: 0.875rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+    }
+
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, 0.3);
+    }
+
+    .brand-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: #07090e;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-tag {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.5rem;
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+
+    .nav-stats {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      background: var(--bg-surface);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: pulse 2s infinite;
+    }
+
+    .pulse-dot.cyan {
+      background: var(--accent-blue);
+      box-shadow: 0 0 10px var(--accent-blue);
+    }
+
+    .pulse-dot.purple {
+      background: var(--accent-purple);
+      box-shadow: 0 0 10px var(--accent-purple);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    /* Tab Navigation */
+    .tabs-bar {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 2rem;
+      background: rgba(14, 18, 26, 0.4);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 0.5rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .tab-btn.active {
+      color: var(--text-primary);
+      background: var(--bg-surface-elevated);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.25rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.25s ease;
+    }
+
+    .kpi-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.03em;
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+
+    .kpi-sub {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.4rem;
+    }
+
+    /* 2-Agent Visual Theater */
+    .theater-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .agent-stage {
+      display: grid;
+      grid-template-columns: 1fr 180px 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .agent-box {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .agent-box.pm {
+      border-left: 4px solid var(--accent-purple);
+    }
+
+    .agent-box.eng {
+      border-right: 4px solid var(--accent-blue);
+    }
+
+    .agent-box-header {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      margin-bottom: 1rem;
+    }
+
+    .agent-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .agent-avatar.pm-av {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0.05) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      color: var(--accent-purple);
+    }
+
+    .agent-avatar.eng-av {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.05) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--accent-blue);
+    }
+
+    .agent-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .agent-model-tag {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      margin-top: 0.15rem;
+    }
+
+    .agent-rules-list {
+      list-style: none;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .agent-rules-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .badge-check {
+      color: var(--accent-emerald);
+      font-weight: bold;
+    }
+
+    .badge-cross {
+      color: var(--accent-rose);
+      font-weight: bold;
+    }
+
+    /* Protocol Bus Center */
+    .protocol-bus {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      text-align: center;
+    }
+
+    .bus-line {
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
+      position: relative;
+      border-radius: 2px;
+    }
+
+    .bus-packet {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 0 12px #38bdf8;
+      position: absolute;
+      top: -5px;
+      animation: transfer 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    }
+
+    @keyframes transfer {
+      0% { left: 5%; background: var(--accent-purple); box-shadow: 0 0 12px var(--accent-purple); }
+      100% { left: 90%; background: var(--accent-blue); box-shadow: 0 0 12px var(--accent-blue); }
+    }
+
+    .bus-label {
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Live Feed & Tasks Layout */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .card-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .log-stream {
+      background: #05070a;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #cbd5e1;
+      height: 320px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .log-line {
+      padding: 0.25rem 0.4rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 2px solid var(--accent-blue);
+      word-break: break-all;
+    }
+
+    .log-line.tool {
+      border-left-color: var(--accent-emerald);
+      color: #86efac;
+    }
+
+    .log-line.error {
+      border-left-color: var(--accent-rose);
+      color: #fca5a5;
+    }
+
+    /* Task Kanban Board */
+    .kanban-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .kanban-col {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .kanban-col-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+
+    .task-card {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .task-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .task-card.done {
+      border-left: 3px solid var(--accent-emerald);
+    }
+
+    .task-card.todo {
+      border-left: 3px solid var(--text-muted);
+    }
+
+    .task-id {
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .task-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .task-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    /* Code Inspector */
+    .code-inspector {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1.25rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+
+    .file-tree {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      border-right: 1px solid var(--border-subtle);
+      padding-right: 1rem;
+    }
+
+    .file-item {
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .file-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    .file-item.active {
+      background: var(--bg-surface-elevated);
+      color: var(--accent-blue);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .code-view-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .code-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .code-pre {
+      background: #05070a;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: #e2e8f0;
+      height: 480px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Modal / Terminal Output */
+    .test-result-box {
+      background: #05070a;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      display: none;
+    }
+
+    .test-result-box.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      background: var(--bg-surface);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div>
+        <div class="brand-title">
+          ATOM COMPANY
+          <span class="brand-tag">2-Agent Autonomous</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-stats">
+      <div class="status-badge">
+        <div class="pulse-dot"></div>
+        <span>GPU: RTX 6000 Ada (48GB)</span>
+      </div>
+      <div class="status-badge">
+        <div class="pulse-dot cyan"></div>
+        <span id="ollama-status-text">Ollama: Gemma 4 Live</span>
+      </div>
+      <div class="status-badge">
+        <div class="pulse-dot purple"></div>
+        <span id="uptime-clock">00:00:00</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" data-tab="theater" onclick="switchTab('theater', this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
+      미션 컨트롤 & 자율 극장
+    </button>
+    <button class="tab-btn" data-tab="kanban" onclick="switchTab('kanban', this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 3v18M12 3v18M18 3v18"/></svg>
+      태스크 보드 (12종 과업)
+    </button>
+    <button class="tab-btn" data-tab="code" onclick="switchTab('code', this)">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      산출물 & 단위 테스트 실사
+    </button>
+  </div>
+
+  <!-- Main View -->
+  <main>
+    <!-- TAB 1: THEATER & OVERVIEW -->
+    <div id="tab-theater" class="tab-content active">
+      <!-- 4 KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">활성 모델 아키텍처</div>
+          <div class="kpi-value" style="font-size: 1.35rem; color: #38bdf8;">Gemma 4:E4B</div>
+          <div class="kpi-sub">Google DeepMind 최신 오픈 가중치</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">연산 가속 인프라</div>
+          <div class="kpi-value" style="font-size: 1.35rem; color: #a855f7;">RTX 6000 Ada</div>
+          <div class="kpi-sub">48 GB VRAM • PCIe 4.0 x16</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">진행 상황</div>
+          <div class="kpi-value" id="kpi-tasks-done">1 / 12</div>
+          <div class="kpi-sub">TASK-0001 구현 및 테스트 합격</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">자율 프로토콜 무결성</div>
+          <div class="kpi-value" style="color: #10b981;">100%</div>
+          <div class="kpi-sub">19/19 자동화 검증 케이스 통과</div>
+        </div>
+      </div>
+
+      <!-- 2-Agent Autonomous Theater -->
+      <div class="theater-container">
+        <div class="section-title">
+          <span>듀얼 에이전트 자율 협업 파이프라인 (2-Agent Theater)</span>
+        </div>
+        <div class="section-desc">
+          Ollama 11434 포트를 통해 파일시스템 기반 비동기 메일박스로 엄격한 역할 분담 협업을 수행합니다.
+        </div>
+
+        <div class="agent-stage">
+          <!-- PM Box -->
+          <div class="agent-box pm">
+            <div class="agent-box-header">
+              <div class="agent-avatar pm-av">PM</div>
+              <div>
+                <div class="agent-name">Project Manager</div>
+                <div class="agent-model-tag">Model: gemma4:26b / e4b</div>
+              </div>
+            </div>
+            <ul class="agent-rules-list">
+              <li><span class="badge-check">✓</span> <strong>사고 모드 (think: true)</strong> 활성화</li>
+              <li><span class="badge-cross">✕</span> <strong>write_file 권한 원천 박탈</strong></li>
+              <li><span class="badge-check">✓</span> 단위 테스트 직접 실측 (`run_shell`) 필수</li>
+              <li><span class="badge-check">✓</span> 마지막 줄 `DECISION: ACCEPT` 엄수</li>
+            </ul>
+          </div>
+
+          <!-- Protocol Bridge Center -->
+          <div class="protocol-bus">
+            <div class="bus-label">MAILBOX BUS</div>
+            <div class="bus-line">
+              <div class="bus-packet"></div>
+            </div>
+            <div class="bus-label">SHA-256 VERIFIED</div>
+          </div>
+
+          <!-- ENG Box -->
+          <div class="agent-box eng">
+            <div class="agent-box-header">
+              <div class="agent-avatar eng-av">ENG</div>
+              <div>
+                <div class="agent-name">Software Engineer</div>
+                <div class="agent-model-tag">Model: gemma4:e4b (4.5B/8B)</div>
+              </div>
+            </div>
+            <ul class="agent-rules-list">
+              <li><span class="badge-check">✓</span> <strong>write_file 도구 호출</strong>로 소스 구현</li>
+              <li><span class="badge-check">✓</span> 자가 검증 `python3 -m unittest` 실행</li>
+              <li><span class="badge-check">✓</span> 회신 본문에 `EXIT: 0` 증빙 인용</li>
+              <li><span class="badge-cross">✕</span> 본문 코드 재기재 금지 (파일에만 기록)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time Agent Log Stream & Actions -->
+      <div class="split-grid">
+        <div class="card-panel">
+          <div class="section-title">실시간 에이전트 이벤트 원장 (Live Event Feed)</div>
+          <div class="section-desc">Gemma 4 모델이 직접 발생시킨 도구 호출 및 메시지 처리 기록입니다.</div>
+          <div class="log-stream" id="log-container">
+            <div class="log-line tool">[TOOL_CALL] tool=write_file path=workspace/todo_cli.py (Status: EXECUTED)</div>
+            <div class="log-line tool">[TOOL_CALL] tool=write_file path=workspace/test_todo.py (Status: EXECUTED)</div>
+            <div class="log-line">[REPORT] id=MSG-20260921-ENG-113829-0001 to=PM task=TASK-0001 (Status: PROCESSED)</div>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <div class="section-title">작업 지시 및 즉시 실행 (Mission Dispatch)</div>
+          <div class="section-desc">로컬 Gemma 4 모델에게 작업을 즉시 배정하고 1회 턴을 실행합니다.</div>
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+            <textarea id="dispatch-prompt" rows="4" style="background: #05070a; border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); padding: 0.75rem; font-family: var(--font-sans); font-size: 0.85rem;" placeholder="지시할 과업 내용을 입력하세요...">ENG, please execute TASK-0001: 기본 Todo 추가 및 목록 조회 CLI 구현. Implement deliverables via write_file and verify with run_shell.</textarea>
+            <button class="action-btn" onclick="dispatchAgent()">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              Gemma 4 에이전트에게 지시 전송 & 실행
+            </button>
+            <div id="dispatch-status" style="font-size: 0.8rem; color: var(--accent-emerald);"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: KANBAN BOARD -->
+    <div id="tab-kanban" class="tab-content">
+      <div class="section-title">자율회사 12대 과업 보드 (Task Roadmap)</div>
+      <div class="section-desc">PM이 수립한 12종 표준 소프트웨어 산출물 로드맵 현황입니다.</div>
+      <div class="kanban-grid" id="kanban-container">
+        <!-- Loaded dynamically via JavaScript -->
+      </div>
+    </div>
+
+    <!-- TAB 3: CODE INSPECTOR -->
+    <div id="tab-code" class="tab-content">
+      <div class="section-title">Gemma 4 실시간 산출물 실사 검증기 (Workspace Inspector)</div>
+      <div class="section-desc">로컬 Gemma 4 모델이 `write_file` 도구로 작성한 실제 파일 내용과 단위 테스트를 실행합니다.</div>
+
+      <div class="code-inspector">
+        <div class="file-tree" id="file-tree">
+          <div class="file-item active" onclick="loadFile('todo_cli.py')">📄 todo_cli.py</div>
+          <div class="file-item" onclick="loadFile('test_todo.py')">🧪 test_todo.py</div>
+        </div>
+
+        <div class="code-view-container">
+          <div class="code-header">
+            <span id="current-filename" style="font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600;">todo_cli.py</span>
+            <button class="action-btn" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);" onclick="runUnitTests()">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              단위 테스트 즉시 실측 (Run unittest)
+            </button>
+          </div>
+
+          <div id="test-output-box" class="test-result-box"></div>
+
+          <pre id="code-display" class="code-pre">코드 로딩 중...</pre>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div>ATOM COMPANY // Google Gemma 4 Autonomous Enterprise Protocol</div>
+    <div>Local Server: http://192.168.3.14:8080 (or localhost:8080) &bull; Ollama: http://127.0.0.1:11434</div>
+  </footer>
+
+  <script>
+    let currentFiles = {};
+    let activeTabId = 'theater';
+
+    function switchTab(tabId, el) {
+      activeTabId = tabId;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      
+      const targetBtn = el || document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+      if (targetBtn) targetBtn.classList.add('active');
+      const targetTab = document.getElementById('tab-' + tabId);
+      if (targetTab) targetTab.classList.add('active');
+
+      if (tabId === 'kanban') loadTasks();
+      if (tabId === 'code') loadWorkspaceFiles();
+    }
+
+    async function updateStatus() {
+      try {
+        const res = await fetch('/api/status');
+        if (!res.ok) return;
+        const data = await res.json();
+        
+        document.getElementById('kpi-tasks-done').innerText = `${data.tasks.done} / ${data.tasks.total}`;
+        const sec = data.uptime_sec || 0;
+        const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+        const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+        const s = String(sec % 60).padStart(2, '0');
+        document.getElementById('uptime-clock').innerText = `Uptime: ${h}:${m}:${s}`;
+      } catch (e) {}
+    }
+
+    async function loadTasks() {
+      try {
+        const res = await fetch('/api/tasks');
+        if (!res.ok) return;
+        const tasks = await res.json();
+        
+        const container = document.getElementById('kanban-container');
+        const todoCol = [];
+        const doneCol = [];
+        const blockedCol = [];
+
+        tasks.forEach(t => {
+          const cardHtml = `
+            <div class="task-card ${t.status}">
+              <div class="task-id">${t.id} &bull; ${t.assigned_to}</div>
+              <div class="task-title">${t.title}</div>
+              <div class="task-meta">
+                <span>상태: ${t.status.toUpperCase()}</span>
+                <span>${t.status === 'done' ? '✓ 완료' : '대기중'}</span>
+              </div>
+            </div>
+          `;
+          if (t.status === 'done') doneCol.push(cardHtml);
+          else if (t.status === 'blocked') blockedCol.push(cardHtml);
+          else todoCol.push(cardHtml);
+        });
+
+        container.innerHTML = `
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span>대기 중 (TODO)</span>
+              <span>${todoCol.length}</span>
+            </div>
+            ${todoCol.join('')}
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span>완료됨 (DONE)</span>
+              <span style="color: var(--accent-emerald); font-weight: bold;">${doneCol.length}</span>
+            </div>
+            ${doneCol.join('')}
+          </div>
+          <div class="kanban-col">
+            <div class="kanban-col-header">
+              <span>차단/검토 (BLOCKED)</span>
+              <span>${blockedCol.length}</span>
+            </div>
+            ${blockedCol.join('')}
+          </div>
+        `;
+      } catch (e) {}
+    }
+
+    async function loadWorkspaceFiles() {
+      try {
+        const res = await fetch('/api/workspace');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const files = await res.json();
+        
+        const tree = document.getElementById('file-tree');
+        tree.innerHTML = '';
+        currentFiles = {};
+
+        files.forEach((f, idx) => {
+          currentFiles[f.name] = f.content;
+          const item = document.createElement('div');
+          item.className = 'file-item' + (idx === 0 ? ' active' : '');
+          item.innerHTML = (f.name.endsWith('.py') ? (f.name.startsWith('test') ? '🧪 ' : '📄 ') : '⚙️ ') + f.name;
+          item.onclick = () => {
+            document.querySelectorAll('.file-item').forEach(el => el.classList.remove('active'));
+            item.classList.add('active');
+            loadFile(f.name);
+          };
+          tree.appendChild(item);
+        });
+
+        if (files.length > 0) {
+          loadFile(files[0].name);
+        }
+      } catch (e) {
+        document.getElementById('code-display').innerText = `워크스페이스 로딩 실패: ${e.message || e}`;
+      }
+    }
+
+    function loadFile(name) {
+      document.getElementById('current-filename').innerText = name;
+      document.getElementById('code-display').innerText = currentFiles[name] || '파일 내용 없음';
+    }
+
+    async function runUnitTests() {
+      const box = document.getElementById('test-output-box');
+      box.className = 'test-result-box show';
+      box.innerHTML = '<span style="color: var(--accent-blue);">단위 테스트 실행 중 (python3 -m unittest)...</span>';
+
+      try {
+        const res = await fetch('/api/run_test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({})
+        });
+        if (!res.ok) {
+          throw new Error(`서버 응답 오류 (HTTP ${res.status} ${res.statusText})`);
+        }
+        const data = await res.json();
+        
+        if (data.success) {
+          box.innerHTML = `
+            <div style="color: var(--accent-emerald); font-weight: bold; margin-bottom: 0.5rem;">
+              ✓ 단위 테스트 전원 통과 (Exit: 0, 소요시간: ${data.elapsed_ms}ms)
+            </div>
+            <pre style="color: #cbd5e1; font-size: 0.8rem; line-height: 1.4; white-space: pre-wrap; font-family: var(--font-mono);">${data.stderr || data.stdout}</pre>
+          `;
+        } else {
+          box.innerHTML = `
+            <div style="color: var(--accent-rose); font-weight: bold; margin-bottom: 0.5rem;">
+              ✕ 테스트 실패 (Exit: ${data.exit_code})
+            </div>
+            <pre style="color: #fca5a5; font-size: 0.8rem; line-height: 1.4; white-space: pre-wrap; font-family: var(--font-mono);">${data.stderr || data.stdout}</pre>
+          `;
+        }
+      } catch (e) {
+        box.innerHTML = `<span style="color: var(--accent-rose);">테스트 실행 중 오류 발생: ${e.message || e}</span>`;
+      }
+    }
+
+    async function dispatchAgent() {
+      const prompt = document.getElementById('dispatch-prompt').value;
+      const statusBox = document.getElementById('dispatch-status');
+      statusBox.innerHTML = '<span style="color: var(--accent-blue);">Gemma 4 모델 구동 중... 잠시 기다려주세요.</span>';
+
+      try {
+        const res = await fetch('/api/dispatch', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ role: 'ENG', task: 'TASK-0001', instruction: prompt })
+        });
+        const data = await res.json();
+        if (data.success) {
+          statusBox.innerHTML = `<span style="color: var(--accent-emerald);">✓ 성공적으로 실행되었습니다! (Msg ID: ${data.msg_id})</span>`;
+          loadWorkspaceFiles();
+          updateLogs();
+        } else {
+          statusBox.innerHTML = `<span style="color: var(--accent-rose);">실행 실패: ${data.error}</span>`;
+        }
+      } catch (e) {
+        statusBox.innerHTML = `<span style="color: var(--accent-rose);">네트워크 통신 오류: ${e.message || e}</span>`;
+      }
+    }
+
+    async function updateLogs() {
+      try {
+        const res = await fetch('/api/logs');
+        if (!res.ok) return;
+        const data = await res.json();
+        const logBox = document.getElementById('log-container');
+        const allLogs = (data.ENG || []).concat(data.PM || []);
+        if (allLogs.length > 0) {
+          logBox.innerHTML = allLogs.map(l => {
+            const isTool = l.includes('tool=');
+            const isErr = l.includes('REJECTED') || l.includes('ERROR');
+            return `<div class="log-line ${isTool ? 'tool' : ''} ${isErr ? 'error' : ''}">${l}</div>`;
+          }).join('');
+        }
+      } catch (e) {}
+    }
+
+    // Auto-refresh loops & initial load
+    setInterval(updateStatus, 3000);
+    setInterval(updateLogs, 5000);
+    updateStatus();
+    updateLogs();
+    loadTasks();
+    loadWorkspaceFiles();
+
+    const initialHash = window.location.hash.replace('#', '');
+    if (initialHash === 'code' || initialHash === 'kanban' || initialHash === 'theater') {
+      switchTab(initialHash);
+    } else if (initialHash === 'test' || initialHash === 'run_test') {
+      switchTab('code');
+      setTimeout(runUnitTests, 500);
+    }
+  </script>
+</body>
+</html>

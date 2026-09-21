@@ -1,0 +1,26 @@
+=== REPLAY BLOCKED EVENTS ANALYSIS ===
+Found 4 BLOCKED events in agent_ENG.log:
+  Line 23: [2026-09-18T13:51:40.933534+00:00] id=MSG-20260918-PM-500524-0023 from=PM to=ENG task=TASK-0001 type=decision tools=0 latency=0.0ms status=BLOCKED note=ROUNDTRIP_EXCEEDED
+  Line 55: [2026-09-18T13:51:47.062430+00:00] id=MSG-20260918-PM-506207-0055 from=PM to=ENG task=TASK-0002 type=decision tools=0 latency=0.0ms status=BLOCKED note=ROUNDTRIP_EXCEEDED
+  Line 79: [2026-09-18T13:51:51.695814+00:00] id=MSG-20260918-PM-510703-0079 from=PM to=ENG task=TASK-0003 type=decision tools=0 latency=0.0ms status=BLOCKED note=ROUNDTRIP_EXCEEDED
+  Line 108: [2026-09-18T13:51:57.384487+00:00] id=MSG-20260918-PM-515946-0108 from=PM to=ENG task=TASK-0004 type=decision tools=0 latency=0.0ms status=BLOCKED note=ROUNDTRIP_EXCEEDED
+
+Matching HUMAN_GATE REQ files created during soak run:
+  Event at line 23 (2026-09-18T13:51:40): REQ files = []
+  Event at line 55 (2026-09-18T13:51:47): REQ files = []
+  Event at line 79 (2026-09-18T13:51:51): REQ files = []
+  Event at line 108 (2026-09-18T13:51:57): REQ files = []
+
+Task message count in done/:
+  TASK-0001: 31 messages
+  TASK-0002: 31 messages
+  TASK-0003: 31 messages
+  TASK-0004: 31 messages
+  TASK-0005: 25 messages
+  TASK-0006: 21 messages
+  TASK-0007: 17 messages
+  TASK-0008: 13 messages
+  TASK-0009: 9 messages
+  TASK-0010: 7 messages
+  TASK-0011: 5 messages
+  TASK-0012: 1 messages

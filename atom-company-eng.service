@@ -1,0 +1,15 @@
+[Unit]
+Description=Atom Company ENG Autonomous Agent Runner
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/sims/auto/atom-company
+ExecStart=/usr/bin/python3 /home/sims/auto/atom-company/agent.py --role ENG --model gemma4:e4b --backend auto
+Restart=always
+RestartSec=5s
+StandardOutput=append:/home/sims/auto/atom-company/ledger/eng_stdout.log
+StandardError=append:/home/sims/auto/atom-company/ledger/eng_stderr.log
+
+[Install]
+WantedBy=default.target

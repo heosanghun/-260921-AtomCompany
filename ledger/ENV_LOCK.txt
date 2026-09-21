@@ -1,0 +1,14 @@
+=== ENV_LOCK.txt ===
+GENERATED_AT: 2026-09-18T22:45:33.554526
+ROOT_DIR: /home/sims/auto/atom-company
+[OLLAMA_VERSION_STATUS] code=127
+OLLAMA_VERSION: /bin/sh: 1: ollama: not found
+[NVIDIA_SMI_STATUS] code=9
+GPU_SPECS: DRIVER_COMMUNICATION_FAILED
+[OLLAMA_LIST_STATUS] code=127
+OLLAMA_LIST: /bin/sh: 1: ollama: not found
+[OLLAMA_MANIFEST_SHA256_STATUS] code=1
+OLLAMA_MANIFEST_SHA256: sha256sum: '/home/sims/.ollama/models/manifests/registry.ollama.ai/library/gemma4/*': 그런 파일이나 디렉터리가 없습니다
+[HF_CACHE_GEMMA4_STATUS] code=0
+HF_CACHE_GEMMA4_INFO: 합계 24
+OS_KERNEL: Linux sandbox 7.0.0-30-generic #30~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  7 13:27:52 UTC 2 x86_64 x86_64 x86_64 GNU/Linux

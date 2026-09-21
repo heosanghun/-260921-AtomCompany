@@ -1,0 +1,371 @@
+--- /home/sims/auto/atom-company/agent.py.ac03.bak	2026-09-18 23:21:54.147718649 +0900
++++ /home/sims/auto/atom-company/agent.py	2026-09-18 23:22:34.937587385 +0900
+@@ -4,6 +4,7 @@
+ import time
+ import json
+ import re
++import shlex
+ import argparse
+ import hashlib
+ import datetime
+@@ -19,8 +20,8 @@
+         self.reason = reason
+         self.details = details
+ 
+-# AC-03 Task F: Ollama /api/chat Native Tools Schema (OpenAI compatible)
+-TOOLS = [
++# AC-03 Task F / AC-04 Task Q: Ollama Native Tools Schema
++ALL_TOOLS = [
+     {
+         "type": "function",
+         "function": {
+@@ -68,11 +69,11 @@
+         "type": "function",
+         "function": {
+             "name": "run_shell",
+-            "description": "Execute a shell command with CWD restricted to workspace directory",
++            "description": "Execute an allowed shell command in workspace (shell=False)",
+             "parameters": {
+                 "type": "object",
+                 "properties": {
+-                    "cmd": {"type": "string", "description": "Shell command to execute in workspace"}
++                    "cmd": {"type": "string", "description": "Command string using allowed binaries (ls, cat, head, tail, wc, diff, python3)"}
+                 },
+                 "required": ["cmd"]
+             }
+@@ -109,7 +110,14 @@
+         self.msg_counter = 0
+         self.consecutive_5xx = 0
+         self.current_task_id = "TASK-0001"
+-        self.retry_count = {}  # AC-03 Task H: Per-message retry tracking
++        self.retry_count = {}   # AC-03 Task H: Per-message retry tracking
++        self.last_shell = None  # AC-04 Task N: {task, exit, cmd} for objective ACCEPT verification
++
++    def _get_tools_schema(self):
++        # AC-04 Task N: PM must NOT have write_file tool. Deliverables written only by ENG.
++        if self.role == "PM":
++            return [t for t in ALL_TOOLS if t["function"]["name"] != "write_file"]
++        return ALL_TOOLS
+ 
+     def log(self, msg_id, from_role, to_role, task_id, msg_type, tool_count, latency_ms, status, note=""):
+         ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
+@@ -124,7 +132,7 @@
+             f.write(f"[{ts}] {text}\n")
+ 
+     # ==========================================
+-    # AC-03 Task I: SHELL & WORKSPACE SECURITY
++    # AC-04 Task O: SHELL ALLOWLIST & SAFE RUNNER
+     # ==========================================
+     def _check_security(self, action, target_path=None, cmd=None):
+         net_pattern = re.compile(r"\b(curl|wget|nc|ssh|ping|nmap|git\s+(clone|push)|pip\s+install|npm\s+install)\b", re.IGNORECASE)
+@@ -133,21 +141,37 @@
+ 
+         if cmd:
+             if net_pattern.search(cmd):
+-                raise HumanGateViolation("EXTERNAL_NETWORK_ATTEMPT", f"Command contains network keyword: '{cmd}'")
++                raise HumanGateViolation("EXTERNAL_NETWORK_ATTEMPT", f"Command contains network pattern: '{cmd}'")
+             if audio_pattern.search(cmd):
+-                raise HumanGateViolation("AUDIO_ALERT_ATTEMPT", f"Command contains audio keyword: '{cmd}'")
++                raise HumanGateViolation("AUDIO_ALERT_ATTEMPT", f"Command contains audio pattern: '{cmd}'")
+             if billing_pattern.search(cmd):
+-                raise HumanGateViolation("FINANCIAL_CHARGE_ATTEMPT", f"Command contains billing keyword: '{cmd}'")
++                raise HumanGateViolation("FINANCIAL_CHARGE_ATTEMPT", f"Command contains billing pattern: '{cmd}'")
++
++            # Check shell metacharacters and redirects
++            if any(c in cmd for c in ["$", "~", ";", "&", "|", "`", ">", "<"]):
++                raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"Command contains forbidden shell metacharacter: '{cmd}'")
+ 
+-            # Shell path escape checks: absolute paths (except /dev/null and python/shell paths), .., cd , ~
+-            allowed_prefixes = ["/dev/null", sys.executable, "/usr/bin/python3", "/bin/sh", "/bin/bash"]
+-            tokens = cmd.split()
+-            for t in tokens:
+-                clean_t = t.strip("\"'<>|;&")
+-                if clean_t.startswith("/") and not any(clean_t == p or clean_t.startswith(p) for p in allowed_prefixes):
+-                    raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"Command contains unauthorized absolute path: '{clean_t}' in '{cmd}'")
+-            if ".." in cmd or "cd " in cmd or "~" in cmd:
+-                raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"Command contains workspace escape pattern: '{cmd}'")
++            try:
++                tokens = shlex.split(cmd)
++            except Exception as e:
++                raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"shlex parse error: {e}")
++
++            if not tokens:
++                raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", "Empty command")
++
++            ALLOWED_BINARIES = ["ls", "cat", "head", "tail", "wc", "diff", "python3"]
++            binary = tokens[0]
++            if binary not in ALLOWED_BINARIES:
++                raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"Binary '{binary}' not in allowlist {ALLOWED_BINARIES}")
++
++            if binary == "python3" and "-c" in tokens:
++                raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", "python3 -c inline execution is strictly prohibited")
++
++            for arg in tokens[1:]:
++                if arg.startswith("/") and arg != "/dev/null":
++                    raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"Absolute path prohibited in argument: '{arg}'")
++                if ".." in arg or "~" in arg or "$" in arg:
++                    raise HumanGateViolation("OUT_OF_WORKSPACE_SHELL", f"Path traversal/expansion prohibited in argument: '{arg}'")
+ 
+         if target_path:
+             norm = os.path.realpath(os.path.join(self.workspace_dir, target_path))
+@@ -166,12 +190,13 @@
+         return content
+ 
+     def tool_write_file(self, rel_path, content):
++        if self.role == "PM":
++            raise HumanGateViolation("PM_WRITE_PROHIBITED", "PM is prohibited from using write_file tool as per Task N")
+         self._check_security("write_file", target_path=rel_path)
+         full = os.path.realpath(os.path.join(self.workspace_dir, rel_path))
+         os.makedirs(os.path.dirname(full), exist_ok=True)
+         with open(full, "w", encoding="utf-8") as f:
+             f.write(content)
+-        # AC-02 B-2 / AC-03 Task F: Explicit tool logging for deliverable attribution audit
+         self.log(f"TOOL-WRITE-{int(time.time()*1000)%1000000}", self.role, "WORKSPACE", self.current_task_id, "tool_call", 1, 0.0, "EXECUTED", f"tool=write_file path={rel_path}")
+         return f"SUCCESS: Wrote {len(content)} bytes to {rel_path}"
+ 
+@@ -186,13 +211,24 @@
+ 
+     def tool_run_shell(self, cmd):
+         self._check_security("run_shell", cmd=cmd)
++        tokens = shlex.split(cmd)
++        env = {
++            "PATH": "/usr/bin:/bin",
++            "TODO_FILE": os.path.join(self.workspace_dir, ".atom_todos.json"),
++            "LANG": "C.UTF-8"
++        }
+         try:
+-            res = subprocess.run(cmd, shell=True, cwd=self.workspace_dir, capture_output=True, text=True, timeout=30)
++            # AC-04 Task O: Execute with shell=False, strictly bounded
++            res = subprocess.run(tokens, shell=False, cwd=self.workspace_dir, env=env, capture_output=True, text=True, timeout=30)
++            # AC-04 Task N: Update last_shell state
++            self.last_shell = {"task": self.current_task_id, "exit": res.returncode, "cmd": cmd}
+             self.log(f"TOOL-SHELL-{int(time.time()*1000)%1000000}", self.role, "WORKSPACE", self.current_task_id, "tool_call", 1, 0.0, "EXECUTED", f"tool=run_shell exit={res.returncode}")
+             return f"EXIT: {res.returncode}\nSTDOUT:\n{res.stdout}\nSTDERR:\n{res.stderr}"
+         except subprocess.TimeoutExpired:
++            self.last_shell = {"task": self.current_task_id, "exit": -1, "cmd": cmd}
+             return "ERROR: Shell command timed out (30s)"
+         except Exception as e:
++            self.last_shell = {"task": self.current_task_id, "exit": -1, "cmd": cmd}
+             return f"ERROR: Shell execution failed: {str(e)}"
+ 
+     def _dispatch_tool(self, name, args):
+@@ -258,7 +294,8 @@
+         done_files = sorted(os.listdir(self.done_dir))
+         task_msgs = []
+         for fn in done_files:
+-            if not fn.endswith(".md") or fn.startswith("DEADLETTER_"):
++            # AC-04 Task M: Exclude CLOSED_, DEADLETTER_, REJECTED_, VIOLATION_
++            if not fn.endswith(".md") or any(fn.startswith(p) for p in ["CLOSED_", "DEADLETTER_", "REJECTED_", "VIOLATION_"]):
+                 continue
+             fp = os.path.join(self.done_dir, fn)
+             try:
+@@ -297,7 +334,6 @@
+                 f.write(content)
+ 
+     def _mark_task_done_by_pm(self, task_id, decision_id):
+-        # AC-02 B-1 / AC-03 G: Task card status is strictly modified by PM agent decision
+         card_path = os.path.join(self.tasks_dir, f"{task_id}.md")
+         if os.path.exists(card_path):
+             with open(card_path, "r", encoding="utf-8") as f:
+@@ -309,13 +345,14 @@
+             self.log(decision_id, "PM", "TASKS", task_id, "decision", 0, 0.0, "TASK_MARKED_DONE", f"card={task_id}.md")
+ 
+     # ==========================================
+-    # AC-03 Task J: REAL CONTEXT & REAL SUMMARY
++    # AC-04 Task J: REAL CONTEXT & REAL SUMMARY
+     # ==========================================
+     def _load_task_history(self, task_id, n=10):
+         msgs = []
+         if os.path.exists(self.done_dir):
+             for fn in os.listdir(self.done_dir):
+-                if not fn.endswith(".md") or fn.startswith("DEADLETTER_") or fn.startswith("REJECTED_") or fn.startswith("VIOLATION_"):
++                # Exclude administrative files
++                if not fn.endswith(".md") or any(fn.startswith(p) for p in ["CLOSED_", "DEADLETTER_", "REJECTED_", "VIOLATION_"]):
+                     continue
+                 fp = os.path.join(self.done_dir, fn)
+                 try:
+@@ -342,7 +379,7 @@
+ 
+         if est_tokens > token_limit:
+             self.write_guard_log("budget", f"BUDGET_EXCEEDED: est_tokens={est_tokens} > limit={token_limit} for {task_id}. Compressing history.")
+-            # AC-03 Task J: No fake sentences! Truncate older messages by ID + first 300 chars
++            # AC-03 Task J / AC-04: No fake sentences! Truncate older messages by ID + first 300 chars
+             summary_lines = [f"- {m['id']} ({m['from']}, {m['type']}): {m['body'][:300].strip()}…" for m in recent_msgs]
+             summary_content = "# Compressed Task History (Truncated)\n" + "\n".join(summary_lines)
+             summary_path = os.path.join(self.ledger_dir, f"summary_{task_id}.md")
+@@ -353,18 +390,34 @@
+         return "\n".join(lines)
+ 
+     # ==========================================
+-    # AC-03 Task F: OLLAMA /API/CHAT & TOOL LOOP
++    # AC-04 Task Q: OLLAMA /API/CHAT PAYLOAD & LOOP
+     # ==========================================
+     def _post_chat(self, messages, tools=None, timeout=60):
+         url = "http://127.0.0.1:11434/api/chat"
+         payload = {
+             "model": self.model,
+             "messages": messages,
+-            "stream": False
++            "stream": False,
++            "options": {
++                "num_ctx": 32768
++            }
+         }
++        if self.role == "ENG":
++            payload["options"]["think"] = False
++        else:
++            payload["options"]["think"] = True
++
+         if tools:
+             payload["tools"] = tools
+ 
++        # Dump payload sample for audit verification
++        sample_path = os.path.join(self.ledger_dir, "ollama_payload_sample.json")
++        try:
++            with open(sample_path, "w", encoding="utf-8") as sf:
++                json.dump(payload, sf, indent=2, ensure_ascii=False)
++        except Exception:
++            pass
++
+         data = json.dumps(payload).encode("utf-8")
+         req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+ 
+@@ -384,10 +437,9 @@
+     def call_llm_with_watchdog(self, role_prompt, task_card, history_text, task_id="TASK-0001", timeout=60):
+         start_t = time.time()
+         if self.backend == "mock":
+-            # Mock mode for tests/test_protocol.py
+             return self._mock_llm_response(role_prompt, task_card, history_text, task_id=task_id)
+ 
+-        # Real Ollama Native Tools Loop (Max 8 tool calls per message)
++        tools_schema = self._get_tools_schema()
+         messages = [
+             {"role": "system", "content": role_prompt},
+             {"role": "user", "content": f"[TASK CARD]\n{task_card}\n\n[CONVERSATION HISTORY]\n{history_text}"}
+@@ -395,8 +447,8 @@
+         tool_count = 0
+ 
+         try:
+-            for _ in range(8):
+-                res = self._post_chat(messages, tools=TOOLS, timeout=timeout)
++            for _ in range(8):  # Max 8 tool calls per message
++                res = self._post_chat(messages, tools=tools_schema, timeout=timeout)
+                 msg = res.get("message", {})
+                 messages.append(msg)
+                 calls = msg.get("tool_calls") or []
+@@ -409,7 +461,7 @@
+                     raw_args = c.get("function", {}).get("arguments", {})
+                     args = json.loads(raw_args) if isinstance(raw_args, str) else raw_args
+                     out = self._dispatch_tool(fn, args)  # HumanGateViolation will propagate cleanly
+-                    messages.append({"role": "tool", "content": str(out)})
++                    messages.append({"role": "tool", "tool_name": fn, "content": str(out)})
+                     tool_count += 1
+ 
+             return "[TOOL_LIMIT_REACHED]", tool_count
+@@ -421,16 +473,17 @@
+             raise e
+ 
+     def _mock_llm_response(self, role_prompt, task_card, history_text, task_id="TASK-0001"):
+-        # Isolated mock response logic for tests/test_protocol.py
++        # Isolated mock response engine for tests/test_protocol.py
+         if self.role == "PM":
+-            if "EXIT: 0" in history_text or "EXIT:  0" in history_text:
+-                return f"[PM REVIEW] Task {task_id}: Deliverables and tests verified.\nDECISION: ACCEPT"
+-            elif "REJECT" in history_text:
+-                return f"[PM REVIEW] Task {task_id}: Requirements not met.\nDECISION: REJECT"
+-            else:
+-                return f"[PM ASSIGN] Task {task_id}: Please implement deliverables in workspace/ and run tests.\nDECISION: CONTINUE"
++            if "report" in history_text:
++                # Mock PM runs unit test directly using run_shell to verify Task N
++                test_output = self.tool_run_shell("python3 -m unittest test_todo.py")
++                if "OK" in test_output or "EXIT: 0" in test_output:
++                    return f"[PM REVIEW] Task {task_id}: Tested successfully.\nDECISION: ACCEPT"
++                return f"[PM REVIEW] Task {task_id}: Tests failed.\nDECISION: REJECT"
++            return f"[PM ASSIGN] Task {task_id}: Please implement deliverables in workspace/ and report.\nDECISION: CONTINUE"
+         else: # ENG
+-            return f"[ENG REPORT] Task {task_id}: Executed testing in workspace.\nEXIT: 0\nSTDOUT: Ran tests OK."
++            return f"[ENG REPORT] Task {task_id}: Completed implementation in workspace.\nEXIT: 0\nSTDOUT: Unit test passed."
+ 
+     # ==========================================
+     # INBOX POLLING & MESSAGE PROCESSING
+@@ -460,6 +513,23 @@
+             self.current_task_id = task_id
+             in_reply_to = meta.get("id")
+             
++            # AC-04 Task M: Thread Completion & Termination Check
++            task_card_path = os.path.join(self.tasks_dir, f"{task_id}.md")
++            task_status = "todo"
++            if os.path.exists(task_card_path):
++                with open(task_card_path, "r", encoding="utf-8") as f:
++                    card_txt = f.read()
++                sm = re.search(r"status:\s*([a-zA-Z_]+)", card_txt)
++                if sm:
++                    task_status = sm.group(1).lower()
++
++            is_decision_to_eng = (self.role == "ENG" and meta.get("type") == "decision")
++            if task_status in ["done", "blocked"] or is_decision_to_eng:
++                closed_dest = os.path.join(self.done_dir, f"CLOSED_{msg_file}")
++                os.replace(msg_path, closed_dest)
++                self.log(msg_file, meta.get("from"), self.role, task_id, meta.get("type"), 0, 0.0, "CLOSED", f"status={task_status} is_decision={is_decision_to_eng}")
++                return True
++
+             # 1. Execute Loop Guard check
+             loop_ok, loop_reason = self.check_loop_guard(task_id)
+             if not loop_ok:
+@@ -473,12 +543,6 @@
+             if os.path.exists(role_prompt_path):
+                 with open(role_prompt_path, "r", encoding="utf-8") as f:
+                     role_prompt = f.read()
+-                    
+-            task_card_path = os.path.join(self.tasks_dir, f"{task_id}.md")
+-            task_card = ""
+-            if os.path.exists(task_card_path):
+-                with open(task_card_path, "r", encoding="utf-8") as f:
+-                    task_card = f.read()
+ 
+             history_msgs = self._load_task_history(task_id, n=10)
+             history_msgs.append({
+@@ -489,25 +553,35 @@
+                 "created": meta.get("created", ""),
+                 "body": body
+             })
+-            history_text = self.check_and_compress_context(task_id, role_prompt, task_card, history_msgs)
++            history_text = self.check_and_compress_context(task_id, role_prompt, card_txt if os.path.exists(task_card_path) else "", history_msgs)
+ 
+             # 3. Call LLM (with Native Tools Loop)
+-            response_tuple = self.call_llm_with_watchdog(role_prompt, task_card, history_text, task_id=task_id)
++            response_tuple = self.call_llm_with_watchdog(role_prompt, card_txt if os.path.exists(task_card_path) else "", history_text, task_id=task_id)
+             if isinstance(response_tuple, tuple):
+                 response_text, tool_calls_count = response_tuple
+             else:
+                 response_text, tool_calls_count = response_tuple, 0
+ 
+-            # 4. AC-03 Task G: Structured PM Decision handling
++            # 4. AC-04 Task N: Objective verification for PM ACCEPT decision
+             if self.role == "PM":
+                 m = re.search(r"^DECISION:\s*(ACCEPT|REJECT|CONTINUE)\s*$", response_text, re.M)
+                 verdict = m.group(1) if m else "CONTINUE"
+-                # Acceptance strictly requires report with EXIT: 0
+-                is_done_decision = (
+-                    verdict == "ACCEPT"
+-                    and meta.get("type") == "report"
+-                    and re.search(r"EXIT:\s*0", body) is not None
++
++                # Check if PM directly executed automated unit test in workspace and confirmed exit 0
++                pm_executed_valid_test = (
++                    self.last_shell is not None
++                    and self.last_shell.get("task") == task_id
++                    and self.last_shell.get("exit") == 0
++                    and any(t in self.last_shell.get("cmd", "") for t in ["unittest", "pytest", "test_"])
+                 )
++
++                if verdict == "ACCEPT":
++                    if not (meta.get("type") == "report" and pm_executed_valid_test):
++                        # Demote to CONTINUE + System Rejection notice
++                        verdict = "CONTINUE"
++                        response_text += "\n[SYSTEM] Rejection: PM must directly execute automated test suite in workspace and observe EXIT: 0 before issuing ACCEPT."
++
++                is_done_decision = (verdict == "ACCEPT")
+                 resp_type = {"ACCEPT": "decision", "REJECT": "review", "CONTINUE": "assign"}[verdict]
+                 out_id, out_path = self.send_message(self.peer_role, in_reply_to, task_id, resp_type, response_text)
+                 if is_done_decision:

@@ -1,0 +1,15 @@
+[Unit]
+Description=Atom Company PM Autonomous Agent Runner
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/sims/auto/atom-company
+ExecStart=/usr/bin/python3 /home/sims/auto/atom-company/agent.py --role PM --model gemma4:26b --backend auto
+Restart=always
+RestartSec=5s
+StandardOutput=append:/home/sims/auto/atom-company/ledger/pm_stdout.log
+StandardError=append:/home/sims/auto/atom-company/ledger/pm_stderr.log
+
+[Install]
+WantedBy=default.target

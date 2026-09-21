@@ -1,0 +1,1 @@
+This message has completely omitted frontmatter headers.

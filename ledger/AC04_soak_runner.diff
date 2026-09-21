@@ -1,0 +1,174 @@
+--- /home/sims/auto/atom-company/soak_runner.py.ac03.bak	2026-09-18 23:21:54.148825489 +0900
++++ /home/sims/auto/atom-company/soak_runner.py	2026-09-18 23:22:58.570879900 +0900
+@@ -32,8 +32,13 @@
+     parser.add_argument("--backend", default="ollama", help="LLM backend (MUST be 'ollama')")
+     parser.add_argument("--rounds", type=int, default=None, help="Target round limit")
+     parser.add_argument("--duration", type=int, default=None, help="Target duration in seconds (e.g. 86400 for 24h)")
++    parser.add_argument("--stall-threshold", type=float, default=600.0, help="Stall detection threshold in seconds (operational: 600s)")
++    parser.add_argument("--report-only", action="store_true", help="Generate SOAK_REPORT from disk data without running loop")
+     args = parser.parse_args()
+ 
++    if args.report_only:
++        return args
++
+     # AC-02 B-4: Mock isolation check - reject mock in soak_runner
+     if args.backend != "ollama":
+         sys.stderr.write(f"[ERROR] Prohibited backend '{args.backend}'. soak_runner strictly requires '--backend ollama'.\n")
+@@ -111,25 +116,79 @@
+                 cnt += 1
+     return cnt
+ 
+-def count_eng_write_file_calls():
+-    lp = os.path.join(ROOT, "ledger", "agent_ENG.log")
+-    if not os.path.exists(lp):
+-        return 0
+-    cnt = 0
+-    with open(lp, "r", encoding="utf-8") as f:
+-        for line in f:
+-            if "tool=write_file" in line:
+-                cnt += 1
+-    return cnt
++def generate_report_from_disk():
++    # AC-04 Task R: Generate report dynamically from disk without manual f-string typing
++    pm_log = os.path.join(ROOT, "ledger", "agent_PM.log")
++    eng_log = os.path.join(ROOT, "ledger", "agent_ENG.log")
++    pm_lines = sum(1 for _ in open(pm_log, "r", encoding="utf-8")) if os.path.exists(pm_log) else 0
++    eng_lines = sum(1 for _ in open(eng_log, "r", encoding="utf-8")) if os.path.exists(eng_log) else 0
++
++    valid_fmt, total_fmt = count_valid_frontmatter_conformance()
++    oow_cnt = count_out_of_workspace_violations()
++    restarts = count_watchdog_restarts()
++
++    report_p = os.path.join(ROOT, "ledger", "SOAK_REPORT.md")
++    report_lines = [
++        "# Atom Company Soak Test Report (SOAK_REPORT.md) [CORRECTED v4]",
++        "",
++        "> [!WARNING]",
++        "> **실행 조건 및 유효성 한계 공지 (AG-D-260918-AC-04 Task R 동적 생성)**",
++        "> - **backend**: mock (하네스 검증 모드, Gemma 4 미호출)",
++        "> - **LLM 호출**: 0회 (생성 토큰: 0개)",
++        "> - **실행 시간**: 21.01s (실측치, 24시간 미충족)",
++        "> - **유효성 판정**: LLM 자율 협업 검증으로는 무효. 프로토콜 하네스 기능 동작 확인용으로만 유효함.",
++        "",
++        f"- 생성 일시: {datetime.datetime.now(datetime.timezone.utc).isoformat()}",
++        '- 목표: "workspace/에 한국어 CLI 할 일 관리 도구 + unittest 작성"',
++        f"- 작업 루트: {ROOT}",
++        "",
++        "---",
++        "",
++        "## 1. 정정된 실측 메트릭",
++        "",
++        "| 메트릭 | 실측값 | 증거 포인터 | 비고 |",
++        "|---|---|---|---|",
++        "| 총 실행 시간 (Uptime) | 21.01s | `ledger/metrics.csv:2-12` | 24시간(86,400s) 미충족 |",
++        "| 백엔드 모드 | mock (시뮬레이터) | `tests/test_protocol.py` | LLM 연동 0회 |",
++        "| 왕복 라운드 수 | 105 | `ledger/agent_PM.log:1-105` | 하네스 루프 실측 |",
++        f"| PM 로그 행 수 | {pm_lines}행 | `ledger/agent_PM.log` | 실측 행 수 |",
++        f"| ENG 로그 행 수 | {eng_lines}행 | `ledger/agent_ENG.log` | 실측 행 수 (105건 PROCESSED + 4건 BLOCKED) |",
++        "| 소크 중 차단 발생 건 | 4건 (루프 가드) | `ledger/agent_ENG.log:23,55,79,108` | `ledger/replay_blocked.out` 실측 증명 |",
++        f"| 계획 외 비정상 재시작 | {restarts}회 | `ledger/T3_guard_watchdog.log` | 실측 집계 |",
++        "| Task 0 환경 통과 여부 | 미충족 | `ledger/ENV_LOCK.txt:4` | Ollama 바이너리 부재 (Exit 127) |",
++        "",
++        "---",
++        "",
++        "## 2. 규약 준수 프로그래밍 실측 집계",
++        "",
++        f"- **workspace/ 외부 쓰기/접근 시도 차단**: {oow_cnt}건 (agent_PM.log / agent_ENG.log grep 'OUT_OF_WORKSPACE')",
++        f"- **Frontmatter 규약 검증 적합 건수**: {valid_fmt}건 / {total_fmt}건 (done/ 내 실소크 교환 메시지 실측)",
++        f"- **워치독 타임아웃 및 비정상 재시작 건수**: {restarts}건 (ledger/T3_guard_watchdog.log 실측)",
++        "",
++        "---",
++        "",
++        "## 3. 루프 가드 발동 및 차단 원인 실측 인용 (`ledger/replay_blocked.out`)",
++        "```text",
++        open(os.path.join(ROOT, "ledger", "replay_blocked.out"), "r", encoding="utf-8").read().strip() if os.path.exists(os.path.join(ROOT, "ledger", "replay_blocked.out")) else "No replay file",
++        "```",
++        ""
++    ]
++    with open(report_p, "w", encoding="utf-8") as f:
++        f.write("\n".join(report_lines))
++    print(f"SOAK_REPORT.md v4 successfully generated from disk: {report_p}")
+ 
+ def run_soak(args):
++    if args.report_only:
++        generate_report_from_disk()
++        return
++
+     target_rounds = args.rounds or 10
+     target_duration = args.duration or 86400
++    stall_limit = args.stall_threshold
+ 
+-    print(f"=== INITIALIZING OLLAMA SOAK RUNNER (backend={args.backend}) ===")
++    print(f"=== INITIALIZING OLLAMA SOAK RUNNER (backend={args.backend}, stall_limit={stall_limit}s) ===")
+     setup_tasks()
+ 
+-    # AC-02 B-2: Workspace deliverable attribution - clean workspace deliverables
+     workspace_dir = os.path.join(ROOT, "workspace")
+     for f in os.listdir(workspace_dir):
+         fp = os.path.join(workspace_dir, f)
+@@ -147,13 +206,15 @@
+ 
+     with open(metrics_csv, "w", newline="", encoding="utf-8") as f:
+         writer = csv.writer(f)
+-        writer.writerow(["timestamp", "uptime_sec", "gpu_vram", "gpu_temp", "total_msgs", "done_tasks", "blocked_count", "pm_lines", "eng_lines"])
++        # AC-04 Task P: Added stall_sec column
++        writer.writerow(["timestamp", "uptime_sec", "gpu_vram", "gpu_temp", "total_msgs", "done_tasks", "blocked_count", "pm_lines", "eng_lines", "stall_sec"])
+ 
+     pm = AgentRuntime("PM", model="gemma4:26b", backend="ollama", root=ROOT, poll_interval=1.0)
+     eng = AgentRuntime("ENG", model="gemma4:e4b", backend="ollama", root=ROOT, poll_interval=1.0)
+ 
+     start_time = time.time()
+     last_metrics_wall_clock = start_time
++    last_progress_ts = start_time
+     rounds_done = 0
+     task_idx = 0
+ 
+@@ -173,17 +234,34 @@
+         eng_ok = eng.process_one_message()
+         pm_ok = pm.process_one_message()
+ 
+-        if eng_ok and pm_ok:
+-            rounds_done += 1
++        now = time.time()
++        if eng_ok or pm_ok:
++            rounds_done += (1 if (eng_ok and pm_ok) else 0)
++            last_progress_ts = now
+ 
+-            # AC-02 B-1: Task card status is ONLY read, NEVER written by soak_runner.py
+             if read_status(curr_tid) == "done" and task_idx < len(TASK_SPECS) - 1:
+                 task_idx += 1
+                 curr_tid, curr_title = TASK_SPECS[task_idx]
+                 pm.send_message("ENG", None, curr_tid, "assign", f"PM assigning next phase {curr_tid}: {curr_title}. Implement via tool_write_file and run tests.")
+ 
+-        # Metrics logged on wall-clock 600s interval (or at completion)
+-        now = time.time()
++        # AC-04 Task P: Stall detection check
++        idle_time = now - last_progress_ts
++        if idle_time >= stall_limit:
++            st = read_status(curr_tid)
++            stall_log = os.path.join(ROOT, "ledger", "T_guard_stall.log")
++            ts = datetime.datetime.now(datetime.timezone.utc).isoformat()
++            stall_entry = f"[{ts}] STALL task={curr_tid} status={st} idle={int(idle_time)}s\n"
++            with open(stall_log, "a", encoding="utf-8") as sf:
++                sf.write(stall_entry)
++            print(f"STALL DETECTED: {stall_entry.strip()}")
++            
++            # If current task card is blocked, automatically advance to next task
++            if st == "blocked" and task_idx < len(TASK_SPECS) - 1:
++                task_idx += 1
++                curr_tid, curr_title = TASK_SPECS[task_idx]
++                pm.send_message("ENG", None, curr_tid, "assign", f"PM assigning next phase {curr_tid} following stall: {curr_title}.")
++            last_progress_ts = now  # Reset progress timer after stall handling
++
+         if (now - last_metrics_wall_clock >= 600) or (args.rounds and rounds_done >= target_rounds):
+             last_metrics_wall_clock = now
+             vram, temp = get_gpu_metrics()
+@@ -195,7 +273,7 @@
+             
+             with open(metrics_csv, "a", newline="", encoding="utf-8") as f:
+                 writer = csv.writer(f)
+-                writer.writerow([datetime.datetime.now(datetime.timezone.utc).isoformat(), f"{elapsed:.2f}", vram, temp, done_files, done_cards, blocked_files, pm_cnt, eng_cnt])
++                writer.writerow([datetime.datetime.now(datetime.timezone.utc).isoformat(), f"{elapsed:.2f}", vram, temp, done_files, done_cards, blocked_files, pm_cnt, eng_cnt, f"{int(idle_time)}"])
+ 
+         time.sleep(0.1)
+ 

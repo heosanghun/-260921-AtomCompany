@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  pm-agent:
+    image: python:3.12-slim
+    container_name: atom-agent-pm
+    restart: always
+    volumes:
+      - .:/atom-company
+    working_dir: /atom-company
+    command: python3 agent.py --role PM --model gemma4:26b --backend auto
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  eng-agent:
+    image: python:3.12-slim
+    container_name: atom-agent-eng
+    restart: always
+    volumes:
+      - .:/atom-company
+    working_dir: /atom-company
+    command: python3 agent.py --role ENG --model gemma4:e4b --backend auto
+    environment:
+      - PYTHONUNBUFFERED=1
