@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.4a6b42c6.css",
-    "main.js": "./static/js/main.830e22d1.js",
+    "main.js": "./static/js/main.606ac337.js",
     "static/js/453.402a8faf.chunk.js": "./static/js/453.402a8faf.chunk.js",
     "static/media/artificial-intelligence-11761.gif": "./static/media/artificial-intelligence-11761.e2cf0a14ea4a90e85741.gif",
     "static/media/fa-light-300.ttf": "./static/media/fa-light-300.8b18a77be77619201f1a.ttf",
@@ -23,8 +23,8 @@
     "static/media/img02.jpg": "./static/media/img02.3d4d2495c2a9b1734c37.jpg",
     "static/media/hero_bg.png": "./static/media/hero_bg.0e6c4618c273a10802b3.png",
     "static/media/img01.jpg": "./static/media/img01.131f53ac28257724ff36.jpg",
-    "static/media/logo-two.svg": "./static/media/logo-two.e22bcbb94f6564aa7d3957ba6bd93ca7.svg",
-    "static/media/logo.svg": "./static/media/logo.e22bcbb94f6564aa7d3957ba6bd93ca7.svg",
+    "static/media/logo-two.svg": "./static/media/logo-two.c498df512b338d226c5f8617d61ab174.svg",
+    "static/media/logo.svg": "./static/media/logo.c498df512b338d226c5f8617d61ab174.svg",
     "static/media/hero-gradient.png": "./static/media/hero-gradient.50844c00c976dd4c35c1.png",
     "static/media/original-66948a0d81d.gif": "./static/media/original-66948a0d81d.f91a22ccb88311a18aee.gif",
     "static/media/themify.svg?-fvbane": "./static/media/themify.f0fc8c798eac5636249c.svg",
@@ -159,18 +159,18 @@
     "static/media/sms-balck-icon.svg": "./static/media/sms-balck-icon.7cacd2d65ab4b8c381cb2dc373affc4c.svg",
     "static/media/list-icon.svg": "./static/media/list-icon.0cf4bc30e8fe95d6557df51152657c3a.svg",
     "static/media/doenload-icon.svg": "./static/media/doenload-icon.cec8181202452091b5e3bab44abcc71d.svg",
+    "index.html": "./index.html",
     "static/media/document_icon.svg": "./static/media/document_icon.63b5b2142ceac14af66656e7b3d7b674.svg",
     "static/media/dash_board_icon.svg": "./static/media/dash_board_icon.222e750cb19b1160ff29f1630aa139a3.svg",
-    "index.html": "./index.html",
     "static/media/location-icon.svg": "./static/media/location-icon.30c7fb2f1a1d3978727e18a8ca5770c1.svg",
     "static/media/user-balck-icon.svg": "./static/media/user-balck-icon.502f7a9f42531f390f25cec82665f705.svg",
     "static/media/down-white-icon.svg": "./static/media/down-white-icon.39641759fc268ff2b9910442521d1f15.svg",
     "main.4a6b42c6.css.map": "./static/css/main.4a6b42c6.css.map",
-    "main.830e22d1.js.map": "./static/js/main.830e22d1.js.map",
+    "main.606ac337.js.map": "./static/js/main.606ac337.js.map",
     "453.402a8faf.chunk.js.map": "./static/js/453.402a8faf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4a6b42c6.css",
-    "static/js/main.830e22d1.js"
+    "static/js/main.606ac337.js"
   ]
 }
