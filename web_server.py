@@ -37,7 +37,7 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(content)
                 return
 
-        if self.path in ("/binasea", "/riteflow"):
+        if self.path in ("/binasea", "/riteflow", "/autonomous", "/agents", "/web"):
             self.send_response(301)
             self.send_header("Location", self.path + "/")
             self.end_headers()

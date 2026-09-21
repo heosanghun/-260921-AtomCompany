@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.4a6b42c6.css",
-    "main.js": "./static/js/main.26c5f293.js",
+    "main.js": "./static/js/main.d6359ddb.js",
     "static/js/453.402a8faf.chunk.js": "./static/js/453.402a8faf.chunk.js",
     "static/media/artificial-intelligence-11761.gif": "./static/media/artificial-intelligence-11761.e2cf0a14ea4a90e85741.gif",
     "static/media/img03.jpg": "./static/media/img03.59a6c642fc9f8d44fc5a.jpg",
@@ -172,11 +172,11 @@
     "static/media/user-balck-icon.svg": "./static/media/user-balck-icon.502f7a9f42531f390f25cec82665f705.svg",
     "static/media/down-white-icon.svg": "./static/media/down-white-icon.39641759fc268ff2b9910442521d1f15.svg",
     "main.4a6b42c6.css.map": "./static/css/main.4a6b42c6.css.map",
-    "main.26c5f293.js.map": "./static/js/main.26c5f293.js.map",
+    "main.d6359ddb.js.map": "./static/js/main.d6359ddb.js.map",
     "453.402a8faf.chunk.js.map": "./static/js/453.402a8faf.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4a6b42c6.css",
-    "static/js/main.26c5f293.js"
+    "static/js/main.d6359ddb.js"
   ]
 }
