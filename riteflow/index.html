@@ -1,16 +1,949 @@
 <!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="./favicon.svg">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riteflow - Vue 3 SaaS, AI Startup & Automation Tech Business Template</title>
-    <script type="module" crossorigin src="./assets/index-DYv9SHnk.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-DwaXWaS1.css">
-  </head>
-  <body class="overflow-hidden">
-    <div id="app"></div>
-    <div id="modal-root"></div>
-  </body>
-</html>
+
+<html class="dark" lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Physical AI Data Factory | ATLAS SYNC × MODUIRUM Cogni-OS</title>
+<link rel="icon" type="image/png" href="assets/images/moduirum_logo.png"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#1d1f27",
+            "primary-fixed": "#6ff6ff",
+            "error-container": "#93000a",
+            "surface-container-low": "#191b23",
+            "on-error-container": "#ffdad6",
+            "on-secondary": "#003919",
+            "on-tertiary": "#00354a",
+            "surface-tint": "#00dce6",
+            "on-primary-fixed": "#002022",
+            "background": "#10131a",
+            "error": "#ffb4ab",
+            "surface-container-lowest": "#0b0e15",
+            "on-tertiary-container": "#00678c",
+            "tertiary-fixed": "#c4e7ff",
+            "tertiary": "#f1f8ff",
+            "tertiary-container": "#b2e1ff",
+            "surface-dim": "#10131a",
+            "surface-container-highest": "#32353d",
+            "secondary-fixed-dim": "#00e478",
+            "on-secondary-fixed-variant": "#005227",
+            "on-secondary-fixed": "#00210c",
+            "on-tertiary-fixed-variant": "#004c69",
+            "inverse-primary": "#00696f",
+            "primary-container": "#00f2fe",
+            "surface-container-high": "#272a32",
+            "on-tertiary-fixed": "#001e2c",
+            "outline": "#849495",
+            "secondary-container": "#34ff8c",
+            "on-secondary-container": "#007239",
+            "on-surface": "#e1e2ec",
+            "surface": "#10131a",
+            "on-primary-container": "#006a70",
+            "on-background": "#e1e2ec",
+            "inverse-surface": "#e1e2ec",
+            "primary": "#e0fdff",
+            "surface-variant": "#32353d",
+            "primary-fixed-dim": "#00dce6",
+            "secondary-fixed": "#60ff98",
+            "inverse-on-surface": "#2d3038",
+            "on-error": "#690005",
+            "on-surface-variant": "#b9cacb",
+            "outline-variant": "#3a494b",
+            "on-primary-fixed-variant": "#004f53",
+            "on-primary": "#00373a",
+            "tertiary-fixed-dim": "#7bd0ff",
+            "secondary": "#f5fff3",
+            "surface-bright": "#363941"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "spacing": {
+            "gutter-mobile": "0.75rem",
+            "unit-12": "3rem",
+            "unit-6": "1.5rem",
+            "unit-16": "4rem",
+            "unit-24": "6rem",
+            "unit-8": "2rem",
+            "unit-2": "0.5rem",
+            "unit-4": "1rem",
+            "margin-desktop": "3rem",
+            "gutter-desktop": "1.5rem",
+            "unit-1": "0.25rem",
+            "unit-3": "0.75rem",
+            "margin-mobile": "1rem"
+          },
+          "fontFamily": {
+            "headline-xl": ["Space Grotesk", "sans-serif"],
+            "headline-lg": ["Space Grotesk", "sans-serif"],
+            "code-audit": ["JetBrains Mono", "monospace"],
+            "display-hero-mobile": ["Space Grotesk", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "headline-xl-mobile": ["Space Grotesk", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-telemetry-lg": ["JetBrains Mono", "monospace"],
+            "display-hero": ["Space Grotesk", "sans-serif"],
+            "headline-md": ["Space Grotesk", "sans-serif"],
+            "label-telemetry-sm": ["JetBrains Mono", "monospace"]
+          },
+          "fontSize": {
+            "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+            "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "code-audit": ["12px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-hero-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "22px", "letterSpacing": "0.005em", "fontWeight": "400" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "label-telemetry-lg": ["13px", { "lineHeight": "18px", "letterSpacing": "0.06em", "fontWeight": "600" }],
+            "display-hero": ["56px", { "lineHeight": "64px", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "30px", "letterSpacing": "-0.01em", "fontWeight": "500" }],
+            "label-telemetry-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.08em", "fontWeight": "500" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    .tactical-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(58, 73, 75, 0.15) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(58, 73, 75, 0.15) 1px, transparent 1px);
+    }
+    .hud-corner {
+      position: relative;
+    }
+    .hud-corner::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid #00dce6;
+      border-left: 2px solid #00dce6;
+    }
+    .hud-corner::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 8px;
+      height: 8px;
+      border-bottom: 2px solid #00dce6;
+      border-right: 2px solid #00dce6;
+    }
+    .glow-cyan-subtle {
+      box-shadow: 0 0 25px -5px rgba(0, 242, 254, 0.25);
+    }
+    .glow-cyan-border {
+      box-shadow: inset 0 0 12px rgba(0, 242, 254, 0.15), 0 0 15px rgba(0, 242, 254, 0.3);
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .pulse-indicator {
+      animation: pulse-dot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased selection:bg-primary-container selection:text-on-primary-fixed min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- Tactical Grid Layer -->
+<div class="fixed inset-0 tactical-grid pointer-events-none z-0"></div>
+<div class="fixed inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none z-0"></div>
+<!-- Shared TopNavBar (Faithful mapping from JSON & guidelines) -->
+<header class="bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-outline-variant/40 dark:border-outline-variant/40 docked full-width top-0 sticky z-50 flat no shadows">
+<div class="flex justify-between items-center w-full px-unit-6 md:px-margin-desktop py-unit-3 max-w-full mx-auto">
+<!-- Brand & Origin Backlink -->
+<div class="flex items-center gap-unit-6">
+<a class="flex items-center gap-2 font-code-audit text-code-audit text-on-surface-variant hover:text-primary-fixed transition-colors duration-150 group" href="../">
+<img src="assets/images/atlas_logo.png" alt="ATLAS SYNC Logo" class="w-6 h-6 object-contain drop-shadow-[0_0_8px_rgba(0,242,254,0.5)] group-hover:scale-105 transition-transform" />
+<span class="font-bold text-primary font-headline-sm tracking-widest text-[16px]">ATLAS SYNC</span>
+<span class="text-outline-variant/60">/</span>
+<span class="material-symbols-outlined text-[15px]">arrow_back</span>
+<span class="hidden sm:inline font-semibold text-primary-fixed">Main Portal</span>
+</a>
+<a class="hidden lg:flex items-center gap-1.5 font-code-audit text-code-audit text-on-surface-variant hover:text-primary-fixed transition-colors duration-150 px-2.5 py-1 rounded bg-surface-container border border-outline-variant/40" href="../binasea/">
+<span class="material-symbols-outlined text-[14px]">token</span>
+<span>Binasea NFT Market</span>
+</a>
+<div class="h-4 w-[1px] bg-outline-variant/50 hidden lg:block"></div>
+<div class="flex items-center gap-3">
+<div class="w-2.5 h-2.5 bg-primary-container rounded-none rotate-45 glow-cyan-subtle"></div>
+<span class="text-headline-md font-headline-md font-semibold tracking-tight text-primary dark:text-primary uppercase flex items-center gap-2">
+            Physical AI Data Factory
+            <span class="text-[10px] font-code-audit px-1.5 py-0.5 rounded-sm bg-surface-container-high border border-outline-variant text-primary-fixed-dim">PROD-SYS</span>
+</span>
+</div>
+</div>
+<!-- Navigation Links (Active mapping: Architecture) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary-fixed font-semibold border-b-2 border-primary-fixed-dim pb-1 font-body-md transition-colors duration-150" href="#overview">Architecture</a>
+<a class="text-on-surface-variant font-medium pb-1 font-body-md hover:text-primary-fixed hover:border-primary-fixed-dim/50 transition-colors duration-150" href="#pipeline">Pipeline</a>
+<a class="text-on-surface-variant font-medium pb-1 font-body-md hover:text-primary-fixed hover:border-primary-fixed-dim/50 transition-colors duration-150" href="#telemetry">Telemetry</a>
+<a class="text-on-surface-variant font-medium pb-1 font-body-md hover:text-primary-fixed hover:border-primary-fixed-dim/50 transition-colors duration-150" href="#specs">Specs</a>
+<a class="text-on-surface-variant font-medium pb-1 font-body-md hover:text-primary-fixed hover:border-primary-fixed-dim/50 transition-colors duration-150" href="#deploy">Deploy</a>
+</nav>
+<!-- Trailing Action Cluster -->
+<div class="flex items-center gap-3">
+<!-- Live Enclave Chip -->
+<div class="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-low border border-outline-variant/60">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed pulse-indicator"></span>
+<span class="font-label-telemetry-sm text-label-telemetry-sm text-secondary-fixed">ENCLAVE ACTIVE: 0x94B</span>
+</div>
+<button class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 border border-outline-variant text-primary-fixed-dim font-code-audit text-code-audit rounded hover:border-primary-fixed-dim/60 hover:bg-primary-container/5 transition-all">
+<span class="material-symbols-outlined text-[16px]">terminal</span>
+<span>Air-Gap Console</span>
+</button>
+<a class="px-4 py-2 bg-gradient-to-r from-primary-fixed-dim to-primary-container text-on-primary-fixed font-code-audit text-code-audit font-semibold tracking-wider uppercase rounded shadow-lg glow-cyan-subtle hover:brightness-110 active:scale-[0.99] transition-all flex items-center gap-1.5" href="#poc-console">
+<span class="material-symbols-outlined text-[16px]">shield_with_heart</span>
+<span>Deploy / Inquire</span>
+</a>
+</div>
+</div>
+</header>
+<main class="flex-grow z-10">
+<!-- HERO SECTION -->
+<section class="relative pt-unit-12 pb-unit-16 px-unit-6 md:px-margin-desktop border-b border-outline-variant/30 overflow-hidden" id="overview">
+<div class="max-w-7xl mx-auto">
+<!-- Status Breadcrumb & System State -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-unit-6">
+<div class="flex items-center gap-2 font-code-audit text-code-audit text-primary-fixed-dim">
+<span class="text-on-surface-variant">MODUIRUM</span>
+<span class="text-outline">/</span>
+<span class="text-on-surface-variant">SOVEREIGN AIR-GAP INFRA</span>
+<span class="text-outline">/</span>
+<span class="text-primary-fixed">DATA FACTORY v4.2</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-secondary-fixed-dim/10 border border-secondary-fixed-dim/30 text-secondary-fixed font-code-audit text-code-audit">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed pulse-indicator"></span>
+              RMS PROTOCOL 3.2 VERIFIED
+            </span>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-surface-container border border-outline-variant text-on-surface-variant font-code-audit text-code-audit">
+              LATENCY &lt; 0.42ms
+            </span>
+</div>
+</div>
+<!-- Main Hero Title & Narrative -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-unit-8 items-start">
+<div class="lg:col-span-8">
+<div class="inline-block px-3 py-1 mb-4 rounded-sm bg-surface-container-high border-l-2 border-primary-container text-primary-fixed font-code-audit text-code-audit tracking-wide">
+              PHYSICAL AI DATA PIPELINE ENGINE
+            </div>
+<h1 class="text-display-hero font-display-hero text-primary tracking-tight mb-unit-6">
+              Physical AI <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-fixed to-primary-container">Data Factory</span>
+</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-3xl leading-relaxed mb-unit-6">
+              MODUIRUM은 가상 공간 시뮬레이션부터 실증 공간 하드웨어 검증, 양산 상용화, 현장 통합 원격 관제까지 
+              완전한 닫힌 루프(Closed-Loop)로 가동되는 소버린 Physical AI 전용 데이터 생산·검증 인프라를 구축·운영합니다.
+              실제 현장 데이터를 정밀하게 직접 생성하고 교차 검증하여 고도화된 체계를 보장합니다.
+            </p>
+<!-- Value Proposition Badges Grid -->
+<div class="flex flex-wrap gap-2.5 mb-unit-8">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container-low border border-outline-variant/50 text-on-surface font-code-audit text-code-audit">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">memory</span>
+<span>VLA(Vision-Language-Action) 모델 최적화</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container-low border border-outline-variant/50 text-on-surface font-code-audit text-code-audit">
+<span class="material-symbols-outlined text-secondary-fixed text-[18px]">speed</span>
+<span>O(1) 상수 메모리 추론 가속</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container-low border border-outline-variant/50 text-on-surface font-code-audit text-code-audit">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">hub</span>
+<span>엣지 케이스 합성 데이터 생성</span>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded bg-surface-container-low border border-outline-variant/50 text-on-surface font-code-audit text-code-audit">
+<span class="material-symbols-outlined text-tertiary-fixed-dim text-[18px]">cell_tower</span>
+<span>실시간 원격 관제 SW RAISE 연동</span>
+</div>
+</div>
+</div>
+<!-- Quick Telemetry Side Display -->
+<div class="lg:col-span-4 hud-corner p-unit-6 rounded bg-surface-container/70 border border-outline-variant/60 backdrop-blur-md">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-3 mb-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-primary-fixed-dim"></span>
+<span class="font-code-audit text-code-audit text-primary tracking-wider uppercase">Cluster Status</span>
+</div>
+<span class="font-label-telemetry-sm text-label-telemetry-sm text-on-surface-variant">NODE: KR-DEF-01</span>
+</div>
+<div class="space-y-4 font-code-audit">
+<div class="flex justify-between items-center text-body-sm font-body-sm">
+<span class="text-on-surface-variant">Closed-Loop Convergence:</span>
+<span class="text-secondary-fixed font-semibold font-code-audit">99.984%</span>
+</div>
+<div class="w-full bg-surface-container-lowest h-1.5 rounded-none overflow-hidden">
+<div class="bg-secondary-fixed h-full w-[99.9%]"></div>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm pt-2 border-t border-outline-variant/30">
+<span class="text-on-surface-variant">SIM Frame Pipeline:</span>
+<span class="text-primary-fixed font-code-audit">12,480 FPS</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm pt-2 border-t border-outline-variant/30">
+<span class="text-on-surface-variant">RMS Swarm Connected:</span>
+<span class="text-tertiary-fixed font-code-audit">1,420 Units</span>
+</div>
+<div class="flex justify-between items-center text-body-sm font-body-sm pt-2 border-t border-outline-variant/30">
+<span class="text-on-surface-variant">Air-Gap Verification:</span>
+<span class="text-secondary-fixed-dim font-code-audit flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span> ZERO-LEAK
+                </span>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/40">
+<a class="w-full py-2 px-3 block text-center rounded bg-surface-container-high hover:bg-surface-container-highest border border-outline-variant text-primary font-code-audit text-code-audit transition-colors" href="#pipeline">
+                VIEW ARCHITECTURE BLUEPRINT ↓
+              </a>
+</div>
+</div>
+</div>
+<!-- Main Hero Infographic Showcase: Physical AI Model Life Cycle & Data Factory -->
+<div class="mt-8 mb-4 relative rounded-xl border border-primary-fixed-dim/40 bg-surface-container-low/80 p-2 md:p-3 overflow-hidden shadow-[0_0_35px_-5px_rgba(0,242,254,0.2)] group">
+  <div class="relative overflow-hidden rounded-lg bg-[#0b0e15] border border-outline-variant/40">
+    <a href="assets/images/physical_ai_data_factory_lifecycle.jpg" target="_blank" class="block cursor-zoom-in group/link" title="클릭하여 5.5K 초고화질 원본(5504x3072)으로 확대 보기">
+      <img src="assets/images/physical_ai_data_factory_lifecycle.jpg" alt="MODUIRUM Physical AI Model Life Cycle 및 Data Factory 핵심 요약" class="w-full h-auto object-cover group-hover/link:scale-[1.006] transition-transform duration-500" loading="eager" fetchpriority="high" />
+      <div class="absolute top-3 left-3 px-3 py-1 bg-surface-container-lowest/90 backdrop-blur-md rounded border border-primary-fixed-dim/50 font-code-audit text-[11px] text-primary-fixed flex items-center gap-2 shadow-lg">
+        <span class="w-2 h-2 rounded-full bg-secondary-fixed pulse-indicator"></span>
+        <span class="font-semibold tracking-wider">MODUIRUM PHYSICAL AI LIFECYCLE BLUEPRINT</span>
+      </div>
+      <div class="absolute bottom-3 right-3 px-3 py-1 bg-surface-container-lowest/90 backdrop-blur-md rounded border border-outline-variant/60 font-code-audit text-[11px] text-on-surface-variant flex items-center gap-1.5 opacity-80 group-hover/link:opacity-100 group-hover/link:border-primary-fixed-dim/70 transition-all shadow-lg">
+        <span class="material-symbols-outlined text-[15px] text-primary-fixed">zoom_in</span>
+        <span>5.5K MASTER ULTRA-HD (클릭하여 원본 확대)</span>
+      </div>
+    </a>
+  </div>
+</div>
+<!-- Continuous KPI Ribbon -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-unit-4 mt-unit-8 pt-unit-8 border-t border-outline-variant/30">
+<div class="p-4 rounded bg-surface-container-lowest/60 border border-outline-variant/40">
+<div class="font-label-telemetry-sm text-label-telemetry-sm text-on-surface-variant mb-1 uppercase tracking-wider">SIM Frame Generation</div>
+<div class="text-headline-lg font-headline-lg text-primary tracking-tight">12,000+ <span class="text-body-md font-code-audit text-primary-fixed-dim">fps</span></div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-1">대규모 물리 엣지 케이스 합성</div>
+</div>
+<div class="p-4 rounded bg-surface-container-lowest/60 border border-outline-variant/40">
+<div class="font-label-telemetry-sm text-label-telemetry-sm text-on-surface-variant mb-1 uppercase tracking-wider">VLA Model Porting</div>
+<div class="text-headline-lg font-headline-lg text-secondary-fixed tracking-tight">99.8%</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-1">임베디드 타겟 무오류 검증률</div>
+</div>
+<div class="p-4 rounded bg-surface-container-lowest/60 border border-outline-variant/40">
+<div class="font-label-telemetry-sm text-label-telemetry-sm text-on-surface-variant mb-1 uppercase tracking-wider">Field Control Latency</div>
+<div class="text-headline-lg font-headline-lg text-primary-fixed tracking-tight">&lt; 18<span class="text-body-md font-code-audit text-primary-fixed-dim">ms</span></div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-1">RMS 양산 관제 실시간 응답</div>
+</div>
+<div class="p-4 rounded bg-surface-container-lowest/60 border border-outline-variant/40">
+<div class="font-label-telemetry-sm text-label-telemetry-sm text-on-surface-variant mb-1 uppercase tracking-wider">Multi-Chip Integration</div>
+<div class="text-headline-lg font-headline-lg text-tertiary-fixed tracking-tight">NV / QCOM / FP</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-1">차량·로봇 이기종 온디바이스 박스</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CENTRAL INTERACTIVE ARCHITECTURE & CLOSED-LOOP FLOW -->
+<section class="py-unit-16 px-unit-6 md:px-margin-desktop relative" id="pipeline">
+<div class="max-w-7xl mx-auto">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-unit-12">
+<div>
+<div class="flex items-center gap-2 text-primary-fixed font-code-audit text-code-audit uppercase tracking-wider mb-2">
+<span class="w-2 h-2 rounded-none bg-primary-container"></span>
+              CORE OPERATIONAL BLUEPRINT
+            </div>
+<h2 class="text-headline-xl font-headline-xl text-primary tracking-tight">
+              Physical AI 3-Stage Closed-Loop Pipeline
+            </h2>
+</div>
+<p class="text-on-surface-variant text-body-md font-body-md max-w-lg mt-3 md:mt-0">
+            시뮬레이션에서 생성된 합성 데이터부터 현장 양산 로봇의 실증 데이터까지 단일 VLA 중앙 학습 인프라로 수렴 및 환류되는 체계적 데이터 팩토리 구조입니다.
+          </p>
+</div>
+<!-- TOP CONVERGENCE DIAGRAM: VLA 모델 학습 Infra -->
+<div class="mb-12 relative hud-corner p-6 md:p-8 rounded bg-gradient-to-b from-surface-container to-surface-container-low border border-primary-fixed-dim/40 glow-cyan-border">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-outline-variant/40 pb-5 mb-6">
+<div class="flex items-center gap-3">
+<div class="p-2.5 rounded bg-primary-fixed-dim/10 border border-primary-fixed-dim/30 text-primary-fixed">
+<span class="material-symbols-outlined text-[28px]">account_tree</span>
+</div>
+<div>
+<span class="font-code-audit text-[11px] text-primary-fixed uppercase tracking-widest block">CENTRALIZED COMPUTATION</span>
+<h3 class="text-headline-lg font-headline-lg text-primary tracking-tight">
+                  VLA 모델 학습 Infra <span class="text-body-md font-code-audit text-on-surface-variant font-normal">(Vision-Language-Action Training Cluster)</span>
+</h3>
+</div>
+</div>
+<div class="flex items-center gap-3 font-code-audit text-code-audit">
+<span class="px-3 py-1 bg-surface-container-lowest rounded border border-outline-variant text-secondary-fixed flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed pulse-indicator"></span>
+                AUTONOMOUS FEEDBACK CYCLE ACTIVE
+              </span>
+</div>
+</div>
+<!-- Flow Connectivity Diagram (Direct reference to visual structure) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
+<!-- Link 1: From SIM Stage -->
+<div class="p-4 rounded bg-surface-container-lowest/80 border border-outline-variant/60 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3">
+<span class="px-2 py-0.5 rounded text-[11px] font-code-audit bg-primary-fixed-dim/20 text-primary-fixed border border-primary-fixed-dim/40">STEP 02</span>
+<span class="text-on-surface-variant font-code-audit text-[11px]">FEED-FORWARD ↑</span>
+</div>
+<div class="text-body-md font-headline-md text-primary font-medium mb-1">SIM Data 학습</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">가상 공간에서 생성된 고난도 엣지 케이스 및 물리 시뮬레이션 합성 데이터셋을 VLA 기본 모델에 전이 학습</p>
+<div class="pt-3 border-t border-outline-variant/40 flex items-center justify-between text-body-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-code-audit bg-surface-container-high text-primary-fixed border border-outline-variant">STEP 03</span>
+<span class="text-primary-fixed font-code-audit text-[12px] flex items-center gap-1">
+                  학습된 VLA Model 전달 ↓
+                </span>
+</div>
+</div>
+<!-- Link 2: From Real Proving Ground Stage -->
+<div class="p-4 rounded bg-surface-container-lowest/80 border border-outline-variant/60 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3">
+<span class="px-2 py-0.5 rounded text-[11px] font-code-audit bg-primary-fixed-dim/20 text-primary-fixed border border-primary-fixed-dim/40">STEP 07</span>
+<span class="text-on-surface-variant font-code-audit text-[11px]">FEED-FORWARD ↑</span>
+</div>
+<div class="text-body-md font-headline-md text-primary font-medium mb-1">Real Data 학습</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">실제 테스트베드 디바이스 실주행 센서 로그 및 액추에이터 오차 교정 데이터를 학습 파이프라인에 주입</p>
+<div class="pt-3 border-t border-outline-variant/40 flex items-center justify-between text-body-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-code-audit bg-surface-container-high text-primary-fixed border border-outline-variant">STEP 08</span>
+<span class="text-primary-fixed font-code-audit text-[12px] flex items-center gap-1">
+                  학습된 VLA Model 전달 ↓
+                </span>
+</div>
+</div>
+<!-- Link 3: From Field Deployment Stage -->
+<div class="p-4 rounded bg-surface-container-lowest/80 border border-outline-variant/60 flex flex-col justify-between">
+<div class="flex items-center justify-between mb-3">
+<span class="px-2 py-0.5 rounded text-[11px] font-code-audit bg-primary-fixed-dim/20 text-primary-fixed border border-primary-fixed-dim/40">STEP 11</span>
+<span class="text-on-surface-variant font-code-audit text-[11px]">FEED-FORWARD ↑</span>
+</div>
+<div class="text-body-md font-headline-md text-primary font-medium mb-1">Field Data 학습</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant mb-4">양산 현장에서 RMS를 통해 실시간 수집된 이상 징후 및 돌발 환경 데이터를 바탕으로 지속적 미세조정(Fine-Tuning)</p>
+<div class="pt-3 border-t border-outline-variant/40 flex items-center justify-between text-body-sm">
+<span class="px-2 py-0.5 rounded text-[11px] font-code-audit bg-surface-container-high text-primary-fixed border border-outline-variant">STEP 12</span>
+<span class="text-primary-fixed font-code-audit text-[12px] flex items-center gap-1">
+                  학습된 VLA Model 배포 ↓
+                </span>
+</div>
+</div>
+</div>
+<!-- Dynamic Convergence Breadcrumbs Bar -->
+<div class="mt-6 pt-4 border-t border-outline-variant/40 flex flex-wrap items-center justify-between gap-4 font-code-audit text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed">sync</span>
+<span>SYNCHRONIZATION RESIDUAL: <strong class="text-primary">f(z*) = z* || Δ &lt; 1e-6</strong></span>
+</div>
+<div class="flex items-center gap-3">
+<span>ZERO-KNOWLEDGE ATTESTED</span>
+<span>•</span>
+<span class="text-primary-fixed">HARDWARE ENCLAVE: SECURE BOOT VERIFIED</span>
+</div>
+</div>
+</div>
+<!-- 3-STAGE DETAILED CARDS (Identical to reference layout) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
+<!-- STAGE 01: 가상 공간 시뮬레이터 (Digital Twin Simulator) -->
+<div class="rounded bg-surface-container/85 border border-outline-variant p-6 flex flex-col justify-between hover:border-primary-fixed-dim/60 transition-all duration-200">
+<div>
+<!-- Step Pill Pipeline Header -->
+<div class="flex items-center justify-between gap-2 mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant font-code-audit text-code-audit text-primary-fixed font-semibold">
+                  1 SIM Data 수집
+                </span>
+<span class="material-symbols-outlined text-outline-variant text-[18px]">arrow_forward</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant font-code-audit text-code-audit text-primary-fixed font-semibold">
+                  4 VLA Model 검증
+                </span>
+</div>
+<!-- Stage Title -->
+<div class="mb-5 pb-4 border-b border-outline-variant/40">
+<span class="font-code-audit text-[11px] text-primary-fixed uppercase tracking-wider block">STAGE 01</span>
+<h4 class="text-headline-md font-headline-md text-primary font-bold">가상 공간 시뮬레이터</h4>
+<p class="font-code-audit text-body-sm text-on-surface-variant">Digital Twin Simulator</p>
+</div>
+<!-- High-Tech Schematic Illustration Container -->
+<div class="w-full h-48 rounded bg-surface-container-lowest border border-outline-variant/50 overflow-hidden mb-6 relative flex items-center justify-center p-3">
+<img class="object-cover w-full h-full opacity-75 hover:opacity-90 transition-opacity" data-alt="A futuristic 3D isometric representation of a digital twin robotics simulator laboratory with holographic engineering models, cybernetic monitors, and glowing cyan grid lines under precision aerospace lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9oX3VpCm7P5pYuZYqXNs9nRQjzRQrW5z-iqD4d2l4DdgwrRatoz0coJqjT7hhrF0jTieBfguUFtWx8wZS5LRhsav_fhjCVt3ke-m6lqjzhsEerYEv-DRvZFLUgP1kS1VuggbG3Q_liwdNpFu6i05X5fXGHjSXFneJD4MrUsHm_zYlzX_xMpoAED3CmwGsRqjSUzKDMdBsr7tiGNqdBDNBLPgUhUHHuB7UPDFJa2S-Ziv0LE3hD1WC"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-code-audit text-[10px] text-primary-fixed-dim border border-outline-variant">
+                  SIM ENGINE: O(1) PHYSICS
+                </div>
+</div>
+<!-- Tasks List -->
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">Use case 설정</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">고부가 산업 시나리오 정의 및 데이터 ROI 가치 분석</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">view_in_ar</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">SIM 환경 구축</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">정밀 물리 동역학을 완벽하게 반영한 실감형 디지털 트윈 환경 모델링</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">cloud_sync</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">데이터 수집</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">실제 환경에서 포착하기 어려운 희귀 엣지 케이스 포함 대규모 시뮬레이션 합성 데이터셋 생성</p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between text-body-sm">
+<span class="font-code-audit text-on-surface-variant text-[11px]">OUTPUT: SYNTHETIC VLA DATA</span>
+<span class="text-primary-fixed font-code-audit text-[11px]">O(1) CACHED</span>
+</div>
+</div>
+<!-- STAGE 02: 실증 공간 (Real-world Proving Ground) -->
+<div class="rounded bg-surface-container/85 border border-primary-fixed-dim/50 p-6 flex flex-col justify-between hover:border-primary-fixed transition-all duration-200 glow-cyan-subtle">
+<div>
+<!-- Step Pill Pipeline Header -->
+<div class="flex items-center justify-between gap-2 mb-4">
+<div class="flex items-center gap-1.5">
+<span class="px-2.5 py-1 rounded bg-primary-container/20 border border-primary-container font-code-audit text-code-audit text-primary-fixed font-semibold">
+                    5 VLA Model Porting
+                  </span>
+</div>
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">swap_horiz</span>
+<div class="flex items-center gap-1.5">
+<span class="px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant font-code-audit text-code-audit text-primary-fixed font-semibold">
+                    6 Real Data 수집
+                  </span>
+<span class="px-2 py-1 rounded bg-surface-container-high border border-outline-variant font-code-audit text-code-audit text-secondary-fixed font-semibold">
+                    9 검증
+                  </span>
+</div>
+</div>
+<!-- Stage Title -->
+<div class="mb-5 pb-4 border-b border-outline-variant/40">
+<span class="font-code-audit text-[11px] text-primary-fixed uppercase tracking-wider block">STAGE 02</span>
+<h4 class="text-headline-md font-headline-md text-primary font-bold">실증 공간</h4>
+<p class="font-code-audit text-body-sm text-on-surface-variant">Real-world Proving Ground</p>
+</div>
+<!-- High-Tech Schematic Illustration Container -->
+<div class="w-full h-48 rounded bg-surface-container-lowest border border-outline-variant/50 overflow-hidden mb-6 relative flex items-center justify-center p-3">
+<img class="object-cover w-full h-full opacity-75 hover:opacity-90 transition-opacity" data-alt="A clean aerospace proving ground test track with autonomous robotic ground vehicles and industrial robotic arms conducting hardware validation under focused cool cyan laboratory lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDbXQPhJ8DGjTRJfknLD-0V2goL506RRXH1WX_3tw4DnWaDVIoDrxNFNn7klATJDYWXoLGJKXLQJjbW8iaZ5r_yPQ02zB4oggZ4pCjcTEyrHlnXd48V3cP_6jeF4g7hfKqC3JycLguqih-GTKnJd2w83xd_0Mr681EHp_XO9ANkcx42VWX-ZYrJ-kGWkCtWvqE7Mj51RzxafeRw1hUD-gKYyMWI1aXDxoA3DF3pjGgDRCUbT2KA2EA"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-code-audit text-[10px] text-secondary-fixed border border-outline-variant">
+                  HARDWARE INTEGRATED: PROV-09
+                </div>
+</div>
+<!-- Tasks List -->
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">developer_board</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">Device Integration</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                      학습된 경량 VLA 모델을 탑재한 AI Chip &amp; 산업용 실장 BOX 통합. 박스를 차량·로봇 등 실제 물리 기기에 직결 탑재.
+                    </p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">database</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">Real-world Data 수집</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                      실제 시험 주행 및 디바이스를 가동하며 실시간 센서 데이터 수집 및 온보드 포팅된 VLA 모델 실기 정밀 평가.
+                    </p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-secondary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">하드웨어 교차 검증</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                      실제 모터 토크 오차, 비전 왜곡, 환경 외란 상태에서의 물리-액션 적합성 99.8% 달성 검증.
+                    </p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between text-body-sm">
+<span class="font-code-audit text-on-surface-variant text-[11px]">AIR-GAP ON-BOARD BOX</span>
+<span class="text-secondary-fixed font-code-audit text-[11px]">CERTIFIED 0x88F</span>
+</div>
+</div>
+<!-- STAGE 03: 상용화 및 관제 (Commercialization & Monitoring) -->
+<div class="rounded bg-surface-container/85 border border-outline-variant p-6 flex flex-col justify-between hover:border-primary-fixed-dim/60 transition-all duration-200">
+<div>
+<!-- Step Pill Pipeline Header -->
+<div class="flex items-center justify-between gap-2 mb-4">
+<span class="px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant font-code-audit text-code-audit text-primary-fixed font-semibold">
+                  10 Field Data 수집
+                </span>
+<span class="material-symbols-outlined text-outline-variant text-[18px]">arrow_forward</span>
+<span class="px-2.5 py-1 rounded bg-primary-fixed-dim/20 border border-primary-fixed-dim font-code-audit text-code-audit text-primary-fixed font-semibold">
+                  13 VLA Upgrade
+                </span>
+</div>
+<!-- Stage Title -->
+<div class="mb-5 pb-4 border-b border-outline-variant/40">
+<span class="font-code-audit text-[11px] text-primary-fixed uppercase tracking-wider block">STAGE 03</span>
+<h4 class="text-headline-md font-headline-md text-primary font-bold">상용화 및 관제</h4>
+<p class="font-code-audit text-body-sm text-on-surface-variant">Commercialization &amp; Monitoring</p>
+</div>
+<!-- High-Tech Schematic Illustration Container -->
+<div class="w-full h-48 rounded bg-surface-container-lowest border border-outline-variant/50 overflow-hidden mb-6 relative flex items-center justify-center p-3">
+<img class="object-cover w-full h-full opacity-75 hover:opacity-90 transition-opacity" data-alt="An advanced cyber defense control room command center displaying live telemetric multi-screens with swarm robotics maps, latency graphs, and mission monitoring consoles in dark slate and cyan tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwkq9khFG_-jrQxYFsVsseyTjg4oyNbjzRa3075wnJDIEAOTlYvoDxvOveFIHKhuo1T5EnsfsdLXvO5a7BXI9ZAfY4lOrov2lL9TJIvUm9ipU0oclgVCrDzG-3d4VpW_amhckQWBIz-etqTjaUzRAMSy7pIZdOgunpM9Ywu4A0VTsToCUYtGtXfsJIZ4lE8wyWakcpmm3BUwHheqqegzG99jSnIteHYB1vtsITtTsey05m4MFQxme_"/>
+<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-surface-container-lowest/90 font-code-audit text-[10px] text-primary-fixed-dim border border-outline-variant">
+                  RMS ACTIVE: 18ms SLA
+                </div>
+</div>
+<!-- Tasks List -->
+<div class="space-y-4">
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">rocket_launch</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">Field Launch</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                      제품 대량 상용화. Physical AI &amp; MAIED 알고리즘이 내장된 양산 완제품을 국방·물류·모빌리티 산업에 납품 공급.
+                    </p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">monitoring</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">관제 Monitor / Control</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                      RMS(Robot Management System) 기반 실시간 원격 관제. 로봇 운용 SW RAISE 연동을 통한 현장 실데이터 지속 수집 및 무중단 고도화.
+                    </p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="p-2 rounded bg-surface-container-high text-primary-fixed mt-0.5">
+<span class="material-symbols-outlined text-[18px]">update</span>
+</div>
+<div>
+<h5 class="text-body-md font-body-md font-semibold text-primary">VLA Model Monitoring &amp; Upgrade</h5>
+<p class="text-body-sm font-body-sm text-on-surface-variant">
+                      현장 데이터 기반 학습 루프로부터 생성된 최신 가중치를 에어갭 프로토콜을 거쳐 원격 안전 업데이트.
+                    </p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant/30 flex items-center justify-between text-body-sm">
+<span class="font-code-audit text-on-surface-variant text-[11px]">SW STACK: RAISE &amp; RMS</span>
+<span class="text-primary-fixed font-code-audit text-[11px]">FLEET READY</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- DOMAIN SPECIFIC COMPONENT: REAL-TIME CONVERGENCE STREAMER -->
+<section class="py-unit-16 px-unit-6 md:px-margin-desktop bg-surface-container-lowest border-y border-outline-variant/30" id="telemetry">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-8">
+<div>
+<div class="font-code-audit text-code-audit text-primary-fixed-dim uppercase tracking-wider mb-2">TELEMETRIC DEEP EQUILIBRIUM SOLVER</div>
+<h2 class="text-headline-xl font-headline-xl text-primary tracking-tight">
+              Real-Time Convergence Streamer
+            </h2>
+</div>
+<div class="flex items-center gap-4 mt-4 md:mt-0 font-code-audit text-code-audit">
+<span class="text-on-surface-variant">SOLVER ITERATIONS: <strong class="text-primary">k = 18</strong></span>
+<span class="text-on-surface-variant">RESIDUAL NORM: <strong class="text-secondary-fixed">8.12e-7</strong></span>
+</div>
+</div>
+<!-- Oscilloscope-style Solver Grid -->
+<div class="hud-corner rounded bg-surface-container p-6 border border-outline-variant/70">
+<div class="flex items-center justify-between border-b border-outline-variant/40 pb-4 mb-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">troubleshoot</span>
+<span class="font-code-audit text-body-md text-primary font-medium">FIXED-POINT STREAM: f(z*) = z* [ACTIVE EQUILIBRIUM]</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed pulse-indicator"></span>
+<span class="font-label-telemetry-sm text-label-telemetry-sm text-secondary-fixed">STREAMING TELEMETRY (LIVE)</span>
+</div>
+</div>
+<!-- Synthetic Oscilloscope Wave Area -->
+<div class="h-56 w-full rounded bg-surface-container-lowest border border-outline-variant/40 relative overflow-hidden flex items-center justify-center p-4">
+<!-- Grid Lines -->
+<div class="absolute inset-0 tactical-grid opacity-50"></div>
+<!-- Real-time SVG Sine/Wave Convergence Simulation -->
+<svg class="w-full h-full relative z-10" preserveaspectratio="none" viewbox="0 0 1000 200">
+<!-- Grid Zero Line -->
+<line stroke="#3a494b" stroke-dasharray="4 4" stroke-width="1" x1="0" x2="1000" y1="100" y2="100"></line>
+<!-- Converging Waveform SIM -->
+<path d="M 0,100 Q 50,20 100,100 T 200,100 T 300,100 T 400,100 T 500,100 T 650,100 T 800,100 T 1000,100" fill="none" opacity="0.4" stroke="#00dce6" stroke-width="1.5"></path>
+<!-- Damped Equilibrium Path (Convergence to Zero Residual) -->
+<path class="drop-shadow-[0_0_8px_rgba(0,242,254,0.6)]" d="M 0,180 C 150,20 250,160 400,100 C 550,60 700,115 850,100 L 1000,100" fill="none" stroke="#00f2fe" stroke-width="2.5"></path>
+<!-- Attested Fixed-Point Marker -->
+<circle class="pulse-indicator" cx="850" cy="100" fill="#00e478" r="4"></circle>
+</svg>
+<div class="absolute top-3 left-4 font-code-audit text-[11px] text-on-surface-variant flex items-center gap-4">
+<span>INPUT SPECTRUM: 60Hz 12-DOF</span>
+<span>SYNTHETIC NOISE: DAMPED</span>
+<span>FIXED POINT: CONVERGED</span>
+</div>
+<div class="absolute bottom-3 right-4 font-code-audit text-[11px] text-secondary-fixed bg-surface-container-low px-2 py-1 rounded border border-outline-variant">
+              ATTESTATION STAMP: SHA256-42a9...d31f [VERIFIED]
+            </div>
+</div>
+<!-- Solver Parameter Readouts -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+<div class="p-3 rounded bg-surface-container-low border border-outline-variant/40">
+<div class="font-code-audit text-[11px] text-on-surface-variant">JACOBIAN SPECTRAL RADIUS</div>
+<div class="text-body-lg font-code-audit text-primary font-semibold mt-1">ρ(J) = 0.832 &lt; 1</div>
+</div>
+<div class="p-3 rounded bg-surface-container-low border border-outline-variant/40">
+<div class="font-code-audit text-[11px] text-on-surface-variant">INFERENCE MEMORY O(1)</div>
+<div class="text-body-lg font-code-audit text-secondary-fixed font-semibold mt-1">1,480 MB CONSTANT</div>
+</div>
+<div class="p-3 rounded bg-surface-container-low border border-outline-variant/40">
+<div class="font-code-audit text-[11px] text-on-surface-variant">RMS PROTOCOL HANDSHAKE</div>
+<div class="text-body-lg font-code-audit text-primary-fixed-dim font-semibold mt-1">1.2ms DETERMINISTIC</div>
+</div>
+<div class="p-3 rounded bg-surface-container-low border border-outline-variant/40">
+<div class="font-code-audit text-[11px] text-on-surface-variant">EDGE INFERENCE TARGET</div>
+<div class="text-body-lg font-code-audit text-tertiary-fixed font-semibold mt-1">NVIDIA / QUALCOMM BOX</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- HARDWARE & DEVICE INTEGRATION SPECIFICATIONS -->
+<section class="py-unit-16 px-unit-6 md:px-margin-desktop" id="specs">
+<div class="max-w-7xl mx-auto">
+<div class="mb-unit-12">
+<div class="font-code-audit text-code-audit text-primary-fixed-dim uppercase tracking-wider mb-2">SYSTEM RIGOR &amp; COMPATIBILITY</div>
+<h2 class="text-headline-xl font-headline-xl text-primary tracking-tight">
+            Hardware &amp; Device Integration Matrix
+          </h2>
+<p class="text-on-surface-variant text-body-md font-body-md max-w-2xl mt-2">
+            실증 공간과 상용화 필드에 직접 배포되는 AI Chip &amp; Industrial Box의 규격 및 호환성 스펙입니다.
+          </p>
+</div>
+<div class="overflow-x-auto rounded border border-outline-variant/60 bg-surface-container/70 backdrop-blur-md">
+<table class="w-full text-left font-body-sm text-on-surface divide-y divide-outline-variant/40">
+<thead class="bg-surface-container-high font-code-audit text-code-audit text-primary">
+<tr>
+<th class="py-4 px-6 uppercase tracking-wider" scope="col">Subsystem Node</th>
+<th class="py-4 px-6 uppercase tracking-wider" scope="col">Target Hardware / Architecture</th>
+<th class="py-4 px-6 uppercase tracking-wider" scope="col">Software Stack Compatibility</th>
+<th class="py-4 px-6 uppercase tracking-wider" scope="col">Latency Target</th>
+<th class="py-4 px-6 uppercase tracking-wider" scope="col">Security Attestation</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30 font-code-audit text-code-audit">
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6 font-semibold text-primary-fixed flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">memory</span>
+                  Edge AI Box (Industrial)
+                </td>
+<td class="py-4 px-6 text-on-surface">NVIDIA Jetson Orin AGX 64GB / Drive Thor Compatible</td>
+<td class="py-4 px-6 text-on-surface-variant">ROS2 Humble / Isaac ROS / MODUIRUM Micro-Kernel</td>
+<td class="py-4 px-6 text-secondary-fixed">&lt; 12.4ms (FP16 TensorRT)</td>
+<td class="py-4 px-6"><span class="px-2 py-0.5 rounded bg-secondary-fixed-dim/10 text-secondary-fixed border border-secondary-fixed-dim/30 text-[11px]">TPM 2.0 AIR-GAP</span></td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6 font-semibold text-primary-fixed flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">precision_manufacturing</span>
+                  Mobility / Vehicle AI BOX
+                </td>
+<td class="py-4 px-6 text-on-surface">Qualcomm Snapdragon Ride Flex / Custom FPGA NPU</td>
+<td class="py-4 px-6 text-on-surface-variant">RAISE Swarm Daemon / RMS Client Layer 3</td>
+<td class="py-4 px-6 text-secondary-fixed">&lt; 18.0ms (INT8 Quantized)</td>
+<td class="py-4 px-6"><span class="px-2 py-0.5 rounded bg-secondary-fixed-dim/10 text-secondary-fixed border border-secondary-fixed-dim/30 text-[11px]">ISO 26262 ASIL-D</span></td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6 font-semibold text-primary-fixed flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">cell_tower</span>
+                  RMS Swarm Central Gateway
+                </td>
+<td class="py-4 px-6 text-on-surface">Dual AMD EPYC 9654 / PCIe Gen 5 Swarm Controller</td>
+<td class="py-4 px-6 text-on-surface-variant">MODUIRUM Distributed Ledger / Zero-Leak Gateway</td>
+<td class="py-4 px-6 text-secondary-fixed">&lt; 1.8ms (Packet Ring-Bus)</td>
+<td class="py-4 px-6"><span class="px-2 py-0.5 rounded bg-secondary-fixed-dim/10 text-secondary-fixed border border-secondary-fixed-dim/30 text-[11px]">FIPS 140-3 LEVEL 4</span></td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6 font-semibold text-primary-fixed flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">videogame_asset</span>
+                  Digital Twin Simulator Rig
+                </td>
+<td class="py-4 px-6 text-on-surface">Multi-GPU H100 SXM5 8-Way Node Array</td>
+<td class="py-4 px-6 text-on-surface-variant">Omniverse Nucleus / USD Stage / Custom Rigid PhysX</td>
+<td class="py-4 px-6 text-primary-fixed">12,000+ Sim FPS</td>
+<td class="py-4 px-6"><span class="px-2 py-0.5 rounded bg-surface-container-high text-primary-fixed-dim border border-outline-variant text-[11px]">EAL 6+ VERIFIED</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- ENTERPRISE PARTNERSHIP & POC REQUEST CONSOLE -->
+<section class="py-unit-16 px-unit-6 md:px-margin-desktop bg-surface-container-lowest border-t border-outline-variant/30" id="deploy">
+<div class="max-w-4xl mx-auto hud-corner p-8 md:p-12 rounded bg-surface-container/90 border border-outline-variant shadow-2xl relative" id="poc-console">
+<div class="border-b border-outline-variant/40 pb-6 mb-8">
+<div class="flex items-center gap-2 font-code-audit text-code-audit text-primary-fixed uppercase tracking-wider mb-2">
+<span class="w-2 h-2 bg-primary-container"></span>
+            DEFENSE &amp; ENTERPRISE INTAKE PORTAL
+          </div>
+<h2 class="text-headline-xl font-headline-xl text-primary tracking-tight">
+            Request PoC Ingestion &amp; Factory Deployment
+          </h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">
+            로보틱스, 방위산업 자율 모빌리티, 제조 플랜트 기업을 위한 Physical AI Data Factory 실증 구축 상담 신청창구입니다.
+          </p>
+</div>
+<form class="space-y-6" onsubmit="event.preventDefault(); alert('PoC Ingestion Request Logged into Air-Gap Queue.');">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-code-audit text-[12px] text-on-surface-variant uppercase tracking-wider mb-2">
+                ORGANIZATION / ENTERPRISE NAME
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-code-audit text-code-audit px-4 py-3 rounded focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim placeholder:text-outline-variant" placeholder="e.g., Hyundai Rotem Defense / Hanwha Robotics" required="" type="text"/>
+</div>
+<div>
+<label class="block font-code-audit text-[12px] text-on-surface-variant uppercase tracking-wider mb-2">
+                SECURITY CLEARANCE / DEPLOYMENT LEVEL
+              </label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-code-audit text-code-audit px-4 py-3 rounded focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim">
+<option>Air-Gapped Sovereign On-Premise (국방/원전 등 완전 폐쇄망)</option>
+<option>Enterprise Hybrid Private Enclave (전용 하이브리드 클라우드)</option>
+<option>Industrial Testbed Sandbox (실증 공간 샌드박스)</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block font-code-audit text-[12px] text-on-surface-variant uppercase tracking-wider mb-2">
+                TARGET DOMAIN &amp; FLEET SIZE
+              </label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-code-audit text-code-audit px-4 py-3 rounded focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim placeholder:text-outline-variant" placeholder="예: 자율 지상 무인차량(UGV) 50대 / 매니퓰레이터 20대" required="" type="text"/>
+</div>
+<div>
+<label class="block font-code-audit text-[12px] text-on-surface-variant uppercase tracking-wider mb-2">
+                HARDWARE TARGET CHIPSET
+              </label>
+<select class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-code-audit text-code-audit px-4 py-3 rounded focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim">
+<option>NVIDIA Jetson Orin AGX Series</option>
+<option>Qualcomm Snapdragon Ride / Robotics RB5</option>
+<option>Custom Industrial x86_64 + Tensor Accelerator</option>
+<option>FPGA Custom Dedicated ASIL Board</option>
+</select>
+</div>
+</div>
+<div>
+<label class="block font-code-audit text-[12px] text-on-surface-variant uppercase tracking-wider mb-2">
+              SIMULATION &amp; FIELD VALIDATION REQUIREMENTS (시나리오 및 요구 명세)
+            </label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface font-code-audit text-code-audit p-4 rounded focus:outline-none focus:border-primary-fixed-dim focus:ring-1 focus:ring-primary-fixed-dim placeholder:text-outline-variant" placeholder="수집 및 검증이 필요한 주요 엣지 케이스 물리 조건, RAISE / RMS 연동 환경에 대한 기술적 요구사항을 기입해 주십시오." rows="4"></textarea>
+</div>
+<!-- Air Gap Killswitch Checkbox -->
+<div class="flex items-center gap-3 p-4 rounded bg-surface-container-lowest border border-outline-variant/60">
+<input checked="" class="rounded border-outline-variant text-primary-container focus:ring-0 w-4 h-4 bg-surface-container" id="airgap-check" type="checkbox"/>
+<label class="font-code-audit text-[12px] text-on-surface-variant cursor-pointer" for="airgap-check">
+<strong class="text-primary">ZERO-LEAK PROTOCOL:</strong> 실데이터 및 파인튜닝 가중치가 외부 공용망으로 유출되지 않는 에어갭 암호화 검증 절차에 동의합니다.
+            </label>
+</div>
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
+<div class="font-code-audit text-[11px] text-on-surface-variant">
+              RESPONSE TIME: <span class="text-secondary-fixed">DETERMINISTIC &lt; 24 HOURS</span>
+</div>
+<button class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-primary-fixed-dim to-primary-container text-on-primary-fixed font-code-audit text-[13px] font-bold uppercase tracking-wider rounded glow-cyan-subtle hover:brightness-110 active:scale-[0.99] transition-all flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>SUBMIT POC INGESTION REQUEST</span>
+</button>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Shared Footer (Faithful mapping from JSON & guidelines) -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/30 dark:border-outline-variant/30 docked full-width bottom flat no shadows">
+<div class="w-full px-unit-6 md:px-margin-desktop py-unit-12 border-t border-outline-variant/20 max-w-full mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-10 pb-10 border-b border-outline-variant/20">
+<div class="md:col-span-5">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary tracking-wider mb-2">
+            MODUIRUM PHYSICAL AI ARCHITECTURES
+          </div>
+<p class="text-body-sm font-body-sm text-on-surface-variant max-w-md leading-relaxed">
+            Sovereign Physical AI Infrastructure and closed-loop data synthesis engines for air-gapped defense, high-reliability autonomous robotics, and aerospace proving grounds.
+          </p>
+</div>
+<div class="md:col-span-7 flex flex-wrap justify-between gap-6">
+<div>
+<div class="font-code-audit text-[11px] text-primary-fixed-dim uppercase tracking-wider mb-3">SYSTEM DOCUMENTATION</div>
+<ul class="space-y-2 font-code-audit text-[12px]">
+<li><a class="text-on-surface-variant font-code-audit hover:text-primary-fixed transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim" href="#attestation">Security Attestation</a></li>
+<li><a class="text-on-surface-variant font-code-audit hover:text-primary-fixed transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim" href="#hcl">Hardware Compatibility List</a></li>
+<li><a class="text-on-surface-variant font-code-audit hover:text-primary-fixed transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim" href="#rms">RMS Protocol Docs</a></li>
+</ul>
+</div>
+<div>
+<div class="font-code-audit text-[11px] text-primary-fixed-dim uppercase tracking-wider mb-3">TELEMETRY &amp; OPERATIONS</div>
+<ul class="space-y-2 font-code-audit text-[12px]">
+<li><a class="text-on-surface-variant font-code-audit hover:text-primary-fixed transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim" href="#sla">SLA Telemetry</a></li>
+<li><a class="text-on-surface-variant font-code-audit hover:text-primary-fixed transition-colors duration-150 focus:outline-none focus:ring-1 focus:ring-primary-fixed-dim" href="#airgap">Air-Gap Deployment Guide</a></li>
+</ul>
+</div>
+<div>
+<div class="font-code-audit text-[11px] text-primary-fixed-dim uppercase tracking-wider mb-3">SECURITY STATE</div>
+<div class="p-3 rounded bg-surface-container-low border border-outline-variant/60 font-code-audit text-[11px] space-y-1">
+<div class="text-secondary-fixed flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed"></span>
+                CRYPTOGRAPHIC AUDIT: PASS
+              </div>
+<div class="text-on-surface-variant">HASH: 0x489B...CE12</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+<p class="text-body-sm font-body-sm text-on-surface-variant font-code-audit text-[11px]">
+          © 2026 MODUIRUM INC. // SOVEREIGN PHYSICAL AI INFRASTRUCTURE. ALL RIGHTS RESERVED. ZERO-LEAK VERIFIED.
+        </p>
+<div class="flex items-center gap-6 font-code-audit text-[11px] text-on-surface-variant">
+<span class="hover:text-primary-fixed transition-colors cursor-pointer">TERMS OF MISSION</span>
+<span>•</span>
+<span class="hover:text-primary-fixed transition-colors cursor-pointer">DEFENSE SPECIFICATION 810-H</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
