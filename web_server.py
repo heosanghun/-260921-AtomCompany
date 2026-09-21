@@ -37,6 +37,12 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(content)
                 return
 
+        if self.path in ("/binasea", "/riteflow"):
+            self.send_response(301)
+            self.send_header("Location", self.path + "/")
+            self.end_headers()
+            return
+
         if self.path == "/api/status":
             self.send_json(self.get_system_status())
             return

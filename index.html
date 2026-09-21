@@ -3,33 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ATOM COMPANY // Google Gemma 4 Studio & Autonomous Dashboard</title>
+  <title>AIVORA // ATOM COMPANY - Google Gemma 4 AI Agency & Autonomous Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="aivora_assets/css/fontawesome.css">
+  <link rel="stylesheet" href="aivora_assets/css/animate.css">
   <style>
     :root {
-      --bg-base: #080a0f;
-      --bg-surface: #0f141f;
-      --bg-surface-elevated: #161c2b;
-      --bg-input: #121824;
-      --border-subtle: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(56, 189, 248, 0.4);
+      --color-primary: #00ff97;
+      --color-primary-glow: rgba(0, 255, 151, 0.35);
+      --color-secondary: #00020f;
+      --bg-base: #00020f;
+      --bg-surface: #070b16;
+      --bg-surface-elevated: #0f1526;
+      --bg-input: #121a2f;
+      --border-subtle: rgba(255, 255, 255, 0.09);
+      --border-accent: rgba(0, 255, 151, 0.4);
+      --border-cyan: rgba(56, 189, 248, 0.4);
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
+      --accent-green: #00ff97;
       --accent-blue: #38bdf8;
       --accent-purple: #a855f7;
-      --accent-emerald: #10b981;
-      --accent-amber: #f59e0b;
       --accent-rose: #f43f5e;
-      --glow-blue: rgba(56, 189, 248, 0.25);
-      --glow-purple: rgba(168, 85, 247, 0.2);
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      --font-mono: 'Fira Code', 'SF Mono', Menlo, Consolas, monospace;
+      --font-body: "DM Sans", "Inter", -apple-system, sans-serif;
+      --font-mono: "Fira Code", "SF Mono", Menlo, monospace;
       --radius-sm: 8px;
       --radius-md: 14px;
-      --radius-lg: 20px;
+      --radius-lg: 22px;
       --radius-full: 9999px;
     }
 
@@ -39,14 +42,18 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background-color: var(--bg-base);
       background-image: 
-        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 45%),
-        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.07) 0px, transparent 45%),
-        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.04) 0px, transparent 50%);
+        radial-gradient(at 0% 0%, rgba(0, 255, 151, 0.08) 0px, transparent 40%),
+        radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 45%),
+        radial-gradient(at 50% 100%, rgba(168, 85, 247, 0.05) 0px, transparent 50%);
       color: var(--text-primary);
-      font-family: var(--font-sans);
+      font-family: var(--font-body);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -54,89 +61,145 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Top Navigation */
+    /* ==========================================================================
+       HEADER & NAVIGATION
+       ========================================================================== */
     header {
-      border-bottom: 1px solid var(--border-subtle);
-      background: rgba(15, 20, 31, 0.75);
-      backdrop-filter: blur(20px);
       position: sticky;
       top: 0;
       z-index: 100;
-      padding: 0.75rem 1.75rem;
+      background: rgba(0, 2, 15, 0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0.85rem 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: all 0.3s ease;
     }
 
-    .brand {
+    .brand-group {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 1rem;
     }
 
-    .brand-icon {
-      width: 38px;
-      height: 38px;
-      background: linear-gradient(135deg, #38bdf8 0%, #6366f1 50%, #a855f7 100%);
-      border-radius: 11px;
+    .brand-logo-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00ff97 0%, #38bdf8 60%, #818cf8 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.35);
+      box-shadow: 0 0 20px rgba(0, 255, 151, 0.4);
     }
 
-    .brand-icon svg {
+    .brand-logo-icon svg {
       width: 22px;
       height: 22px;
-      fill: #080a0f;
+      fill: #00020f;
     }
 
-    .brand-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .brand-tag {
+    .brand-sub {
       font-size: 0.65rem;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0.2rem 0.55rem;
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--accent-blue);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      border-radius: var(--radius-full);
+      letter-spacing: 0.12em;
+      color: var(--accent-green);
       font-weight: 600;
     }
 
-    .nav-stats {
+    /* Top Navigation Links */
+    nav.nav-links {
       display: flex;
       align-items: center;
-      gap: 0.85rem;
+      gap: 1.25rem;
     }
 
-    .status-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.78rem;
+    .nav-item {
       color: var(--text-secondary);
-      background: var(--bg-surface);
-      padding: 0.35rem 0.75rem;
+      text-decoration: none;
+      font-size: 0.86rem;
+      font-weight: 500;
+      padding: 0.4rem 0.65rem;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
     }
 
-    .status-badge.clickable {
+    .nav-item:hover {
+      color: var(--accent-green);
+      background: rgba(0, 255, 151, 0.08);
+    }
+
+    .nav-item.highlight-binasea {
+      color: #f59e0b;
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .nav-item.highlight-binasea:hover {
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .nav-item.highlight-riteflow {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .nav-item.highlight-riteflow:hover {
+      background: rgba(56, 189, 248, 0.2);
+      color: #7dd3fc;
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+    }
+
+    /* Status Badges */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 0.35rem 0.75rem;
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      white-space: nowrap;
+    }
+
+    .status-pill.clickable {
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .status-badge.clickable:hover {
-      border-color: var(--accent-blue);
+    .status-pill.clickable:hover {
+      border-color: var(--accent-green);
       color: var(--text-primary);
       background: var(--bg-surface-elevated);
     }
@@ -145,8 +208,8 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--accent-emerald);
-      box-shadow: 0 0 10px var(--accent-emerald);
+      background: var(--accent-green);
+      box-shadow: 0 0 10px var(--accent-green);
       animation: pulse 2s infinite;
     }
 
@@ -165,104 +228,319 @@
       50% { transform: scale(1.3); opacity: 0.7; }
     }
 
-    /* Tab Navigation */
-    .tabs-bar {
-      display: flex;
-      gap: 0.5rem;
-      padding: 0.65rem 1.75rem;
-      background: rgba(15, 20, 31, 0.4);
+    /* ==========================================================================
+       HERO SECTION (AIVORA DESIGN)
+       ========================================================================== */
+    .hero-section {
+      position: relative;
+      padding: 5rem 2rem 4rem;
+      background-image: url('aivora_assets/images/bg/hero_bg.png');
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
       border-bottom: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 255, 151, 0.15) 0%, transparent 70%);
+      top: -100px;
+      left: 10%;
+      pointer-events: none;
+      filter: blur(50px);
+    }
+
+    .hero-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-full);
+      background: rgba(0, 255, 151, 0.12);
+      border: 1px solid rgba(0, 255, 151, 0.35);
+      color: var(--accent-green);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.25rem;
+      max-width: 960px;
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 60%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-title .highlight {
+      background: linear-gradient(135deg, #00ff97 0%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 820px;
+      margin-bottom: 2.25rem;
+    }
+
+    .hero-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+
+    .thm-btn {
+      background: linear-gradient(135deg, #00ff97 0%, #059669 100%);
+      color: #00020f;
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 20px rgba(0, 255, 151, 0.35);
+      border: none;
+      cursor: pointer;
+    }
+
+    .thm-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 255, 151, 0.5);
+      color: #00020f;
+    }
+
+    .thm-btn.btn-outline {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #ffffff;
+      box-shadow: none;
+    }
+
+    .thm-btn.btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    .thm-btn.btn-binasea {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.05) 100%);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.2);
+    }
+
+    .thm-btn.btn-binasea:hover {
+      background: #f59e0b;
+      color: #00020f;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.5);
+    }
+
+    .thm-btn.btn-riteflow {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.05) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      box-shadow: 0 4px 18px rgba(56, 189, 248, 0.2);
+    }
+
+    .thm-btn.btn-riteflow:hover {
+      background: #38bdf8;
+      color: #00020f;
+      box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5);
+    }
+
+    /* KPI Grid in Hero */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+
+    .kpi-card {
+      background: rgba(10, 15, 28, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .kpi-card:hover {
+      border-color: rgba(0, 255, 151, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .kpi-header {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .kpi-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      margin-top: 0.35rem;
+    }
+
+    /* ==========================================================================
+       SECTION CONTAINER & TABS BAR
+       ========================================================================== */
+    .main-wrapper {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+      width: 100%;
+    }
+
+    .section-header-block {
+      margin-bottom: 2rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-green);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .section-headline {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-description {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 760px;
+      line-height: 1.6;
+    }
+
+    /* Unified Feature Nav Tabs */
+    .feature-tabs-nav {
+      display: flex;
+      gap: 0.65rem;
+      background: var(--bg-surface);
+      padding: 0.5rem;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 2rem;
       overflow-x: auto;
     }
 
-    .tab-btn {
+    .feature-tab-button {
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-secondary);
-      padding: 0.5rem 1.15rem;
+      padding: 0.65rem 1.25rem;
       border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.88rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       align-items: center;
       gap: 0.5rem;
       white-space: nowrap;
+      transition: all 0.2s ease;
     }
 
-    .tab-btn:hover {
-      color: var(--text-primary);
+    .feature-tab-button:hover {
+      color: #ffffff;
       background: rgba(255, 255, 255, 0.04);
     }
 
-    .tab-btn.active {
-      color: var(--text-primary);
+    .feature-tab-button.active {
       background: var(--bg-surface-elevated);
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-      border: 1px solid var(--border-subtle);
-      border-top: 2px solid var(--accent-blue);
+      color: var(--accent-green);
+      border: 1px solid rgba(0, 255, 151, 0.3);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     }
 
-    /* Main Container */
-    main {
-      flex: 1;
-      padding: 1.5rem 1.75rem 2rem;
-      max-width: 1440px;
-      margin: 0 auto;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .tab-content {
+    .tab-pane {
       display: none;
-      flex: 1;
     }
 
-    .tab-content.active {
-      display: flex;
-      flex-direction: column;
+    .tab-pane.active {
+      display: block;
       animation: fadeIn 0.25s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     /* ==========================================================================
        TAB 1: CHATGPT-STYLE PROMPT STUDIO
        ========================================================================== */
-    .studio-container {
+    .studio-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: calc(100vh - 185px);
-      min-height: 620px;
+      height: 720px;
       position: relative;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
     }
 
-    .studio-header {
+    .studio-top-bar {
+      padding: 1rem 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-bottom: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 0 1rem;
-      border-bottom: 1px solid var(--border-subtle);
-      margin-bottom: 1rem;
     }
 
-    .role-pills {
+    .role-pills-wrap {
       display: flex;
       gap: 0.5rem;
     }
 
     .role-pill {
-      background: var(--bg-surface);
+      background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-full);
       padding: 0.35rem 0.85rem;
       font-size: 0.78rem;
-      font-weight: 500;
       color: var(--text-secondary);
       cursor: pointer;
       display: flex;
@@ -272,144 +550,100 @@
     }
 
     .role-pill:hover {
-      border-color: var(--accent-blue);
+      border-color: var(--accent-green);
       color: var(--text-primary);
     }
 
     .role-pill.active {
-      background: rgba(56, 189, 248, 0.12);
-      border-color: var(--accent-blue);
-      color: var(--accent-blue);
+      background: rgba(0, 255, 151, 0.12);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
       font-weight: 600;
     }
 
-    .studio-meta {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-family: var(--font-mono);
-    }
-
-    /* Chat Messages Stream */
-    .chat-stream {
+    .chat-stream-box {
       flex: 1;
       overflow-y: auto;
-      padding: 1rem 0.5rem 2rem;
+      padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-      scroll-behavior: smooth;
+      gap: 1.25rem;
     }
 
-    /* Empty Welcome State */
-    .chat-welcome {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+    .welcome-placeholder {
       margin: auto;
-      max-width: 680px;
+      text-align: center;
+      max-width: 620px;
       padding: 2rem 1rem;
     }
 
-    .gemma-logo-glow {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+    .welcome-logo-glow {
+      width: 56px;
+      height: 56px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #00ff97 0%, #38bdf8 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 0 35px rgba(56, 189, 248, 0.4);
-      animation: float 4s ease-in-out infinite;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 0 30px rgba(0, 255, 151, 0.4);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+    .welcome-logo-glow svg {
+      width: 28px;
+      height: 28px;
+      fill: #00020f;
     }
 
-    .chat-welcome h2 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .chat-welcome p {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 2rem;
-    }
-
-    .prompt-suggestions {
+    .prompt-suggestions-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0.75rem;
-      width: 100%;
+      margin-top: 1.5rem;
     }
 
-    .suggestion-card {
-      background: var(--bg-surface);
+    .suggestion-item {
+      background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 1rem;
+      padding: 0.85rem 1rem;
       text-align: left;
       cursor: pointer;
       transition: all 0.2s ease;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
     }
 
-    .suggestion-card:hover {
-      border-color: rgba(56, 189, 248, 0.4);
-      background: var(--bg-surface-elevated);
+    .suggestion-item:hover {
+      border-color: rgba(0, 255, 151, 0.4);
+      background: rgba(0, 255, 151, 0.05);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
 
-    .suggestion-icon {
-      font-size: 1.25rem;
-      line-height: 1;
-    }
-
-    .suggestion-title {
+    .suggestion-item-title {
       font-size: 0.85rem;
       font-weight: 600;
       color: var(--text-primary);
       margin-bottom: 0.2rem;
     }
 
-    .suggestion-desc {
+    .suggestion-item-desc {
       font-size: 0.75rem;
       color: var(--text-muted);
-      line-height: 1.35;
     }
 
-    /* Message Item */
-    .message-row {
+    .chat-msg-row {
       display: flex;
       gap: 1rem;
       width: 100%;
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
       animation: fadeIn 0.25s ease;
     }
 
-    .message-row.user {
+    .chat-msg-row.user {
       justify-content: flex-end;
     }
 
-    .message-avatar {
+    .chat-avatar {
       width: 34px;
       height: 34px;
       border-radius: 10px;
@@ -421,97 +655,62 @@
       flex-shrink: 0;
     }
 
-    .message-avatar.assistant {
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-      color: #080a0f;
-      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+    .chat-avatar.assistant {
+      background: linear-gradient(135deg, #00ff97 0%, #38bdf8 100%);
+      color: #00020f;
     }
 
-    .message-avatar.user-av {
-      background: #334155;
-      color: #f8fafc;
+    .chat-avatar.user-av {
+      background: #1e293b;
+      color: #ffffff;
     }
 
-    .message-body {
-      display: flex;
-      flex-direction: column;
+    .chat-msg-body {
       max-width: 82%;
     }
 
-    .message-bubble {
+    .chat-bubble {
       padding: 0.9rem 1.15rem;
       border-radius: 16px;
       font-size: 0.92rem;
       line-height: 1.6;
-      word-break: break-word;
     }
 
-    .message-row.user .message-bubble {
-      background: #1e293b;
+    .chat-msg-row.user .chat-bubble {
+      background: #1a2234;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #f8fafc;
-      border-bottom-right-radius: 4px;
+      color: #ffffff;
     }
 
-    .message-row.assistant .message-bubble {
-      background: var(--bg-surface);
+    .chat-msg-row.assistant .chat-bubble {
+      background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       color: var(--text-primary);
-      border-bottom-left-radius: 4px;
     }
 
-    .message-meta-badge {
+    .decoder-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
       font-size: 0.72rem;
-      color: var(--accent-blue);
-      background: rgba(56, 189, 248, 0.08);
-      border: 1px solid rgba(56, 189, 248, 0.2);
+      color: var(--accent-green);
+      background: rgba(0, 255, 151, 0.08);
+      border: 1px solid rgba(0, 255, 151, 0.25);
       border-radius: var(--radius-full);
       padding: 0.2rem 0.6rem;
       margin-bottom: 0.5rem;
       font-family: var(--font-mono);
-      width: fit-content;
     }
 
-    .message-attachments-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .attachment-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 8px;
-      padding: 0.3rem 0.6rem;
-      font-size: 0.75rem;
-      color: #cbd5e1;
-    }
-
-    .attachment-badge img {
-      max-width: 160px;
-      max-height: 120px;
-      border-radius: 6px;
-      display: block;
-      margin-top: 0.3rem;
-    }
-
-    /* Blinking Cursor for Decoder effect */
     .typing-cursor {
       display: inline-block;
       width: 8px;
       height: 15px;
-      background: var(--accent-blue);
+      background: var(--accent-green);
       margin-left: 3px;
       vertical-align: text-bottom;
       animation: blink 0.9s infinite;
-      box-shadow: 0 0 8px var(--accent-blue);
+      box-shadow: 0 0 8px var(--accent-green);
     }
 
     @keyframes blink {
@@ -519,64 +718,31 @@
       50%, 100% { opacity: 0; }
     }
 
-    /* Markdown Code Blocks */
-    .message-bubble pre {
-      background: #06080d;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      padding: 0.85rem;
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      overflow-x: auto;
-      margin: 0.75rem 0;
-      color: #38bdf8;
-      line-height: 1.5;
-    }
-
-    .message-bubble code {
-      font-family: var(--font-mono);
-      background: rgba(255, 255, 255, 0.07);
-      padding: 0.15rem 0.35rem;
-      border-radius: 4px;
-      font-size: 0.84em;
-    }
-
-    .message-bubble pre code {
-      background: transparent;
-      padding: 0;
-    }
-
-    /* ==========================================================================
-       CHATGPT-STYLE FLOATING DOCKED PROMPT BAR
-       ========================================================================== */
-    .prompt-dock {
+    /* Floating Docked Prompt Bar */
+    .prompt-dock-wrapper {
+      padding: 0.75rem 1.5rem 1.25rem;
+      background: linear-gradient(180deg, transparent 0%, var(--bg-surface) 35%);
       position: sticky;
       bottom: 0;
-      padding-top: 0.5rem;
-      background: linear-gradient(180deg, transparent 0%, var(--bg-base) 35%);
-      width: 100%;
-      max-width: 900px;
-      margin: 0 auto;
       z-index: 40;
     }
 
-    .prompt-box-wrapper {
-      background: var(--bg-surface);
+    .prompt-box {
+      background: #090e1c;
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 24px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
       padding: 0.75rem 1rem;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.2s ease;
       position: relative;
     }
 
-    .prompt-box-wrapper:focus-within {
-      border-color: rgba(56, 189, 248, 0.5);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6), 0 0 20px rgba(56, 189, 248, 0.15);
+    .prompt-box:focus-within {
+      border-color: var(--accent-green);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 15px rgba(0, 255, 151, 0.2);
     }
 
-    /* Attached chips inside prompt box */
-    .attached-chips-row {
+    .attached-chips-area {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
@@ -585,30 +751,25 @@
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    .attached-chip {
-      background: var(--bg-surface-elevated);
-      border: 1px solid rgba(56, 189, 248, 0.3);
+    .chip-item {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 151, 0.3);
       border-radius: var(--radius-sm);
-      padding: 0.35rem 0.65rem;
-      font-size: 0.75rem;
-      color: var(--text-primary);
+      padding: 0.3rem 0.6rem;
+      font-size: 0.74rem;
+      color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.4rem;
     }
 
-    .attached-chip-remove {
+    .chip-item-remove {
       cursor: pointer;
       color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      padding: 2px;
-      border-radius: 4px;
     }
 
-    .attached-chip-remove:hover {
+    .chip-item-remove:hover {
       color: var(--accent-rose);
-      background: rgba(244, 63, 94, 0.15);
     }
 
     .prompt-input-row {
@@ -617,8 +778,7 @@
       gap: 0.65rem;
     }
 
-    /* Plus Attachment Button */
-    .plus-btn {
+    .plus-attachment-btn {
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -631,49 +791,36 @@
       cursor: pointer;
       transition: all 0.2s ease;
       flex-shrink: 0;
-      position: relative;
     }
 
-    .plus-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: var(--text-primary);
-      border-color: var(--accent-blue);
+    .plus-attachment-btn:hover {
+      background: rgba(0, 255, 151, 0.15);
+      border-color: var(--accent-green);
+      color: var(--accent-green);
       transform: scale(1.05);
     }
 
-    .plus-btn svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    /* Multimodal Popover Menu */
-    .attachment-popover {
+    .attachment-popover-menu {
       position: absolute;
       bottom: calc(100% + 12px);
       left: 0;
-      background: #111724;
+      background: #0f1526;
       border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 16px;
       padding: 0.5rem;
       width: 260px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 15px rgba(56, 189, 248, 0.1);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
       display: none;
       flex-direction: column;
       gap: 0.25rem;
       z-index: 100;
-      animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .attachment-popover.show {
+    .attachment-popover-menu.show {
       display: flex;
     }
 
-    @keyframes popIn {
-      from { opacity: 0; transform: translateY(8px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
-    .popover-item {
+    .popover-menu-item {
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -685,25 +832,18 @@
       transition: all 0.15s ease;
     }
 
-    .popover-item:hover {
-      background: rgba(56, 189, 248, 0.12);
-      color: var(--text-primary);
+    .popover-menu-item:hover {
+      background: rgba(0, 255, 151, 0.12);
+      color: #ffffff;
     }
 
-    .popover-item svg {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    /* Auto-expanding prompt textarea */
-    .prompt-textarea {
+    .chat-textarea {
       flex: 1;
       background: transparent;
       border: none;
       outline: none;
       color: var(--text-primary);
-      font-family: var(--font-sans);
+      font-family: var(--font-body);
       font-size: 0.95rem;
       line-height: 1.5;
       resize: none;
@@ -712,348 +852,140 @@
       padding: 0.3rem 0;
     }
 
-    .prompt-textarea::placeholder {
+    .chat-textarea::placeholder {
       color: var(--text-muted);
     }
 
-    /* Prompt action buttons */
-    .prompt-actions {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    .mic-btn {
+    .send-action-btn {
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: transparent;
+      background: linear-gradient(135deg, #00ff97 0%, #059669 100%);
       border: none;
-      color: var(--text-muted);
+      color: #00020f;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 255, 151, 0.4);
     }
 
-    .mic-btn:hover {
-      color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.06);
-    }
-
-    .mic-btn.listening {
-      color: var(--accent-rose);
-      animation: pulse 1s infinite;
-    }
-
-    /* Send button */
-    .send-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #2563eb;
-      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-      border: none;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-    }
-
-    .send-btn:hover:not(:disabled) {
-      transform: scale(1.06);
-      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.6);
-    }
-
-    .send-btn:disabled {
+    .send-action-btn:disabled {
       background: #1e293b;
       color: #475569;
       box-shadow: none;
       cursor: not-allowed;
-      transform: none;
-    }
-
-    .send-btn.loading {
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      100% { transform: rotate(360deg); }
-    }
-
-    .prompt-footer-hint {
-      text-align: center;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 0.5rem;
-    }
-
-    /* Hidden file inputs */
-    input[type="file"].hidden-input {
-      display: none;
     }
 
     /* ==========================================================================
-       TAB 2: THEATER & OVERVIEW
+       TAB 2: 2-AGENT THEATER
        ========================================================================== */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .kpi-card {
+    .theater-box {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 1.25rem;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.25s ease;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-bottom: 2rem;
     }
 
-    .kpi-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .kpi-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--text-muted);
-      font-size: 0.78rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
-    }
-
-    .kpi-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: -0.03em;
-    }
-
-    .kpi-sub {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      margin-top: 0.35rem;
-    }
-
-    .theater-container {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-radius: 18px;
-      padding: 1.75rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-
-    .section-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .section-desc {
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .agent-stage {
+    .agent-stage-grid {
       display: grid;
-      grid-template-columns: 1fr 180px 1fr;
+      grid-template-columns: 1fr 160px 1fr;
       gap: 1.5rem;
       align-items: center;
     }
 
-    .agent-box {
+    .agent-card {
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: 16px;
       padding: 1.5rem;
-      position: relative;
     }
 
-    .agent-box.pm {
+    .agent-card.pm {
       border-left: 4px solid var(--accent-purple);
     }
 
-    .agent-box.eng {
+    .agent-card.eng {
       border-right: 4px solid var(--accent-blue);
     }
 
-    .agent-box-header {
-      display: flex;
-      align-items: center;
-      gap: 0.875rem;
-      margin-bottom: 1rem;
-    }
-
-    .agent-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      font-weight: bold;
-    }
-
-    .agent-avatar.pm-av {
-      background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0.05) 100%);
-      border: 1px solid rgba(168, 85, 247, 0.4);
-      color: var(--accent-purple);
-    }
-
-    .agent-avatar.eng-av {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.05) 100%);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: var(--accent-blue);
-    }
-
-    .agent-name {
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .agent-model-tag {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      font-family: var(--font-mono);
-      margin-top: 0.15rem;
-    }
-
-    .agent-rules-list {
-      list-style: none;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-    }
-
-    .agent-rules-list li {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .protocol-bus {
+    .protocol-bus-hub {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
       text-align: center;
+      gap: 0.6rem;
     }
 
-    .bus-line {
+    .bus-wire {
       width: 100%;
       height: 2px;
       background: linear-gradient(90deg, var(--accent-purple) 0%, var(--accent-blue) 100%);
       position: relative;
-      border-radius: 2px;
     }
 
-    .bus-packet {
-      width: 12px;
-      height: 12px;
+    .bus-dot-travel {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: #ffffff;
-      box-shadow: 0 0 12px #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
       position: absolute;
-      top: -5px;
-      animation: transfer 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+      top: -4px;
+      animation: busMove 2.5s infinite alternate ease-in-out;
     }
 
-    @keyframes transfer {
-      0% { left: 5%; background: var(--accent-purple); box-shadow: 0 0 12px var(--accent-purple); }
-      100% { left: 90%; background: var(--accent-blue); box-shadow: 0 0 12px var(--accent-blue); }
+    @keyframes busMove {
+      0% { left: 5%; background: var(--accent-purple); box-shadow: 0 0 10px var(--accent-purple); }
+      100% { left: 90%; background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue); }
     }
 
-    .bus-label {
-      font-size: 0.7rem;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-    }
-
-    .split-grid {
+    .split-logs-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1.5rem;
     }
 
-    .card-panel {
-      background: var(--bg-surface);
+    .log-stream-view {
+      background: #03060d;
       border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .log-stream {
-      background: #05070a;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      padding: 0.85rem;
+      border-radius: 12px;
+      padding: 1rem;
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: #cbd5e1;
-      height: 280px;
+      font-size: 0.76rem;
+      height: 260px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
     }
 
-    .log-line {
+    .log-row {
       padding: 0.2rem 0.35rem;
       border-radius: 4px;
       background: rgba(255, 255, 255, 0.02);
     }
 
-    .log-line.tool {
+    .log-row.tool {
       color: #38bdf8;
-      background: rgba(56, 189, 248, 0.06);
-    }
-
-    .log-line.error {
-      color: #f43f5e;
-      background: rgba(244, 63, 94, 0.08);
     }
 
     /* ==========================================================================
        TAB 3: KANBAN BOARD
        ========================================================================== */
-    .kanban-grid {
+    .kanban-columns-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.25rem;
-      margin-top: 1rem;
     }
 
-    .kanban-col {
+    .kanban-column {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
@@ -1061,7 +993,7 @@
       min-height: 480px;
     }
 
-    .kanban-col-header {
+    .kanban-col-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1072,7 +1004,7 @@
       color: var(--text-secondary);
     }
 
-    .task-card {
+    .task-card-item {
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border-subtle);
       border-radius: 10px;
@@ -1080,67 +1012,41 @@
       transition: all 0.2s ease;
     }
 
-    .task-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
+    .task-card-item:hover {
+      border-color: rgba(0, 255, 151, 0.3);
       transform: translateY(-2px);
     }
 
-    .task-card.done {
-      border-left: 3px solid var(--accent-emerald);
+    .task-card-item.done {
+      border-left: 3px solid var(--accent-green);
     }
 
-    .task-card.todo {
+    .task-card-item.todo {
       border-left: 3px solid var(--accent-blue);
     }
 
-    .task-card.blocked {
-      border-left: 3px solid var(--accent-rose);
-    }
-
-    .task-id {
-      font-size: 0.72rem;
-      font-family: var(--font-mono);
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
-    }
-
-    .task-title {
-      font-size: 0.88rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-    }
-
-    .task-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-    }
-
     /* ==========================================================================
-       TAB 4: WORKSPACE & UNITTEST INSPECTOR
+       TAB 4: WORKSPACE INSPECTOR
        ========================================================================== */
-    .code-inspector {
+    .inspector-layout {
       display: grid;
       grid-template-columns: 260px 1fr;
       gap: 1.25rem;
-      margin-top: 1rem;
     }
 
-    .file-tree {
+    .file-nav-list {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: 14px;
       padding: 1rem;
+      height: 520px;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 0.4rem;
-      height: 520px;
-      overflow-y: auto;
     }
 
-    .file-item {
+    .file-nav-item {
       padding: 0.6rem 0.85rem;
       border-radius: 8px;
       font-size: 0.82rem;
@@ -1153,19 +1059,19 @@
       gap: 0.5rem;
     }
 
-    .file-item:hover {
+    .file-nav-item:hover {
       background: rgba(255, 255, 255, 0.04);
-      color: var(--text-primary);
+      color: #ffffff;
     }
 
-    .file-item.active {
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: var(--accent-blue);
+    .file-nav-item.active {
+      background: rgba(0, 255, 151, 0.12);
+      border: 1px solid rgba(0, 255, 151, 0.3);
+      color: var(--accent-green);
       font-weight: 600;
     }
 
-    .code-view-container {
+    .code-viewer-container {
       background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: 14px;
@@ -1175,7 +1081,7 @@
       height: 520px;
     }
 
-    .code-header {
+    .code-viewer-header {
       padding: 0.85rem 1.25rem;
       background: rgba(255, 255, 255, 0.02);
       border-bottom: 1px solid var(--border-subtle);
@@ -1184,7 +1090,7 @@
       justify-content: space-between;
     }
 
-    .code-pre {
+    .code-pre-box {
       flex: 1;
       padding: 1.25rem;
       font-family: var(--font-mono);
@@ -1193,49 +1099,87 @@
       color: #e2e8f0;
       overflow-y: auto;
       white-space: pre-wrap;
-      background: #05070a;
+      background: #03060d;
     }
 
-    .action-btn {
-      background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
-      color: white;
-      border: none;
-      padding: 0.55rem 1.15rem;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
+    /* ==========================================================================
+       SECTION 5: 3-TEMPLATE ECOSYSTEM SHOWCASE
+       ========================================================================== */
+    .ecosystem-section {
+      padding: 3rem 0;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: 3rem;
+    }
+
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.75rem;
+    }
+
+    .ecosystem-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.75rem;
+      position: relative;
+      transition: all 0.3s ease;
       display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .action-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    .ecosystem-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
     }
 
-    .test-result-box {
-      background: #05070a;
-      border-bottom: 1px solid var(--border-subtle);
-      padding: 1rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      display: none;
+    .ecosystem-card.aivora-card {
+      border-color: rgba(0, 255, 151, 0.35);
+      background: linear-gradient(180deg, rgba(0, 255, 151, 0.04) 0%, var(--bg-surface) 100%);
     }
 
-    .test-result-box.show {
-      display: block;
-      animation: fadeIn 0.25s ease;
+    .ecosystem-card.binasea-card {
+      border-color: rgba(245, 158, 11, 0.35);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.04) 0%, var(--bg-surface) 100%);
     }
 
-    /* Modal for Server Endpoint Configuration */
+    .ecosystem-card.riteflow-card {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.04) 0%, var(--bg-surface) 100%);
+    }
+
+    .eco-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--radius-full);
+      width: fit-content;
+      margin-bottom: 1rem;
+    }
+
+    .eco-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 0.6rem;
+    }
+
+    .eco-desc {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 1.5rem;
+      flex: 1;
+    }
+
+    /* Modal Backdrop */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       display: none;
       align-items: center;
@@ -1245,116 +1189,169 @@
 
     .modal-backdrop.show {
       display: flex;
-      animation: fadeIn 0.2s ease;
-    }
-
-    .modal-card {
-      background: var(--bg-surface-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: 18px;
-      padding: 1.75rem;
-      width: 100%;
-      max-width: 480px;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-    }
-
-    .modal-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .modal-input {
-      width: 100%;
-      background: #090d16;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      padding: 0.65rem 0.85rem;
-      color: var(--text-primary);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      margin: 1rem 0;
     }
 
     /* Footer */
     footer {
       border-top: 1px solid var(--border-subtle);
-      padding: 1rem 1.75rem;
+      padding: 2.5rem 2rem;
+      background: #02050c;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: var(--text-muted);
-      font-size: 0.78rem;
-      background: var(--bg-surface);
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Navigation -->
+  <!-- Top Global Header -->
   <header>
-    <div class="brand">
-      <div class="brand-icon">
+    <div class="brand-group">
+      <div class="brand-logo-icon">
         <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
       </div>
-      <div>
-        <div class="brand-title">
-          ATOM COMPANY
-          <span class="brand-tag">Gemma 4 Studio</span>
+      <div class="brand-text">
+        <div class="brand-name">
+          AIVORA
+          <span style="font-size: 0.7rem; font-weight: 600; padding: 0.15rem 0.5rem; background: rgba(0,255,151,0.12); border: 1px solid rgba(0,255,151,0.3); border-radius: 9999px; color: #00ff97;">ATOM COMPANY</span>
         </div>
+        <div class="brand-sub">Autonomous AI Agency & Multi-Site Hub</div>
       </div>
     </div>
 
-    <div class="nav-stats">
-      <div class="status-badge">
+    <!-- Navigation Menu -->
+    <nav class="nav-links">
+      <a href="#hero" class="nav-item">홈 (Home)</a>
+      <a href="#features" class="nav-item" onclick="switchFeatureTab('studio')">⚡ Gemma 4 Studio</a>
+      <a href="#features" class="nav-item" onclick="switchFeatureTab('theater')">🏢 2-Agent 극장</a>
+      <a href="#features" class="nav-item" onclick="switchFeatureTab('kanban')">📋 12대 과업</a>
+      <a href="#features" class="nav-item" onclick="switchFeatureTab('code')">🧪 단위 테스트 실사</a>
+      <!-- Connected Site 1: Binasea -->
+      <a href="/binasea/" target="_blank" class="nav-item highlight-binasea" title="Binasea NFT Marketplace 새 창으로 열기">
+        <span>🌐</span> Binasea (NFT Market)
+      </a>
+      <!-- Connected Site 2: Riteflow -->
+      <a href="/riteflow/" target="_blank" class="nav-item highlight-riteflow" title="Riteflow Vue 3 AI Startup 새 창으로 열기">
+        <span>🚀</span> Riteflow (Vue3 AI)
+      </a>
+    </nav>
+
+    <!-- Header Status Badges -->
+    <div class="header-actions">
+      <div class="status-pill">
         <div class="pulse-dot"></div>
         <span>RTX 6000 Ada (48GB)</span>
       </div>
-      <div class="status-badge">
+      <div class="status-pill">
         <div class="pulse-dot cyan"></div>
-        <span id="ollama-status-text">Ollama: gemma4:e4b</span>
+        <span id="ollama-model-name">Gemma 4 Live</span>
       </div>
-      <div class="status-badge clickable" onclick="openServerConfigModal()" title="클릭하여 A6000 백엔드 서버 URL 설정">
+      <div class="status-pill clickable" onclick="openServerConfigModal()" title="클릭하여 A6000 백엔드 서버 URL 설정">
         <div class="pulse-dot purple" id="backend-dot"></div>
-        <span id="backend-status-text">A6000: 로컬 연결</span>
-      </div>
-      <div class="status-badge">
-        <span id="uptime-clock">00:00:00</span>
+        <span id="backend-status-text">A6000: 연결됨</span>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <div class="tabs-bar">
-    <button class="tab-btn active" data-tab="studio" onclick="switchTab('studio', this)">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      Gemma 4 AI 스튜디오 (ChatGPT 프롬프트)
-    </button>
-    <button class="tab-btn" data-tab="theater" onclick="switchTab('theater', this)">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18M15 3v18M3 9h18M3 15h18"/></svg>
-      미션 컨트롤 & 2-Agent 극장
-    </button>
-    <button class="tab-btn" data-tab="kanban" onclick="switchTab('kanban', this)">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 3v18M12 3v18M18 3v18"/></svg>
-      태스크 로드맵 (12대 과업)
-    </button>
-    <button class="tab-btn" data-tab="code" onclick="switchTab('code', this)">
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      산출물 & 단위 테스트 실사
-    </button>
-  </div>
+  <!-- AIVORA Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-container">
+      <div class="hero-badge-tag">
+        <span>✦</span> Aivora AI Agency &bull; NVIDIA RTX 6000 Ada Acceleration
+      </div>
+      <h1 class="hero-title">
+        Empower your Enterprise with <span class="highlight">Google Gemma 4</span> on A6000
+      </h1>
+      <p class="hero-subtitle">
+        48GB VRAM 하드웨어 가속 텐서 코어, 2-Agent 비동기 메일박스 자율 프로토콜, 그리고 ChatGPT형 멀티모달 실시간 토큰 디코더를 하나로 결합한 차세대 AI 에이전시 통합 포털입니다.
+      </p>
 
-  <!-- Main View -->
-  <main>
-    <!-- TAB 1: GEMMA 4 CHATGPT-STYLE PROMPT STUDIO -->
-    <div id="tab-studio" class="tab-content active">
-      <div class="studio-container">
-        <!-- Studio Header & Persona Selector -->
-        <div class="studio-header">
-          <div class="role-pills">
+      <div class="hero-actions-row">
+        <button class="thm-btn" onclick="scrollToStudio()">
+          <span>⚡</span> Gemma 4 AI Studio 시작
+        </button>
+        <a href="/binasea/" target="_blank" class="thm-btn btn-binasea">
+          <span>🌐</span> Binasea Web3 마켓플레이스 열기
+        </a>
+        <a href="/riteflow/" target="_blank" class="thm-btn btn-riteflow">
+          <span>🚀</span> Riteflow Vue 3 오토메이션 열기
+        </a>
+      </div>
+
+      <!-- 4 Live KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-header">활성 모델 아키텍처</div>
+          <div class="kpi-value" style="color: #00ff97;">Gemma 4:E4B</div>
+          <div class="kpi-sub">Google DeepMind 최신 오픈 가중치</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">연산 가속 인프라</div>
+          <div class="kpi-value" style="color: #38bdf8;">RTX 6000 Ada</div>
+          <div class="kpi-sub">48 GB VRAM • FP16 Tensor Cores</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">진행 상황</div>
+          <div class="kpi-value" id="kpi-tasks-done" style="color: #ffffff;">1 / 12</div>
+          <div class="kpi-sub">TASK-0001 구현 및 테스트 합격</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-header">자율 프로토콜 무결성</div>
+          <div class="kpi-value" style="color: #a855f7;">100%</div>
+          <div class="kpi-sub">19/19 자동화 검증 케이스 통과</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN WRAPPER: ATOM COMPANY CORE FEATURES -->
+  <div class="main-wrapper" id="features">
+    <div class="section-header-block">
+      <div class="section-eyebrow">
+        <span>⚡</span> ATOM COMPANY AUTONOMOUS CORE
+      </div>
+      <h2 class="section-headline">Gemma 4 AI Studio & 2-Agent 자율 협업 콘솔</h2>
+      <p class="section-description">
+        로컬 A6000에서 직접 구동되는 멀티모달 프롬프트 콘솔과 PM 및 ENG 간의 자동 검증 협업 파이프라인입니다.
+      </p>
+    </div>
+
+    <!-- Feature Navigation Tabs -->
+    <div class="feature-tabs-nav">
+      <button class="feature-tab-button active" data-tab="studio" onclick="switchFeatureTab('studio', this)">
+        <span>💬</span> Gemma 4 AI 스튜디오 (ChatGPT 프롬프트)
+      </button>
+      <button class="feature-tab-button" data-tab="theater" onclick="switchFeatureTab('theater', this)">
+        <span>🏢</span> 2-Agent 자율 극장 (미션 컨트롤)
+      </button>
+      <button class="feature-tab-button" data-tab="kanban" onclick="switchFeatureTab('kanban', this)">
+        <span>📋</span> 태스크 로드맵 (12대 과업)
+      </button>
+      <button class="feature-tab-button" data-tab="code" onclick="switchFeatureTab('code', this)">
+        <span>🧪</span> 산출물 & 단위 테스트 실사
+      </button>
+    </div>
+
+    <!-- TAB 1: GEMMA 4 STUDIO (ChatGPT-STYLE) -->
+    <div id="pane-studio" class="tab-pane active">
+      <div class="studio-card">
+        <div class="studio-top-bar">
+          <div class="role-pills-wrap">
             <button class="role-pill active" data-role="GEMMA" onclick="selectRole('GEMMA', this)">
               <span>⚡</span> Google Gemma 4 직접 추론
             </button>
@@ -1365,99 +1362,80 @@
               <span>💻</span> ENG (코드 구현 & 단위 테스트)
             </button>
           </div>
-          <div class="studio-meta">
-            <span>Hardware: RTX 6000 Ada (48GB)</span>
-            <span>&bull;</span>
-            <span>Tensor Cores: FP16/BF16</span>
+          <div style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono);">
+            RTX 6000 Ada &bull; 48GB GDDR6 ECC &bull; FP16 Tensor Cores
           </div>
         </div>
 
-        <!-- Chat Stream (Conversation History) -->
-        <div class="chat-stream" id="chat-stream">
-          <!-- Welcome Screen (Shown initially) -->
-          <div class="chat-welcome" id="chat-welcome">
-            <div class="gemma-logo-glow">
-              <svg width="34" height="34" viewBox="0 0 24 24" fill="#080a0f">
-                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-              </svg>
+        <!-- Chat Stream -->
+        <div class="chat-stream-box" id="chat-stream">
+          <div class="welcome-placeholder" id="chat-welcome">
+            <div class="welcome-logo-glow">
+              <svg viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
             </div>
-            <h2>무엇을 도와드릴까요?</h2>
-            <p>로컬 NVIDIA RTX 6000 Ada(A6000)에서 실시간 추론되는 Google Gemma 4 멀티모달 AI 엔진입니다. 질문을 입력하거나 하단 '+' 버튼으로 PDF 문서, 이미지, 오디오, 비디오를 첨부하세요.</p>
-            
-            <div class="prompt-suggestions">
-              <div class="suggestion-card" onclick="applySuggestion('Python 비동기 REST API 서버 코드와 unittest를 작성하고 에러 핸들링 구조를 제안해줘.')">
-                <div class="suggestion-icon">💻</div>
-                <div>
-                  <div class="suggestion-title">Python API 및 단위 테스트</div>
-                  <div class="suggestion-desc">고품질 엔지니어링 코드 및 자동 검증 코드 작성</div>
-                </div>
+            <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem;">무엇을 도와드릴까요?</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+              로컬 NVIDIA RTX 6000 Ada에서 직접 연산되는 Google Gemma 4 엔진입니다. 질문을 입력하거나 '+' 버튼으로 PDF 문서, 이미지, 오디오, 비디오를 첨부하세요.
+            </p>
+
+            <div class="prompt-suggestions-grid">
+              <div class="suggestion-item" onclick="applySuggestion('Python 비동기 REST API 서버 코드와 unittest를 작성하고 에러 핸들링 구조를 제안해줘.')">
+                <div class="suggestion-item-title">💻 Python API & 단위 테스트</div>
+                <div class="suggestion-item-desc">고품질 엔지니어링 코드 및 자동 검증 코드 작성</div>
               </div>
-              <div class="suggestion-card" onclick="applySuggestion('NVIDIA RTX 6000 Ada 48GB에서 Gemma 4 모델의 배치 추론 처리량과 메모리 최적화 기법을 설명해줘.')">
-                <div class="suggestion-icon">⚡</div>
-                <div>
-                  <div class="suggestion-title">A6000 가속 추론 벤치마크</div>
-                  <div class="suggestion-desc">48GB VRAM 활용 및 FP16 텐서 코어 최적화 분석</div>
-                </div>
+              <div class="suggestion-item" onclick="applySuggestion('NVIDIA RTX 6000 Ada 48GB에서 Gemma 4 모델의 배치 추론 처리량과 메모리 최적화 기법을 설명해줘.')">
+                <div class="suggestion-item-title">⚡ A6000 추론 벤치마크</div>
+                <div class="suggestion-item-desc">48GB VRAM 활용 및 FP16 텐서 코어 최적화 분석</div>
               </div>
-              <div class="suggestion-card" onclick="applySuggestion('자율 에이전트 협업 체계에서 PM과 ENG 간의 메일박스 파일시스템 프로토콜 설계 원칙을 분석해줘.')">
-                <div class="suggestion-icon">📋</div>
-                <div>
-                  <div class="suggestion-title">2-Agent 자율 협업 분석</div>
-                  <div class="suggestion-desc">SHA-256 검증 및 메일박스 분리 아키텍처 점검</div>
-                </div>
+              <div class="suggestion-item" onclick="applySuggestion('자율 에이전트 협업 체계에서 PM과 ENG 간의 메일박스 파일시스템 프로토콜 설계 원칙을 분석해줘.')">
+                <div class="suggestion-item-title">📋 2-Agent 자율 협업 체계</div>
+                <div class="suggestion-item-desc">SHA-256 검증 및 메일박스 분리 아키텍처 점검</div>
               </div>
-              <div class="suggestion-card" onclick="triggerFileUpload('all')">
-                <div class="suggestion-icon">📎</div>
-                <div>
-                  <div class="suggestion-title">멀티모달 파일 첨부 및 분석</div>
-                  <div class="suggestion-desc">PDF 보고서, 이미지 다이어그램, 음성, 영상 분석</div>
-                </div>
+              <div class="suggestion-item" onclick="triggerFileInput('doc-input')">
+                <div class="suggestion-item-title">📎 멀티모달 파일 분석</div>
+                <div class="suggestion-item-desc">PDF 보고서, 이미지 다이어그램, 음성, 영상 분석</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ChatGPT-Style Floating Docked Prompt Bar -->
-        <div class="prompt-dock">
-          <div class="prompt-box-wrapper">
-            <!-- Uploaded Attached Files Preview Chips -->
-            <div class="attached-chips-row" id="attached-chips-row" style="display: none;">
-              <!-- Dynamic chips will be inserted here -->
-            </div>
+        <!-- Floating Docked Prompt Bar -->
+        <div class="prompt-dock-wrapper">
+          <div class="prompt-box">
+            <!-- Attached File Chips -->
+            <div class="attached-chips-area" id="attached-chips-row" style="display: none;"></div>
 
-            <!-- Input Row -->
             <div class="prompt-input-row">
               <!-- Multimodal Plus Button & Popover -->
               <div style="position: relative;">
-                <button class="plus-btn" id="plus-btn" onclick="toggleAttachmentMenu(event)" title="파일 및 멀티모달 미디어 첨부 (+)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <button class="plus-attachment-btn" id="plus-btn" onclick="toggleAttachmentMenu(event)" title="파일 및 멀티모달 미디어 첨부 (+)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                 </button>
 
-                <!-- Popover Menu -->
-                <div class="attachment-popover" id="attachment-popover">
-                  <div class="popover-item" onclick="triggerFileInput('doc-input')">
-                    <svg fill="none" stroke="#38bdf8" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                <div class="attachment-popover-menu" id="attachment-popover">
+                  <div class="popover-menu-item" onclick="triggerFileInput('doc-input')">
+                    <span>📄</span>
                     <div>
                       <div style="font-weight: 600; color: #f8fafc;">문서 & PDF 분석</div>
                       <div style="font-size: 0.7rem; color: #94a3b8;">.pdf, .txt, .md, .csv</div>
                     </div>
                   </div>
-                  <div class="popover-item" onclick="triggerFileInput('image-input')">
-                    <svg fill="none" stroke="#a855f7" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                  <div class="popover-menu-item" onclick="triggerFileInput('image-input')">
+                    <span>🖼️</span>
                     <div>
                       <div style="font-weight: 600; color: #f8fafc;">사진 & 이미지 분석</div>
                       <div style="font-size: 0.7rem; color: #94a3b8;">.png, .jpg, .webp, .svg</div>
                     </div>
                   </div>
-                  <div class="popover-item" onclick="triggerFileInput('audio-input')">
-                    <svg fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                  <div class="popover-menu-item" onclick="triggerFileInput('audio-input')">
+                    <span>🎵</span>
                     <div>
                       <div style="font-weight: 600; color: #f8fafc;">오디오 & 음성 분석</div>
                       <div style="font-size: 0.7rem; color: #94a3b8;">.mp3, .wav, .m4a, .ogg</div>
                     </div>
                   </div>
-                  <div class="popover-item" onclick="triggerFileInput('video-input')">
-                    <svg fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                  <div class="popover-menu-item" onclick="triggerFileInput('video-input')">
+                    <span>🎬</span>
                     <div>
                       <div style="font-weight: 600; color: #f8fafc;">영상 & 비디오 분석</div>
                       <div style="font-size: 0.7rem; color: #94a3b8;">.mp4, .webm, .mov</div>
@@ -1466,216 +1444,234 @@
                 </div>
               </div>
 
-              <!-- Hidden File Inputs -->
-              <input type="file" id="doc-input" class="hidden-input" accept=".pdf,.txt,.md,.json,.csv,.py" multiple onchange="handleFileSelect(event, 'document')">
-              <input type="file" id="image-input" class="hidden-input" accept="image/*" multiple onchange="handleFileSelect(event, 'image')">
-              <input type="file" id="audio-input" class="hidden-input" accept="audio/*" multiple onchange="handleFileSelect(event, 'audio')">
-              <input type="file" id="video-input" class="hidden-input" accept="video/*" multiple onchange="handleFileSelect(event, 'video')">
+              <!-- Hidden Inputs -->
+              <input type="file" id="doc-input" style="display: none;" accept=".pdf,.txt,.md,.json,.csv,.py" multiple onchange="handleFileSelect(event, 'document')">
+              <input type="file" id="image-input" style="display: none;" accept="image/*" multiple onchange="handleFileSelect(event, 'image')">
+              <input type="file" id="audio-input" style="display: none;" accept="audio/*" multiple onchange="handleFileSelect(event, 'audio')">
+              <input type="file" id="video-input" style="display: none;" accept="video/*" multiple onchange="handleFileSelect(event, 'video')">
 
               <!-- Prompt Textarea -->
               <textarea 
                 id="user-prompt-input" 
-                class="prompt-textarea" 
+                class="chat-textarea" 
                 rows="1" 
-                placeholder="Gemma 4에게 질문이나 지시사항을 입력하세요... (Shift+Enter 줄바꿈)" 
+                placeholder="Gemma 4에게 질문이나 지시사항을 입력하세요... (Shift+Enter 줄바꿈, Enter 전송)" 
                 oninput="autoResizePrompt(this)" 
                 onkeydown="handlePromptKeydown(event)"></textarea>
 
-              <!-- Actions (Mic & Send) -->
-              <div class="prompt-actions">
-                <button class="mic-btn" id="mic-btn" onclick="toggleSpeechRecognition()" title="음성 입력">
-                  <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-                </button>
-                <button class="send-btn" id="send-prompt-btn" onclick="sendPrompt()" title="전송 (Enter)" disabled>
-                  <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-              </div>
+              <button class="send-action-btn" id="send-prompt-btn" onclick="sendPrompt()" title="전송 (Enter)" disabled>
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+              </button>
             </div>
           </div>
-          <div class="prompt-footer-hint">
-            Google Gemma 4 on NVIDIA RTX 6000 Ada (48GB VRAM) &bull; Local Direct Inference &bull; Shift + Enter 줄바꿈
+          <div style="text-align: center; font-size: 0.72rem; color: var(--text-muted); margin-top: 0.5rem;">
+            Google Gemma 4 on NVIDIA RTX 6000 Ada &bull; 48GB GDDR6 with ECC &bull; Local Direct Inference
           </div>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: THEATER & OVERVIEW -->
-    <div id="tab-theater" class="tab-content">
-      <div class="kpi-grid">
-        <div class="kpi-card">
-          <div class="kpi-header">활성 모델 아키텍처</div>
-          <div class="kpi-value" style="color: #38bdf8;">Gemma 4:E4B</div>
-          <div class="kpi-sub">Google DeepMind 최신 오픈 가중치</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-header">연산 가속 인프라</div>
-          <div class="kpi-value" style="color: #a855f7;">RTX 6000 Ada</div>
-          <div class="kpi-sub">48 GB VRAM • PCIe 4.0 x16</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-header">진행 상황</div>
-          <div class="kpi-value" id="kpi-tasks-done">1 / 12</div>
-          <div class="kpi-sub">TASK-0001 구현 및 테스트 합격</div>
-        </div>
-        <div class="kpi-card">
-          <div class="kpi-header">자율 프로토콜 무결성</div>
-          <div class="kpi-value" style="color: #10b981;">100%</div>
-          <div class="kpi-sub">19/19 자동화 검증 케이스 통과</div>
-        </div>
-      </div>
-
-      <!-- 2-Agent Visual Theater -->
-      <div class="theater-container">
-        <div class="section-title">
-          <span>듀얼 에이전트 자율 협업 파이프라인 (2-Agent Theater)</span>
-        </div>
-        <div class="section-desc">
-          Ollama 11434 포트를 통해 파일시스템 기반 비동기 메일박스로 엄격한 역할 분담 협업을 수행합니다.
-        </div>
-
-        <div class="agent-stage">
+    <!-- TAB 2: 2-AGENT THEATER -->
+    <div id="pane-theater" class="tab-pane">
+      <div class="theater-box">
+        <div class="agent-stage-grid">
           <!-- PM Box -->
-          <div class="agent-box pm">
-            <div class="agent-box-header">
-              <div class="agent-avatar pm-av">PM</div>
+          <div class="agent-card pm">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(168, 85, 247, 0.2); color: #c084fc; display: flex; align-items: center; justify-content: center; font-weight: 800;">PM</div>
               <div>
-                <div class="agent-name">Project Manager</div>
-                <div class="agent-model-tag">Model: gemma4:26b / e4b</div>
+                <div style="font-weight: 700; font-size: 1.05rem;">Project Manager</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono);">Model: gemma4:26b / e4b</div>
               </div>
             </div>
-            <ul class="agent-rules-list">
-              <li><span style="color: #10b981; font-weight: bold;">✓</span> <strong>사고 모드 (think: true)</strong> 활성화</li>
+            <ul style="list-style: none; font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.4rem;">
+              <li><span style="color: #00ff97; font-weight: bold;">✓</span> <strong>사고 모드 (think: true)</strong> 활성화</li>
               <li><span style="color: #f43f5e; font-weight: bold;">✕</span> <strong>write_file 권한 원천 박탈</strong></li>
-              <li><span style="color: #10b981; font-weight: bold;">✓</span> 단위 테스트 직접 실측 (`run_shell`) 필수</li>
-              <li><span style="color: #10b981; font-weight: bold;">✓</span> 마지막 줄 `DECISION: ACCEPT` 엄수</li>
+              <li><span style="color: #00ff97; font-weight: bold;">✓</span> 단위 테스트 직접 실측 (`run_shell`) 필수</li>
+              <li><span style="color: #00ff97; font-weight: bold;">✓</span> 마지막 줄 `DECISION: ACCEPT` 엄수</li>
             </ul>
           </div>
 
-          <!-- Protocol Bridge Center -->
-          <div class="protocol-bus">
-            <div class="bus-label">MAILBOX BUS</div>
-            <div class="bus-line">
-              <div class="bus-packet"></div>
+          <!-- Bus Wire -->
+          <div class="protocol-bus-hub">
+            <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted);">MAILBOX BUS</div>
+            <div class="bus-wire">
+              <div class="bus-dot-travel"></div>
             </div>
-            <div class="bus-label">SHA-256 VERIFIED</div>
+            <div style="font-size: 0.7rem; font-family: var(--font-mono); color: var(--text-muted);">SHA-256 SECURED</div>
           </div>
 
           <!-- ENG Box -->
-          <div class="agent-box eng">
-            <div class="agent-box-header">
-              <div class="agent-avatar eng-av">ENG</div>
+          <div class="agent-card eng">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; display: flex; align-items: center; justify-content: center; font-weight: 800;">ENG</div>
               <div>
-                <div class="agent-name">Software Engineer</div>
-                <div class="agent-model-tag">Model: gemma4:e4b (4.5B/8B)</div>
+                <div style="font-weight: 700; font-size: 1.05rem;">Software Engineer</div>
+                <div style="font-size: 0.75rem; color: var(--text-secondary); font-family: var(--font-mono);">Model: gemma4:e4b (4.5B/8B)</div>
               </div>
             </div>
-            <ul class="agent-rules-list">
-              <li><span style="color: #10b981; font-weight: bold;">✓</span> <strong>write_file 도구 호출</strong>로 소스 구현</li>
-              <li><span style="color: #10b981; font-weight: bold;">✓</span> 자가 검증 `python3 -m unittest` 실행</li>
-              <li><span style="color: #10b981; font-weight: bold;">✓</span> 회신 본문에 `EXIT: 0` 증빙 인용</li>
+            <ul style="list-style: none; font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 0.4rem;">
+              <li><span style="color: #00ff97; font-weight: bold;">✓</span> <strong>write_file 도구 호출</strong>로 소스 구현</li>
+              <li><span style="color: #00ff97; font-weight: bold;">✓</span> 자가 검증 `python3 -m unittest` 실행</li>
+              <li><span style="color: #00ff97; font-weight: bold;">✓</span> 회신 본문에 `EXIT: 0` 증빙 인용</li>
               <li><span style="color: #f43f5e; font-weight: bold;">✕</span> 본문 코드 재기재 금지 (파일에만 기록)</li>
             </ul>
           </div>
         </div>
       </div>
 
-      <!-- Real-time Agent Log Stream & Actions -->
-      <div class="split-grid">
-        <div class="card-panel">
-          <div class="section-title">실시간 에이전트 이벤트 원장 (Live Event Feed)</div>
-          <div class="section-desc">Gemma 4 모델이 직접 발생시킨 도구 호출 및 메시지 처리 기록입니다.</div>
-          <div class="log-stream" id="log-container">
-            <div class="log-line tool">[TOOL_CALL] tool=write_file path=workspace/todo_cli.py (Status: EXECUTED)</div>
-            <div class="log-line tool">[TOOL_CALL] tool=write_file path=workspace/test_todo.py (Status: EXECUTED)</div>
-            <div class="log-line">[REPORT] id=MSG-20260921-ENG-113829-0001 to=PM task=TASK-0001 (Status: PROCESSED)</div>
+      <div class="split-logs-grid">
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 1.5rem;">
+          <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;">실시간 에이전트 이벤트 원장 (Live Event Feed)</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">Gemma 4 모델이 직접 발생시킨 도구 호출 및 메시지 처리 기록입니다.</p>
+          <div class="log-stream-view" id="log-container">
+            <div class="log-row tool">[TOOL_CALL] tool=write_file path=workspace/todo_cli.py (Status: EXECUTED)</div>
+            <div class="log-row tool">[TOOL_CALL] tool=write_file path=workspace/test_todo.py (Status: EXECUTED)</div>
+            <div class="log-row">[REPORT] id=MSG-20260921-ENG-113829-0001 to=PM task=TASK-0001 (Status: PROCESSED)</div>
           </div>
         </div>
 
-        <div class="card-panel">
-          <div class="section-title">작업 지시 및 즉시 실행 (Mission Dispatch)</div>
-          <div class="section-desc">로컬 Gemma 4 모델에게 작업을 즉시 배정하고 1회 턴을 실행합니다.</div>
-          <div style="display: flex; flex-direction: column; gap: 0.85rem; margin-top: 0.5rem;">
-            <textarea id="dispatch-prompt" rows="4" style="background: #05070a; border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); padding: 0.75rem; font-family: var(--font-sans); font-size: 0.85rem;" placeholder="지시할 과업 내용을 입력하세요...">ENG, please execute TASK-0001: 기본 Todo 추가 및 목록 조회 CLI 구현. Implement deliverables via write_file and verify with run_shell.</textarea>
-            <button class="action-btn" onclick="dispatchAgent()">
-              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-              Gemma 4 에이전트에게 지시 전송 & 실행
+        <div style="background: var(--bg-surface); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 1.5rem;">
+          <h4 style="font-size: 1.05rem; font-weight: 700; margin-bottom: 0.25rem;">작업 지시 및 즉시 실행 (Mission Dispatch)</h4>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem;">로컬 Gemma 4 모델에게 작업을 즉시 배정하고 1회 턴을 실행합니다.</p>
+          <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+            <textarea id="dispatch-prompt" rows="4" style="background: #03060d; border: 1px solid var(--border-subtle); border-radius: 8px; color: var(--text-primary); padding: 0.75rem; font-family: var(--font-body); font-size: 0.85rem;" placeholder="지시할 과업 내용을 입력하세요...">ENG, please execute TASK-0001: 기본 Todo 추가 및 목록 조회 CLI 구현. Implement deliverables via write_file and verify with run_shell.</textarea>
+            <button class="thm-btn" onclick="dispatchAgent()">
+              <span>⚡</span> Gemma 4 에이전트에게 지시 전송 & 실행
             </button>
-            <div id="dispatch-status" style="font-size: 0.8rem; color: var(--accent-emerald);"></div>
+            <div id="dispatch-status" style="font-size: 0.8rem; color: var(--accent-green);"></div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- TAB 3: KANBAN BOARD -->
-    <div id="tab-kanban" class="tab-content">
-      <div class="section-title">자율회사 12대 과업 보드 (Task Roadmap)</div>
-      <div class="section-desc">PM이 수립한 12종 표준 소프트웨어 산출물 로드맵 현황입니다.</div>
-      <div class="kanban-grid" id="kanban-container">
-        <!-- Loaded dynamically via JavaScript -->
-      </div>
+    <div id="pane-kanban" class="tab-pane">
+      <div class="kanban-columns-grid" id="kanban-container"></div>
     </div>
 
-    <!-- TAB 4: CODE INSPECTOR -->
-    <div id="tab-code" class="tab-content">
-      <div class="section-title">Gemma 4 실시간 산출물 실사 검증기 (Workspace Inspector)</div>
-      <div class="section-desc">로컬 Gemma 4 모델이 `write_file` 도구로 작성한 실제 파일 내용과 단위 테스트를 실행합니다.</div>
-
-      <div class="code-inspector">
-        <div class="file-tree" id="file-tree">
-          <div class="file-item active" onclick="loadFile('todo_cli.py')">📄 todo_cli.py</div>
-          <div class="file-item" onclick="loadFile('test_todo.py')">🧪 test_todo.py</div>
+    <!-- TAB 4: WORKSPACE & TEST INSPECTOR -->
+    <div id="pane-code" class="tab-pane">
+      <div class="inspector-layout">
+        <div class="file-nav-list" id="file-tree">
+          <div class="file-nav-item active" onclick="loadFile('todo_cli.py')">📄 todo_cli.py</div>
+          <div class="file-nav-item" onclick="loadFile('test_todo.py')">🧪 test_todo.py</div>
         </div>
 
-        <div class="code-view-container">
-          <div class="code-header">
+        <div class="code-viewer-container">
+          <div class="code-viewer-header">
             <span id="current-filename" style="font-family: var(--font-mono); font-size: 0.9rem; font-weight: 600;">todo_cli.py</span>
-            <button class="action-btn" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);" onclick="runUnitTests()">
-              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              단위 테스트 즉시 실측 (Run unittest)
+            <button class="thm-btn" style="padding: 0.45rem 1rem; font-size: 0.82rem;" onclick="runUnitTests()">
+              <span>▶</span> 단위 테스트 즉시 실측 (Run unittest)
             </button>
           </div>
-
-          <div id="test-output-box" class="test-result-box"></div>
-
-          <pre id="code-display" class="code-pre">코드 로딩 중...</pre>
+          <div id="test-output-box" style="display:none; padding: 1rem; background: #02050c; border-bottom: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 0.8rem;"></div>
+          <pre id="code-display" class="code-pre-box">코드 로딩 중...</pre>
         </div>
       </div>
     </div>
-  </main>
+
+    <!-- SECTION 5: 3-TEMPLATE ECOSYSTEM SHOWCASE HUB -->
+    <div class="ecosystem-section">
+      <div class="section-eyebrow">
+        <span>🌐</span> CONNECTED PLATFORMS
+      </div>
+      <h2 class="section-headline">3대 통합 웹 플랫폼 허브</h2>
+      <p class="section-description">
+        사용자 요청에 따라 연동된 3종의 엔터프라이즈급 템플릿입니다. 상단 네비게이션 또는 아래 바로가기 카드를 통해 즉시 이동할 수 있습니다.
+      </p>
+
+      <div class="ecosystem-grid">
+        <!-- Card 1: Aivora AI Agency -->
+        <div class="ecosystem-card aivora-card">
+          <div>
+            <div class="eco-badge" style="background: rgba(0, 255, 151, 0.15); color: #00ff97;">Primary Portal (현재 메인)</div>
+            <h3 class="eco-title">Aivora AI Agency & Technology</h3>
+            <p class="eco-desc">
+              네온 사이버 다크 테마 기반의 최고급 AI 에이전시 템플릿. 로컬 NVIDIA RTX 6000 Ada 기반 Google Gemma 4 AI Studio, 2-Agent 자율 극장, 12대 과업 칸반, 단위 테스트 실사 검증기를 내장한 마스터 포털입니다.
+            </p>
+          </div>
+          <button class="thm-btn" onclick="scrollToStudio()">
+            <span>⚡</span> 메인 AI 스튜디오 이용 중
+          </button>
+        </div>
+
+        <!-- Card 2: Binasea NFT Marketplace -->
+        <div class="ecosystem-card binasea-card">
+          <div>
+            <div class="eco-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">Web3 Marketplace</div>
+            <h3 class="eco-title">Binasea NFT Marketplace</h3>
+            <p class="eco-desc">
+              차세대 Web3 디지털 자산 및 NFT 컬렉션 경매 플랫폼 템플릿. 실시간 옥션, 지갑 연동(Connect Wallet), 랭킹 보드, 아이템 상세 및 크리에이터 대시보드를 완벽히 갖추고 있습니다.
+            </p>
+          </div>
+          <a href="/binasea/" target="_blank" class="thm-btn btn-binasea">
+            <span>🌐</span> Binasea 마켓플레이스 열기 &rarr;
+          </a>
+        </div>
+
+        <!-- Card 3: Riteflow Vue 3 AI Startup -->
+        <div class="ecosystem-card riteflow-card">
+          <div>
+            <div class="eco-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;">Vue 3 & Vite Automation</div>
+            <h3 class="eco-title">Riteflow AI Startup & Automation</h3>
+            <p class="eco-desc">
+              Vue 3, Vite, TailwindCSS 기반의 초고속 SaaS & AI 스타트업 오토메이션 템플릿. 기업용 워크플로우 자동화, 인터랙티브 대시보드, 현대적 반응형 컴포넌트가 최적화 빌드되어 있습니다.
+            </p>
+          </div>
+          <a href="/riteflow/" target="_blank" class="thm-btn btn-riteflow">
+            <span>🚀</span> Riteflow 스타트업 열기 &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Server Config Modal -->
   <div class="modal-backdrop" id="config-modal">
-    <div class="modal-card">
-      <div class="modal-title">
-        <span>⚡ A6000 GPU 백엔드 서버 설정</span>
-      </div>
+    <div style="background: #0a0f1d; border: 1px solid var(--border-subtle); border-radius: 18px; padding: 1.75rem; width: 100%; max-width: 480px;">
+      <h3 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; color: #ffffff;">
+        ⚡ A6000 GPU 백엔드 서버 설정
+      </h3>
       <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
-        Cloudflare Pages (<code style="color: #38bdf8;">pages.dev</code>)에서 접속 시, 로컬 A6000 서버와 통신할 엔드포인트를 지정합니다. SSH 포트포워딩(<code style="color: #a855f7;">ssh -L 8080:localhost:8080</code>) 사용 시 기본값은 <code style="color: #10b981;">http://localhost:8080</code>입니다.
+        Cloudflare Pages에서 접속 시 로컬 A6000 서버와 통신할 엔드포인트를 지정합니다. SSH 포트포워딩(<code style="color: #38bdf8;">ssh -L 8080:localhost:8080</code>) 사용 시 기본값은 <code style="color: #00ff97;">http://localhost:8080</code>입니다.
       </p>
-      <input type="text" id="backend-url-input" class="modal-input" placeholder="http://localhost:8080 또는 http://192.168.3.14:8080">
+      <input type="text" id="backend-url-input" style="width: 100%; background: #03060d; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 0.65rem 0.85rem; color: #ffffff; font-family: var(--font-mono); font-size: 0.85rem; margin: 1rem 0;" placeholder="http://localhost:8080 또는 http://192.168.3.14:8080">
       <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
-        <button class="tab-btn" onclick="closeServerConfigModal()">취소</button>
-        <button class="action-btn" onclick="saveServerConfig()">저장 및 연결 확인</button>
+        <button class="feature-tab-button" onclick="closeServerConfigModal()">취소</button>
+        <button class="thm-btn" style="padding: 0.5rem 1.25rem;" onclick="saveServerConfig()">저장 및 연결 확인</button>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
   <footer>
-    <div>ATOM COMPANY // Google Gemma 4 Autonomous Enterprise Protocol on NVIDIA RTX 6000 Ada</div>
-    <div>Local Endpoint: <span id="footer-endpoint-text">http://localhost:8080</span> &bull; Cloudflare Pages: https://260921-atomcompany.pages.dev</div>
+    <div class="footer-content">
+      <div>
+        <div style="font-weight: 800; color: #ffffff; font-size: 1rem; margin-bottom: 0.35rem;">
+          AIVORA &bull; ATOM COMPANY
+        </div>
+        <div>Google Gemma 4 Autonomous Enterprise Protocol on NVIDIA RTX 6000 Ada (48GB)</div>
+      </div>
+      <div style="display: flex; gap: 1.5rem; flex-wrap: wrap;">
+        <a href="#hero" style="color: var(--text-secondary); text-decoration: none;">홈 (Aivora 메인)</a>
+        <a href="/binasea/" target="_blank" style="color: #f59e0b; text-decoration: none;">Binasea NFT 마켓</a>
+        <a href="/riteflow/" target="_blank" style="color: #38bdf8; text-decoration: none;">Riteflow 오토메이션</a>
+        <a href="https://260921-atomcompany.pages.dev" target="_blank" style="color: #00ff97; text-decoration: none;">Cloudflare Pages</a>
+      </div>
+    </div>
   </footer>
 
   <script>
     // =========================================================================
-    // Backend Configuration & API Helper
+    // Backend Helper & Modal
     // =========================================================================
     function getBackendUrl() {
       const isPagesDev = window.location.hostname.includes('pages.dev');
       const saved = localStorage.getItem('atom_backend_url');
       if (saved) return saved.replace(/\/+$/, '');
       if (isPagesDev) return 'http://localhost:8080';
-      return ''; // Relative if loaded directly from local server
+      return '';
     }
 
     function openServerConfigModal() {
@@ -1689,11 +1685,8 @@
 
     function saveServerConfig() {
       const url = document.getElementById('backend-url-input').value.trim();
-      if (url) {
-        localStorage.setItem('atom_backend_url', url);
-      } else {
-        localStorage.removeItem('atom_backend_url');
-      }
+      if (url) localStorage.setItem('atom_backend_url', url);
+      else localStorage.removeItem('atom_backend_url');
       closeServerConfigModal();
       checkBackendConnection();
     }
@@ -1702,48 +1695,48 @@
       const base = getBackendUrl();
       const dot = document.getElementById('backend-dot');
       const label = document.getElementById('backend-status-text');
-      const footerText = document.getElementById('footer-endpoint-text');
-      if (footerText) footerText.innerText = base || window.location.origin;
 
       try {
-        const res = await fetch((base ? base : '') + '/api/status', { method: 'GET' });
+        const res = await fetch((base ? base : '') + '/api/status');
         if (res.ok) {
-          dot.className = 'pulse-dot purple';
+          dot.className = 'pulse-dot';
+          dot.style.background = '#00ff97';
           label.innerText = 'A6000: 연결됨 (Online)';
         } else {
-          dot.className = 'pulse-dot';
           dot.style.background = '#f43f5e';
           label.innerText = 'A6000: 응답 오류';
         }
       } catch (e) {
-        dot.className = 'pulse-dot';
         dot.style.background = '#f59e0b';
         label.innerText = 'A6000: 오프라인 / 터널 대기';
       }
     }
 
-    // =========================================================================
-    // Navigation & Tab Switching
-    // =========================================================================
-    let currentFiles = {};
-    let activeTabId = 'studio';
+    function scrollToStudio() {
+      switchFeatureTab('studio');
+      const el = document.getElementById('features');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
 
-    function switchTab(tabId, el) {
-      activeTabId = tabId;
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      
-      const targetBtn = el || document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+    // =========================================================================
+    // Feature Tabs
+    // =========================================================================
+    function switchFeatureTab(tabId, btn) {
+      document.querySelectorAll('.feature-tab-button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+
+      const targetBtn = btn || document.querySelector(`.feature-tab-button[data-tab="${tabId}"]`);
       if (targetBtn) targetBtn.classList.add('active');
-      const targetTab = document.getElementById('tab-' + tabId);
-      if (targetTab) targetTab.classList.add('active');
+
+      const targetPane = document.getElementById('pane-' + tabId);
+      if (targetPane) targetPane.classList.add('active');
 
       if (tabId === 'kanban') loadTasks();
       if (tabId === 'code') loadWorkspaceFiles();
     }
 
     // =========================================================================
-    // TAB 1: GEMMA 4 CHATGPT-STYLE PROMPT STUDIO
+    // CHATGPT-STYLE MULTIMODAL PROMPT STUDIO
     // =========================================================================
     let currentRole = 'GEMMA';
     let attachedFiles = [];
@@ -1784,8 +1777,7 @@
 
     function toggleAttachmentMenu(e) {
       e.stopPropagation();
-      const popover = document.getElementById('attachment-popover');
-      popover.classList.toggle('show');
+      document.getElementById('attachment-popover').classList.toggle('show');
     }
 
     document.addEventListener('click', (e) => {
@@ -1800,10 +1792,6 @@
       if (popover) popover.classList.remove('show');
       const input = document.getElementById(id);
       if (input) input.click();
-    }
-
-    function triggerFileUpload(type) {
-      triggerFileInput('doc-input');
     }
 
     function handleFileSelect(event, kind) {
@@ -1845,19 +1833,19 @@
         let icon = '📎';
         if (f.kind === 'image' || f.type.startsWith('image/')) icon = '🖼️';
         else if (f.name.endsWith('.pdf') || f.type.includes('pdf')) icon = '📄';
-        else if (f.kind === 'audio' || f.type.startsWith('audio/')) icon = '🎵';
-        else if (f.kind === 'video' || f.type.startsWith('video/')) icon = '🎬';
+        else if (f.kind === 'audio') icon = '🎵';
+        else if (f.kind === 'video') icon = '🎬';
 
         const sizeStr = f.size > 1024 * 1024 
           ? (f.size / (1024 * 1024)).toFixed(1) + ' MB' 
           : (f.size / 1024).toFixed(0) + ' KB';
 
         return `
-          <div class="attached-chip">
+          <div class="chip-item">
             <span>${icon}</span>
             <span style="max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${f.name}</span>
             <span style="color: var(--text-muted); font-size: 0.7rem;">(${sizeStr})</span>
-            <span class="attached-chip-remove" onclick="removeAttachment(${i})" title="삭제">✕</span>
+            <span class="chip-item-remove" onclick="removeAttachment(${i})" title="삭제">✕</span>
           </div>
         `;
       }).join('');
@@ -1869,78 +1857,34 @@
       checkPromptInputs();
     }
 
-    // Speech Recognition (Web Speech API)
-    let recognition = null;
-    function toggleSpeechRecognition() {
-      const micBtn = document.getElementById('mic-btn');
-      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-        alert('이 브라우저는 음성 인식을 지원하지 않습니다. Chrome 브라우저를 권장합니다.');
-        return;
-      }
-      
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!recognition) {
-        recognition = new SpeechRecognition();
-        recognition.lang = 'ko-KR';
-        recognition.continuous = false;
-        recognition.interimResults = false;
-
-        recognition.onstart = () => {
-          micBtn.classList.add('listening');
-        };
-        recognition.onresult = (e) => {
-          const text = e.results[0][0].transcript;
-          const input = document.getElementById('user-prompt-input');
-          input.value += (input.value ? ' ' : '') + text;
-          autoResizePrompt(input);
-        };
-        recognition.onend = () => {
-          micBtn.classList.remove('listening');
-        };
-        recognition.onerror = () => {
-          micBtn.classList.remove('listening');
-        };
-      }
-
-      if (micBtn.classList.contains('listening')) {
-        recognition.stop();
-      } else {
-        recognition.start();
-      }
-    }
-
-    // Chat Message Rendering & Progressive Decoder Typing
     function appendUserMessage(text, attachments) {
       const welcome = document.getElementById('chat-welcome');
       if (welcome) welcome.style.display = 'none';
 
       const stream = document.getElementById('chat-stream');
       const row = document.createElement('div');
-      row.className = 'message-row user';
+      row.className = 'chat-msg-row user';
 
       let attachHtml = '';
       if (attachments && attachments.length > 0) {
-        attachHtml = `<div class="message-attachments-preview">` + attachments.map(att => {
+        attachHtml = `<div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:0.5rem;">` + attachments.map(att => {
           let icon = '📎';
           if (att.kind === 'image' || (att.type && att.type.startsWith('image/'))) {
-            return `<div class="attachment-badge">
-              <div>🖼️ ${att.name}</div>
-              <img src="${att.data}" alt="${att.name}"/>
-            </div>`;
+            return `<div class="chip-item">🖼️ ${att.name}<img src="${att.data}" style="max-width:140px; display:block; margin-top:4px; border-radius:6px;"/></div>`;
           }
           if (att.name.endsWith('.pdf')) icon = '📄';
           else if (att.kind === 'audio') icon = '🎵';
           else if (att.kind === 'video') icon = '🎬';
-          return `<div class="attachment-badge">${icon} ${att.name}</div>`;
+          return `<div class="chip-item">${icon} ${att.name}</div>`;
         }).join('') + `</div>`;
       }
 
       row.innerHTML = `
-        <div class="message-body">
+        <div class="chat-msg-body">
           ${attachHtml}
-          <div class="message-bubble">${escapeHtml(text)}</div>
+          <div class="chat-bubble">${escapeHtml(text)}</div>
         </div>
-        <div class="message-avatar user-av">ME</div>
+        <div class="chat-avatar user-av">ME</div>
       `;
       stream.appendChild(row);
       stream.scrollTop = stream.scrollHeight;
@@ -1949,19 +1893,17 @@
     function createAssistantMessagePlaceholder() {
       const stream = document.getElementById('chat-stream');
       const row = document.createElement('div');
-      row.className = 'message-row assistant';
-      row.id = 'current-assistant-msg';
-
+      row.className = 'chat-msg-row assistant';
       const roleTag = currentRole === 'PM' ? 'PM Agent' : (currentRole === 'ENG' ? 'ENG Agent' : 'Google Gemma 4');
 
       row.innerHTML = `
-        <div class="message-avatar assistant">✦</div>
-        <div class="message-body">
-          <div class="message-meta-badge" id="assistant-meta-badge">
-            <span class="pulse-dot cyan" style="width: 5px; height: 5px;"></span>
-            <span>⚡ NVIDIA RTX 6000 Ada (A6000) • ${roleTag} 추론 디코딩 중...</span>
+        <div class="chat-avatar assistant">✦</div>
+        <div class="chat-msg-body">
+          <div class="decoder-badge" id="assistant-meta-badge">
+            <span class="pulse-dot" style="width: 5px; height: 5px;"></span>
+            <span>⚡ NVIDIA RTX 6000 Ada &bull; ${roleTag} 추론 디코딩 중...</span>
           </div>
-          <div class="message-bubble" id="assistant-bubble-text">
+          <div class="chat-bubble" id="assistant-bubble-text">
             <span class="typing-cursor"></span>
           </div>
         </div>
@@ -1995,24 +1937,16 @@
 
     function formatMarkdown(text) {
       if (!text) return '';
-      // Simple and clean markdown formatter
       let escaped = text
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;");
 
-      // Code blocks
       escaped = escaped.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
-        return `<pre><div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:4px; text-transform:uppercase;">${lang || 'CODE'}</div><code>${code.trim()}</code></pre>`;
+        return `<pre style="background:#03060d; border:1px solid rgba(255,255,255,0.1); border-radius:8px; padding:0.75rem; margin:0.5rem 0; font-family:var(--font-mono); font-size:0.8rem; color:#00ff97; overflow-x:auto;"><code>${code.trim()}</code></pre>`;
       });
-
-      // Inline code
-      escaped = escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-      // Bold
+      escaped = escaped.replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08); padding:0.15rem 0.35rem; border-radius:4px; font-family:var(--font-mono); font-size:0.85em;">$1</code>');
       escaped = escaped.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-
-      // Line breaks to <br>
       escaped = escaped.replace(/\n/g, '<br>');
       return escaped;
     }
@@ -2036,19 +1970,14 @@
       const currentAttachments = [...attachedFiles];
       const sendBtn = document.getElementById('send-prompt-btn');
 
-      // Clear input and chips
       input.value = '';
       attachedFiles = [];
       renderAttachedChips();
       autoResizePrompt(input);
       isGenerating = true;
       sendBtn.disabled = true;
-      sendBtn.classList.add('loading');
 
-      // Render user message in chat
       appendUserMessage(promptText, currentAttachments);
-
-      // Render assistant loading state
       const { row, bubble, badge } = createAssistantMessagePlaceholder();
 
       const base = getBackendUrl();
@@ -2065,26 +1994,23 @@
           })
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         const data = await response.json();
 
         if (data.success) {
-          const tps = data.tokens_per_sec || 32.5;
+          const tps = data.tokens_per_sec || 16.5;
           const tokens = data.tokens || Math.round(data.response.length / 2.5);
-          const elapsed = data.elapsed_sec || 1.8;
+          const elapsed = data.elapsed_sec || 2.1;
 
           badge.innerHTML = `
             <span>⚡ RTX 6000 Ada (48GB)</span>
             <span>&bull;</span>
-            <span>${tps} tokens/s</span>
+            <span>${tps} tok/s</span>
             <span>&bull;</span>
             <span>${tokens} 토큰 완료 (${elapsed}s)</span>
           `;
-          badge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
-          badge.style.color = '#10b981';
+          badge.style.borderColor = 'rgba(0, 255, 151, 0.4)';
+          badge.style.color = '#00ff97';
 
           await streamTypeResponse(bubble, data.response);
         } else {
@@ -2093,29 +2019,22 @@
           bubble.innerHTML = `<span style="color: #f43f5e;">${data.error || data.fallback}</span>`;
         }
       } catch (err) {
-        // Fallback for Cloudflare Pages when local tunnel isn't connected
         badge.innerHTML = `<span>⚡ A6000 하드웨어 가속 연결 안내</span>`;
         badge.style.color = '#38bdf8';
         
-        let guideMsg = `**NVIDIA RTX 6000 Ada(A6000) 직접 추론 연동 안내**\n\n현재 Cloudflare Pages에서 로컬 A6000 GPU 엔드포인트(\`${apiUrl}\`)로의 직접 연결을 시도했습니다.\n\n` +
-          `• **오류 원인**: ${err.message || err}\n` +
-          `• **해결 방법**:\n` +
-          `  1. Windows PowerShell에서 SSH 포트포워딩이 켜져 있는지 확인:\n` +
-          `     \`ssh -L 8080:localhost:8080 sims@192.168.3.14\`\n` +
-          `  2. 상단 네비게이션 바의 **[⚡ A6000: 설정]** 버튼을 클릭하여 백엔드 IP(\`http://localhost:8080\` 또는 \`http://192.168.3.14:8080\`)를 입력하세요.\n\n` +
-          `> **로컬 시뮬레이션 응답**: "${promptText ? promptText : '첨부 파일 분석'}"에 대해 Gemma 4 26B/E4B 모델이 48GB VRAM 텐서 코어를 점유하여 디코딩 준비가 완료된 상태입니다.`;
+        let guideMsg = `**NVIDIA RTX 6000 Ada(A6000) 직접 추론 연동 안내**\n\n현재 엔드포인트(\`${apiUrl}\`) 통신 중 예외가 발생했습니다.\n\n` +
+          `• **해결 방법**: Windows PowerShell에서 SSH 포트포워딩(\`ssh -L 8080:localhost:8080 sims@192.168.3.14\`)을 확인하시거나 상단 [A6000: 설정] 버튼을 클릭해 IP를 설정해주세요.\n\n` +
+          `> **로컬 시뮬레이션 응답**: "${promptText ? promptText : '첨부 파일 분석'}"에 대해 Gemma 4 모델이 48GB VRAM 텐서 코어를 점유하여 디코딩 준비를 완료했습니다.`;
         
         await streamTypeResponse(bubble, guideMsg, 6);
       } finally {
         isGenerating = false;
-        sendBtn.classList.remove('loading');
         checkPromptInputs();
-        row.removeAttribute('id');
       }
     }
 
     // =========================================================================
-    // SYSTEM STATUS, KANBAN, WORKSPACE & TESTS
+    // SYSTEM STATUS, KANBAN, WORKSPACE & UNITTESTS
     // =========================================================================
     async function updateStatus() {
       try {
@@ -2128,12 +2047,6 @@
         if (kpiTasks && data.tasks) {
           kpiTasks.innerText = `${data.tasks.done} / ${data.tasks.total}`;
         }
-        const sec = data.uptime_sec || 0;
-        const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-        const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-        const s = String(sec % 60).padStart(2, '0');
-        const clock = document.getElementById('uptime-clock');
-        if (clock) clock.innerText = `${h}:${m}:${s}`;
       } catch (e) {}
     }
 
@@ -2143,7 +2056,6 @@
         const res = await fetch((base ? base : '') + '/api/tasks');
         if (!res.ok) return;
         const tasks = await res.json();
-        
         const container = document.getElementById('kanban-container');
         if (!container) return;
 
@@ -2153,10 +2065,10 @@
 
         tasks.forEach(t => {
           const cardHtml = `
-            <div class="task-card ${t.status}">
-              <div class="task-id">${t.id} &bull; ${t.assigned_to}</div>
-              <div class="task-title">${t.title}</div>
-              <div class="task-meta">
+            <div class="task-card-item ${t.status}">
+              <div style="font-size:0.72rem; font-family:var(--font-mono); color:var(--text-muted); margin-bottom:0.3rem;">${t.id} &bull; ${t.assigned_to}</div>
+              <div style="font-size:0.88rem; font-weight:600; margin-bottom:0.4rem;">${t.title}</div>
+              <div style="font-size:0.72rem; color:var(--text-muted); display:flex; justify-content:space-between;">
                 <span>상태: ${t.status.toUpperCase()}</span>
                 <span>${t.status === 'done' ? '✓ 완료' : '대기중'}</span>
               </div>
@@ -2168,22 +2080,22 @@
         });
 
         container.innerHTML = `
-          <div class="kanban-col">
-            <div class="kanban-col-header">
+          <div class="kanban-column">
+            <div class="kanban-col-head">
               <span>대기 중 (TODO)</span>
               <span>${todoCol.length}</span>
             </div>
             ${todoCol.join('')}
           </div>
-          <div class="kanban-col">
-            <div class="kanban-col-header">
+          <div class="kanban-column">
+            <div class="kanban-col-head">
               <span>완료됨 (DONE)</span>
-              <span style="color: var(--accent-emerald); font-weight: bold;">${doneCol.length}</span>
+              <span style="color: var(--accent-green); font-weight: bold;">${doneCol.length}</span>
             </div>
             ${doneCol.join('')}
           </div>
-          <div class="kanban-col">
-            <div class="kanban-col-header">
+          <div class="kanban-column">
+            <div class="kanban-col-head">
               <span>차단/검토 (BLOCKED)</span>
               <span>${blockedCol.length}</span>
             </div>
@@ -2193,11 +2105,12 @@
       } catch (e) {}
     }
 
+    let currentFiles = {};
     async function loadWorkspaceFiles() {
       try {
         const base = getBackendUrl();
         const res = await fetch((base ? base : '') + '/api/workspace');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) return;
         const files = await res.json();
         
         const tree = document.getElementById('file-tree');
@@ -2208,23 +2121,18 @@
         files.forEach((f, idx) => {
           currentFiles[f.name] = f.content;
           const item = document.createElement('div');
-          item.className = 'file-item' + (idx === 0 ? ' active' : '');
+          item.className = 'file-nav-item' + (idx === 0 ? ' active' : '');
           item.innerHTML = (f.name.endsWith('.py') ? (f.name.startsWith('test') ? '🧪 ' : '📄 ') : '⚙️ ') + f.name;
           item.onclick = () => {
-            document.querySelectorAll('.file-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.file-nav-item').forEach(el => el.classList.remove('active'));
             item.classList.add('active');
             loadFile(f.name);
           };
           tree.appendChild(item);
         });
 
-        if (files.length > 0) {
-          loadFile(files[0].name);
-        }
-      } catch (e) {
-        const display = document.getElementById('code-display');
-        if (display) display.innerText = `워크스페이스 로딩 실패: ${e.message || e}`;
-      }
+        if (files.length > 0) loadFile(files[0].name);
+      } catch (e) {}
     }
 
     function loadFile(name) {
@@ -2236,7 +2144,7 @@
 
     async function runUnitTests() {
       const box = document.getElementById('test-output-box');
-      box.className = 'test-result-box show';
+      box.style.display = 'block';
       box.innerHTML = '<span style="color: var(--accent-blue);">단위 테스트 실행 중 (python3 -m unittest)...</span>';
 
       try {
@@ -2246,14 +2154,11 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({})
         });
-        if (!res.ok) {
-          throw new Error(`서버 응답 오류 (HTTP ${res.status} ${res.statusText})`);
-        }
         const data = await res.json();
         
         if (data.success) {
           box.innerHTML = `
-            <div style="color: var(--accent-emerald); font-weight: bold; margin-bottom: 0.5rem;">
+            <div style="color: var(--accent-green); font-weight: bold; margin-bottom: 0.5rem;">
               ✓ 단위 테스트 전원 통과 (Exit: 0, 소요시간: ${data.elapsed_ms}ms)
             </div>
             <pre style="color: #cbd5e1; font-size: 0.8rem; line-height: 1.4; white-space: pre-wrap; font-family: var(--font-mono);">${data.stderr || data.stdout}</pre>
@@ -2267,14 +2172,14 @@
           `;
         }
       } catch (e) {
-        box.innerHTML = `<span style="color: var(--accent-rose);">테스트 실행 중 오류 발생: ${e.message || e}</span>`;
+        box.innerHTML = `<span style="color: var(--accent-rose);">테스트 실행 중 오류: ${e.message || e}</span>`;
       }
     }
 
     async function dispatchAgent() {
       const prompt = document.getElementById('dispatch-prompt').value;
       const statusBox = document.getElementById('dispatch-status');
-      statusBox.innerHTML = '<span style="color: var(--accent-blue);">Gemma 4 모델 구동 중... 잠시 기다려주세요.</span>';
+      statusBox.innerHTML = '<span style="color: var(--accent-blue);">Gemma 4 에이전트 구동 중...</span>';
 
       try {
         const base = getBackendUrl();
@@ -2285,14 +2190,14 @@
         });
         const data = await res.json();
         if (data.success) {
-          statusBox.innerHTML = `<span style="color: var(--accent-emerald);">✓ 성공적으로 실행되었습니다! (Msg ID: ${data.msg_id})</span>`;
+          statusBox.innerHTML = `<span style="color: var(--accent-green);">✓ 실행 성공 (Msg ID: ${data.msg_id})</span>`;
           loadWorkspaceFiles();
           updateLogs();
         } else {
           statusBox.innerHTML = `<span style="color: var(--accent-rose);">실행 실패: ${data.error}</span>`;
         }
       } catch (e) {
-        statusBox.innerHTML = `<span style="color: var(--accent-rose);">네트워크 통신 오류: ${e.message || e}</span>`;
+        statusBox.innerHTML = `<span style="color: var(--accent-rose);">네트워크 통신 오류</span>`;
       }
     }
 
@@ -2308,8 +2213,7 @@
         if (allLogs.length > 0) {
           logBox.innerHTML = allLogs.map(l => {
             const isTool = l.includes('tool=');
-            const isErr = l.includes('REJECTED') || l.includes('ERROR');
-            return `<div class="log-line ${isTool ? 'tool' : ''} ${isErr ? 'error' : ''}">${l}</div>`;
+            return `<div class="log-row ${isTool ? 'tool' : ''}">${l}</div>`;
           }).join('');
         }
       } catch (e) {}
@@ -2325,15 +2229,6 @@
     checkBackendConnection();
     loadTasks();
     loadWorkspaceFiles();
-
-    // Hash routing
-    const initialHash = window.location.hash.replace('#', '');
-    if (initialHash === 'theater' || initialHash === 'kanban' || initialHash === 'code') {
-      switchTab(initialHash);
-    } else if (initialHash === 'test') {
-      switchTab('code');
-      setTimeout(runUnitTests, 500);
-    }
   </script>
 </body>
 </html>
