@@ -23,7 +23,9 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/" or self.path == "/index.html":
-            index_path = os.path.join(ROOT, "web", "index.html")
+            index_path = os.path.join(ROOT, "index.html")
+            if not os.path.exists(index_path):
+                index_path = os.path.join(ROOT, "web", "index.html")
             if os.path.exists(index_path):
                 with open(index_path, "rb") as f:
                     content = f.read()
@@ -79,6 +81,11 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
 
         if self.path == "/api/dispatch":
             res = self.dispatch_agent_task(payload)
+            self.send_json(res)
+            return
+
+        if self.path == "/api/chat":
+            res = self.handle_chat_query(payload)
             self.send_json(res)
             return
 
@@ -283,6 +290,91 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
             }
         except Exception as e:
             return {"success": False, "error": str(e)}
+
+    def handle_chat_query(self, payload):
+        prompt = payload.get("prompt", "").strip()
+        role = payload.get("role", "DIRECT").upper()
+        attachments = payload.get("attachments", [])
+
+        if not prompt and not attachments:
+            return {"success": False, "error": "프롬프트 또는 첨부파일을 입력해주세요."}
+
+        context_parts = []
+        images_b64 = []
+        for att in attachments:
+            name = att.get("name", "file")
+            ftype = att.get("type", "")
+            data = att.get("data", "")
+            if ftype.startswith("image/"):
+                if "," in data:
+                    data = data.split(",", 1)[1]
+                images_b64.append(data)
+                context_parts.append(f"[첨부 이미지: {name}]")
+            elif "pdf" in ftype or name.endswith(".pdf"):
+                context_parts.append(f"[첨부 PDF 문서: {name}]")
+            elif ftype.startswith("audio/"):
+                context_parts.append(f"[첨부 오디오: {name}]")
+            elif ftype.startswith("video/"):
+                context_parts.append(f"[첨부 비디오: {name}]")
+            else:
+                context_parts.append(f"[첨부 파일: {name}]")
+
+        full_prompt = prompt
+        if context_parts:
+            full_prompt = "\n".join(context_parts) + ("\n\n" + prompt if prompt else "\n\n위 첨부 자료를 분석해주세요.")
+
+        system_prompt = "당신은 로컬 NVIDIA RTX 6000 Ada 환경에서 구동되는 Google Gemma 4 AI 어시스턴트입니다. 한국어로 깊이 있고 전문적이며 친절하게 답변하세요."
+        if role == "PM":
+            system_prompt += " 당신은 AtomCompany의 수석 Project Manager입니다. 작업 계획, 기획 검토, 테스트 요구사항 명세 관점에서 답변하세요."
+        elif role == "ENG":
+            system_prompt += " 당신은 AtomCompany의 수석 Software Engineer입니다. 고품질 코드 구현, 단위 테스트 작성, 최적화 및 디버깅 관점에서 답변하세요."
+
+        start_t = time.time()
+        try:
+            req_data = {
+                "model": "gemma4:e4b",
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": full_prompt}
+                ],
+                "stream": False
+            }
+            if images_b64:
+                req_data["messages"][-1]["images"] = images_b64
+
+            req_bytes = json.dumps(req_data).encode("utf-8")
+            ollama_req = urllib.request.Request(
+                "http://127.0.0.1:11434/api/chat",
+                data=req_bytes,
+                headers={"Content-Type": "application/json"}
+            )
+            with urllib.request.urlopen(ollama_req, timeout=180) as resp:
+                result = json.loads(resp.read().decode("utf-8"))
+
+            elapsed = time.time() - start_t
+            content = result.get("message", {}).get("content", "")
+            eval_count = result.get("eval_count", 0)
+            tps = round(eval_count / elapsed, 1) if elapsed > 0 and eval_count > 0 else 0
+
+            return {
+                "success": True,
+                "response": content,
+                "model": "gemma4:e4b",
+                "role": role,
+                "gpu": "NVIDIA RTX 6000 Ada Generation (48GB)",
+                "elapsed_sec": round(elapsed, 2),
+                "tokens": eval_count,
+                "tokens_per_sec": tps
+            }
+        except Exception as e:
+            elapsed = time.time() - start_t
+            # Fallback response if Ollama is busy/cold loading
+            return {
+                "success": False,
+                "error": f"Gemma 4 로컬 추론 오류 ({str(e)})",
+                "elapsed_sec": round(elapsed, 2),
+                "fallback": f"A6000 Gemma 4 연산 중 예외가 발생했습니다: {str(e)}"
+            }
 
 SERVER_START_TIME = time.time()
 PORTS = [8080, 3000, 3001]

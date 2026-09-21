@@ -1,56 +1,61 @@
 import json
 import os
 
-TODO_FILE = "todo_list.json"
+TODO_FILE = "todo_data.json"
 
-def load_todos():
-    """todo_list.json에서 Todo 목록을 불러옵니다. 파일이 없으면 빈 리스트를 반환합니다."""
+def _load_todos():
+    """Todo 파일을 로드하거나, 파일이 없으면 빈 리스트를 반환합니다."""
     if not os.path.exists(TODO_FILE):
         return []
     try:
-        with open(TODO_FILE, 'r', encoding='utf-8') as f:
+        with open(TODO_FILE, 'r') as f:
             return json.load(f)
     except json.JSONDecodeError:
-        # 파일이 비어있거나 형식이 잘못되었을 경우 초기화
+        # 파일이 비어있거나 형식이 잘못된 경우 빈 리스트로 시작
         return []
 
-def save_todos(todos):
-    """Todo 목록을 todo_list.json 파일에 저장합니다."""
-    with open(TODO_FILE, 'w', encoding='utf-8') as f:
-        json.dump(todos, f, indent=4, ensure_ascii=False)
+def _save_todos(todos):
+    """Todo 리스트를 파일에 저장합니다."""
+    with open(TODO_FILE, 'w') as f:
+        json.dump(todos, f, indent=4)
 
-def add_todo(task_description):
-    """새로운 Todo 항목을 추가합니다. (테스트 용이성을 위해 상태값만 반환)"""
-    todos = load_todos()
-    # ID는 현재 목록의 크기 + 1로 가정하고 부여 (간단 버전)
-    new_id = len(todos) + 1 if todos else 1
-    new_todo = {
-        "id": new_id,
-        "task": task_description,
-        "done": False
-    }
-    todos.append(new_todo)
-    save_todos(todos)
-    return new_todo
+def add_todo(task_description: str):
+    """새로운 할 일을 추가합니다."""
+    todos = _load_todos()
+    todos.append({"task": task_description, "done": False})
+    _save_todos(todos)
+    print(f"✅ 할 일 '{task_description}'이(가) 추가되었습니다.")
 
-def view_todos():
-    """현재 Todo 목록을 조회합니다. (테스트 용이성을 위해 문자열 반환)"""
-    todos = load_todos()
+def list_todos():
+    """현재 할 일 목록을 조회합니다."""
+    todos = _load_todos()
     if not todos:
-        return "등록된 할 일 목록이 없습니다."
-    
-    output = ["--- 할 일 목록 ---"]
-    for todo in todos:
-        status = "[완료]" if todo["done"] else "[진행]"
-        output.append(f"{todo['id']}. {status} {todo['task']}")
-    
-    return "\n".join(output)
+        print("📝 등록된 할 일이 없습니다.")
+        return
 
-# CLI 인터페이스를 위한 main 함수 (테스트 시에는 사용되지 않거나, 테스트 코드를 간결하게 하기 위해 비워둡니다)
-def main_cli():
-    pass
+    print("\n==== 할 일 목록 ====")
+    for index, todo in enumerate(todos):
+        status = "✅" if todo["done"] else "⏳"
+        print(f"{index + 1}. [{status}] {todo['task']}")
+    print("====================")
 
-# 임시로 테스트를 위해 파일 상태를 초기화하는 함수 (테스트 실행 전후에 사용)
-def clear_todo_file():
-    if os.path.exists(TODO_FILE):
-        os.remove(TODO_FILE)
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 2:
+        print("Usage: python todo_cli.py <command> [arguments]")
+        print("Commands: add <task description>, list")
+        sys.exit(1)
+
+    command = sys.argv[1]
+
+    if command == "add":
+        if len(sys.argv) < 3:
+            print("Usage: todo_cli.py add <task description>")
+            sys.exit(1)
+        description = " ".join(sys.argv[2:])
+        add_todo(description)
+    elif command == "list":
+        list_todos()
+    else:
+        print(f"알 수 없는 명령어: {command}")
+        sys.exit(1)
