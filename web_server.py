@@ -10,6 +10,32 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PORT = 8080
 
+def ensure_ollama_daemon():
+    try:
+        req = urllib.request.Request("http://127.0.0.1:11434/api/tags")
+        with urllib.request.urlopen(req, timeout=1.5):
+            return True
+    except Exception:
+        pass
+    
+    import subprocess
+    import os
+    ollama_path = os.path.expanduser("~/.local/bin/ollama")
+    if os.path.exists(ollama_path):
+        try:
+            subprocess.Popen([ollama_path, "serve"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+            for _ in range(10):
+                time.sleep(0.5)
+                try:
+                    req = urllib.request.Request("http://127.0.0.1:11434/api/tags")
+                    with urllib.request.urlopen(req, timeout=1):
+                        return True
+                except Exception:
+                    pass
+        except Exception:
+            return False
+    return False
+
 class AtomDashboardHandler(SimpleHTTPRequestHandler):
     def end_headers(self):
         self.send_header("Access-Control-Allow-Origin", "*")
@@ -344,6 +370,7 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
             system_prompt += " 당신은 AtomCompany의 수석 Software Engineer입니다. 고품질 코드 구현, 단위 테스트 작성, 최적화 및 디버깅 관점에서 답변하세요."
 
         start_t = time.time()
+        ensure_ollama_daemon()
         try:
             req_data = {
                 "model": "gemma4:e4b",
@@ -380,14 +407,33 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
                 "tokens": eval_count,
                 "tokens_per_sec": tps
             }
-        except Exception as e:
+        except urllib.error.HTTPError as e:
             elapsed = time.time() - start_t
-            # Fallback response if Ollama is busy/cold loading
+            err_body = e.read().decode("utf-8", errors="ignore")
+            err_str = f"Ollama HTTP {e.code}: {err_body or e.reason}"
             return {
                 "success": False,
-                "error": f"Gemma 4 로컬 추론 오류 ({str(e)})",
+                "error": f"Gemma 4 로컬 추론 오류 ({err_str})",
                 "elapsed_sec": round(elapsed, 2),
-                "fallback": f"A6000 Gemma 4 연산 중 예외가 발생했습니다: {str(e)}"
+                "fallback": f"A6000 Gemma 4 연산 중 HTTP 오류: {err_str}"
+            }
+        except urllib.error.URLError as e:
+            elapsed = time.time() - start_t
+            err_str = f"Ollama 데몬 연결 실패 ({e.reason})"
+            return {
+                "success": False,
+                "error": f"Gemma 4 로컬 추론 오류 ({err_str})",
+                "elapsed_sec": round(elapsed, 2),
+                "fallback": f"A6000 Gemma 4 데몬에 연결할 수 없습니다 ({err_str}). 'ollama serve' 상태를 확인하세요."
+            }
+        except Exception as e:
+            elapsed = time.time() - start_t
+            err_str = str(e) or type(e).__name__
+            return {
+                "success": False,
+                "error": f"Gemma 4 로컬 추론 오류 ({err_str})",
+                "elapsed_sec": round(elapsed, 2),
+                "fallback": f"A6000 Gemma 4 연산 중 예외 발생: {err_str}"
             }
 
 SERVER_START_TIME = time.time()
