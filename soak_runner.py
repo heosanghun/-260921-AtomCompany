@@ -9,6 +9,9 @@ import csv
 import re
 import hashlib
 import shutil
+
+os.environ["no_proxy"] = "127.0.0.1,localhost,::1"
+
 from agent import AgentRuntime
 
 sys.stdout.reconfigure(line_buffering=True)
@@ -37,7 +40,7 @@ def parse_args():
     parser.add_argument("--rounds", type=int, default=None, help="Target round limit")
     parser.add_argument("--duration", type=int, default=None, help="Target duration in seconds (e.g. 86400 for 24h)")
     parser.add_argument("--stall-threshold", type=float, default=600.0, help="Stall detection threshold in seconds (operational: 600s)")
-    parser.add_argument("--pm-model", default="gemma4:26b", help="PM Ollama model (default: 'gemma4:26b', use 'gemma4:e4b' if VRAM < 24GB)")
+    parser.add_argument("--pm-model", default="gemma4:e4b", help="PM Ollama model (default: 'gemma4:e4b')")
     parser.add_argument("--eng-model", default="gemma4:e4b", help="ENG Ollama model (default: 'gemma4:e4b')")
     parser.add_argument("--llm-timeout", type=float, default=120.0, help="LLM request timeout in seconds (default: 120.0)")
     parser.add_argument("--num-ctx", type=int, default=16384, help="LLM context window size in tokens (default: 16384)")

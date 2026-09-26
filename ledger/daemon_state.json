@@ -1,0 +1,25 @@
+{
+  "status": "RUNNING",
+  "pid": 4035157,
+  "model": "gemma4:e4b",
+  "uptime_sec": 359,
+  "round_count": 35,
+  "current_task": {
+    "id": "TASK-0003",
+    "title": "유효하지 않은 명령어 및 인자 예외 처리 구현",
+    "status": "todo",
+    "index": 3,
+    "total_defined": 12
+  },
+  "total_messages": 52,
+  "workspace_files": [
+    "models",
+    "test_todo.py",
+    "tests",
+    "workspace",
+    "todo_cli.py",
+    "__pycache__"
+  ],
+  "last_event": "Active 24h collaboration loop",
+  "last_updated": "2026-09-26T09:55:52.208701+00:00"
+}

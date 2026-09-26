@@ -3,9 +3,13 @@ import os
 import sys
 import json
 import time
+import signal
 import subprocess
 import urllib.request
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+
+os.environ["no_proxy"] = "127.0.0.1,localhost,::1"
+os.environ["NO_PROXY"] = "127.0.0.1,localhost,::1"
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PORT = 8080
@@ -73,6 +77,14 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
             self.send_json(self.get_system_status())
             return
 
+        if self.path == "/api/loop/status":
+            self.send_json(self.get_loop_status())
+            return
+
+        if self.path == "/api/conversations":
+            self.send_json(self.get_conversations())
+            return
+
         if self.path == "/api/tasks":
             self.send_json(self.get_tasks_data())
             return
@@ -112,6 +124,16 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
         if self.path == "/api/debug":
             print(f"\n🔥🔥🔥 [BROWSER DEBUG] {json.dumps(payload, indent=2)}\n", flush=True)
             self.send_json({"ok": True})
+            return
+
+        if self.path == "/api/loop/start":
+            res = self.start_loop()
+            self.send_json(res)
+            return
+
+        if self.path == "/api/loop/stop":
+            res = self.stop_loop()
+            self.send_json(res)
             return
 
         if self.path == "/api/run_test":
@@ -307,26 +329,206 @@ class AtomDashboardHandler(SimpleHTTPRequestHandler):
                 "cwd": cwd
             }
 
+    def get_loop_status(self):
+        pid_file = os.path.join(ROOT, "ledger", "daemon.pid")
+        state_file = os.path.join(ROOT, "ledger", "daemon_state.json")
+        is_running = False
+        pid = None
+        if os.path.exists(pid_file):
+            try:
+                with open(pid_file, "r") as f:
+                    pid = int(f.read().strip())
+                os.kill(pid, 0)
+                is_running = True
+            except Exception:
+                is_running = False
+                pid = None
+
+        state_data = {}
+        if os.path.exists(state_file):
+            try:
+                with open(state_file, "r", encoding="utf-8") as f:
+                    state_data = json.load(f)
+            except Exception:
+                pass
+
+        return {
+            "running": is_running,
+            "pid": pid,
+            "state": state_data,
+            "uptime_sec": state_data.get("uptime_sec", 0) if is_running else 0,
+            "round_count": state_data.get("round_count", 0),
+            "current_task": state_data.get("current_task", {}),
+            "total_messages": state_data.get("total_messages", 0),
+            "last_event": state_data.get("last_event", "대기 중 (루프 정지됨)" if not is_running else "자율 가동 중"),
+            "last_updated": state_data.get("last_updated", "")
+        }
+
+    def start_loop(self):
+        status = self.get_loop_status()
+        if status.get("running"):
+            return {
+                "success": True,
+                "already_running": True,
+                "pid": status.get("pid"),
+                "message": f"24시간 자율 가동 루프가 이미 실행 중입니다 (PID: {status.get('pid')})."
+            }
+
+        orch_script = os.path.join(ROOT, "continuous_orchestrator.py")
+        orch_log = os.path.join(ROOT, "ledger", "orchestrator.log")
+        try:
+            with open(orch_log, "a", encoding="utf-8") as log_f:
+                env_copy = dict(os.environ)
+                env_copy["no_proxy"] = "127.0.0.1,localhost,::1"
+                env_copy["NO_PROXY"] = "127.0.0.1,localhost,::1"
+                proc = subprocess.Popen(
+                    [sys.executable, "-u", orch_script, "--model", "gemma4:e4b"],
+                    stdout=log_f,
+                    stderr=log_f,
+                    cwd=ROOT,
+                    start_new_session=True,
+                    env=env_copy
+                )
+            time.sleep(1.0)
+            pid = proc.pid
+            return {
+                "success": True,
+                "pid": pid,
+                "message": f"24시간 자율 가동 루프가 성공적으로 시작되었습니다 (PID: {pid})."
+            }
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    def stop_loop(self):
+        pid_file = os.path.join(ROOT, "ledger", "daemon.pid")
+        state_file = os.path.join(ROOT, "ledger", "daemon_state.json")
+        if not os.path.exists(pid_file):
+            return {"success": True, "message": "실행 중인 자율 루프 프로세스가 없습니다."}
+
+        try:
+            with open(pid_file, "r") as f:
+                pid = int(f.read().strip())
+            try:
+                os.kill(pid, signal.SIGTERM)
+                time.sleep(0.5)
+                os.kill(pid, 0)
+                os.kill(pid, signal.SIGKILL)
+            except OSError:
+                pass
+
+            if os.path.exists(pid_file):
+                os.remove(pid_file)
+
+            if os.path.exists(state_file):
+                try:
+                    with open(state_file, "r+", encoding="utf-8") as f:
+                        data = json.load(f)
+                        data["status"] = "STOPPED"
+                        data["last_event"] = "사용자에 의해 일시 중지됨"
+                        f.seek(0)
+                        json.dump(data, f, indent=2, ensure_ascii=False)
+                        f.truncate()
+                except Exception:
+                    pass
+
+            return {"success": True, "message": f"24시간 자율 가동 루프가 정상 종료되었습니다 (PID: {pid})."}
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    def get_conversations(self):
+        feed_file = os.path.join(ROOT, "ledger", "conversation_feed.jsonl")
+        conversations = []
+        if os.path.exists(feed_file):
+            try:
+                with open(feed_file, "r", encoding="utf-8") as f:
+                    lines = f.readlines()
+                    for line in lines[-60:]:
+                        line = line.strip()
+                        if line:
+                            try:
+                                conversations.append(json.loads(line))
+                            except Exception:
+                                pass
+            except Exception:
+                pass
+
+        if len(conversations) < 5:
+            done_dir = os.path.join(ROOT, "done")
+            if os.path.exists(done_dir):
+                done_files = sorted([f for f in os.listdir(done_dir) if f.endswith(".md") and not f.startswith("REJECTED_")])
+                for fn in done_files[-20:]:
+                    fp = os.path.join(done_dir, fn)
+                    try:
+                        with open(fp, "r", encoding="utf-8") as f:
+                            content = f.read()
+                        from validate_msg import parse_frontmatter
+                        meta, body = parse_frontmatter(content)
+                        if meta:
+                            conversations.append({
+                                "id": meta.get("id", fn.replace(".md", "")),
+                                "from": meta.get("from", "ENG" if "ENG" in fn else "PM"),
+                                "to": meta.get("to", "PM" if "ENG" in fn else "ENG"),
+                                "in_reply_to": meta.get("in_reply_to", None),
+                                "task": meta.get("task", "TASK-0001"),
+                                "type": meta.get("type", "report" if "ENG" in fn else "assign"),
+                                "created": meta.get("created", ""),
+                                "body": body.strip()[:800]
+                            })
+                    except Exception:
+                        pass
+
+        return {
+            "success": True,
+            "count": len(conversations),
+            "conversations": conversations
+        }
+
     def dispatch_agent_task(self, payload):
         role = payload.get("role", "ENG").upper()
         task_id = payload.get("task", "TASK-0001")
         instruction = payload.get("instruction", "Execute task deliverables.")
 
-        # Use AgentRuntime to send message safely
+        # 1. Inject into tasks/INJECT_TASK.json for the continuous loop
+        inject_file = os.path.join(ROOT, "tasks", "INJECT_TASK.json")
+        try:
+            with open(inject_file, "w", encoding="utf-8") as f:
+                json.dump({
+                    "title": instruction,
+                    "role": role,
+                    "task": task_id,
+                    "created_at": time.time()
+                }, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
+
+        # 2. Check if loop is running
+        status = self.get_loop_status()
+        if status.get("running"):
+            return {
+                "success": True,
+                "injected": True,
+                "running": True,
+                "task": task_id,
+                "message": f"과업({task_id})이 24시간 자율 순환 오케스트레이터에 성공적으로 주입되었습니다."
+            }
+
+        # 3. If loop not running, execute 1 turn directly
         from agent import AgentRuntime
         try:
             sender_role = "PM" if role == "ENG" else "ENG"
             sender = AgentRuntime(sender_role, backend="ollama", root=ROOT)
             msg_id, msg_p = sender.send_message(role, None, task_id, "assign" if sender_role=="PM" else "report", instruction)
             
-            # Now trigger 1 turn of the recipient agent
             agent = AgentRuntime(role, model="gemma4:e4b", backend="ollama", root=ROOT)
             ok = agent.process_one_message()
             return {
                 "success": ok,
+                "injected": False,
+                "running": False,
                 "msg_id": msg_id,
                 "role": role,
-                "task": task_id
+                "task": task_id,
+                "message": "단일 턴 직접 실행 완료."
             }
         except Exception as e:
             return {"success": False, "error": str(e)}

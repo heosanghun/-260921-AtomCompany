@@ -17,4 +17,7 @@ Thumbs.db
 .venv/
 venv/
 *.log
+*.pid
+*.tmp
 .ff_test/
+

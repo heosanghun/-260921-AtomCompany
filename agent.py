@@ -12,6 +12,9 @@ import subprocess
 import urllib.request
 import urllib.error
 
+# Ensure local loopback bypasses proxy
+os.environ["no_proxy"] = "127.0.0.1,localhost,::1"
+
 from validate_msg import parse_frontmatter, validate_message, format_message
 
 class HumanGateViolation(Exception):
@@ -199,6 +202,11 @@ class AgentRuntime:
         if self.role == "PM":
             return "ERROR: PM may not write files. Deliverables must be created by ENG."
         self._check_security("write_file", target_path=rel_path)
+        # Normalize redundant workspace/ prefix
+        if rel_path.startswith("workspace/"):
+            rel_path = rel_path[len("workspace/"):]
+        elif rel_path.startswith("./workspace/"):
+            rel_path = rel_path[len("./workspace/"):]
         full = os.path.realpath(os.path.join(self.workspace_dir, rel_path))
         os.makedirs(os.path.dirname(full), exist_ok=True)
         with open(full, "w", encoding="utf-8") as f:
@@ -208,6 +216,10 @@ class AgentRuntime:
 
     def tool_list_dir(self, rel_path=""):
         self._check_security("list_dir", target_path=rel_path)
+        if rel_path.startswith("workspace/"):
+            rel_path = rel_path[len("workspace/"):]
+        elif rel_path.startswith("./workspace/"):
+            rel_path = rel_path[len("./workspace/"):]
         full = os.path.realpath(os.path.join(self.workspace_dir, rel_path))
         if not os.path.exists(full):
             return f"ERROR: Directory not found: {rel_path}"
@@ -240,6 +252,7 @@ class AgentRuntime:
         self._check_security("run_shell", cmd=cmd, tokens=tokens)
         env = {
             "PATH": os.path.dirname(sys.executable) + ":/usr/bin:/bin",
+            "PYTHONPATH": f"{self.workspace_dir}:{os.path.join(self.workspace_dir, 'workspace')}",
             "TODO_FILE": os.path.join(self.workspace_dir, ".atom_todos.json"),
             "LANG": "C.UTF-8"
         }
@@ -316,6 +329,25 @@ status: pending_approval
             os.fsync(f.fileno())
             
         os.replace(tmp_path, final_path)
+        
+        # Log to live conversation feed
+        feed_path = os.path.join(self.ledger_dir, "conversation_feed.jsonl")
+        feed_entry = {
+            "id": msg_id,
+            "from": self.role,
+            "to": to_role,
+            "in_reply_to": in_reply_to,
+            "task": task_id,
+            "type": msg_type,
+            "created": now.isoformat(),
+            "body": body
+        }
+        try:
+            with open(feed_path, "a", encoding="utf-8") as ff:
+                ff.write(json.dumps(feed_entry, ensure_ascii=False) + "\n")
+        except Exception:
+            pass
+
         return msg_id, final_path
 
     # ==========================================
@@ -617,6 +649,17 @@ status: pending_approval
                 )
 
                 if verdict == "ACCEPT":
+                    if not pm_executed_valid_test:
+                        # PM Objective Test Verification: automatically execute test suite
+                        self.tool_run_shell("python3 -m unittest test_todo.py")
+                        pm_executed_valid_test = (
+                            self.last_shell is not None
+                            and self.last_shell.get("exit") == 0
+                            and self._tests_actually_ran(self.last_shell.get("out", ""))
+                        )
+                        if pm_executed_valid_test:
+                            response_text += f"\n[PM VERIFIED] Auto-test suite execution passed (EXIT: 0, Tests verified)."
+
                     if not (meta.get("type") == "report" and pm_executed_valid_test):
                         # Demote to CONTINUE + System Rejection notice
                         verdict = "CONTINUE"
